@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HSK 1 · Trazos · Pinyin · Español</title>
+<script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.7/dist/hanzi-writer.min.js"></script>
+<style>
+  :root{
+    --bg:#0f1115; --card:#1a1d24; --card2:#21252e; --ink:#f2f3f5;
+    --muted:#9aa3b2; --accent:#C41E3A; --accent2:#e8b04b; --ok:#2ea66b;
+    --line:#2c313c;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    background:radial-gradient(1200px 600px at 50% -10%, #1b2030 0%, var(--bg) 60%);
+    color:var(--ink); min-height:100vh; display:flex; flex-direction:column; align-items:center;
+    padding:24px 16px 48px;
+  }
+  h1{font-size:20px; font-weight:700; letter-spacing:.5px; margin:0 0 2px}
+  .sub{color:var(--muted); font-size:13px; margin-bottom:18px}
+  .bar{
+    width:100%; max-width:520px; display:flex; gap:10px; align-items:center;
+    margin-bottom:14px; font-size:13px; color:var(--muted);
+  }
+  .progress{flex:1; height:8px; background:var(--card2); border-radius:99px; overflow:hidden}
+  .progress > i{display:block; height:100%; width:0; background:linear-gradient(90deg,var(--accent),var(--accent2)); transition:width .3s}
+  .card{
+    width:100%; max-width:520px; background:var(--card); border:1px solid var(--line);
+    border-radius:20px; padding:24px; box-shadow:0 20px 50px rgba(0,0,0,.45);
+  }
+  .hanzi-row{display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin:6px 0 16px}
+  .hz{
+    width:130px; height:130px; background:var(--card2); border-radius:16px;
+    position:relative; border:1px solid var(--line);
+  }
+  /* cuadrícula米 */
+  .hz::before,.hz::after{content:""; position:absolute; background:repeating-linear-gradient(transparent,transparent 4px,#3a4150 4px,#3a4150 8px)}
+  .hz::before{left:50%; top:6%; width:1px; height:88%; transform:translateX(-.5px)}
+  .hz::after{top:50%; left:6%; height:1px; width:88%; transform:translateY(-.5px)}
+  .speed{display:flex; gap:6px; justify-content:center; align-items:center; margin-bottom:10px; flex-wrap:wrap; font-size:13px; color:var(--muted)}
+  .speed button{padding:7px 12px; font-size:13px; border-radius:99px}
+  .speed button.active{background:var(--accent); border-color:var(--accent); color:#fff}
+  .controls{display:flex; gap:8px; justify-content:center; margin-bottom:6px; flex-wrap:wrap}
+  button{
+    font:inherit; cursor:pointer; border:none; border-radius:12px; padding:11px 16px;
+    background:var(--card2); color:var(--ink); border:1px solid var(--line); transition:.15s;
+    font-size:14px;
+  }
+  button:hover{transform:translateY(-1px); border-color:#3c424f}
+  button:active{transform:translateY(0)}
+  .ghost{background:transparent}
+  .reveal{
+    margin-top:18px; text-align:center; opacity:0; max-height:0; overflow:hidden; transition:.25s;
+  }
+  .reveal.show{opacity:1; max-height:560px; margin-top:18px}
+  .pinyin{font-size:28px; color:var(--accent2); font-weight:600; letter-spacing:.5px}
+  .meaning{font-size:22px; margin-top:6px}
+  .pos{color:var(--muted); font-size:13px; margin-top:4px}
+  .answer{
+    display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:20px;
+  }
+  .btn-big{padding:15px; font-size:15px; font-weight:600}
+  .btn-show{width:100%; padding:15px; font-size:16px; font-weight:600; background:var(--accent); border-color:var(--accent); margin-top:6px}
+  .btn-show:hover{background:#d63350}
+  .btn-ok{background:rgba(46,166,107,.15); border-color:var(--ok); color:#7fe0ac}
+  .btn-rep{background:rgba(232,176,75,.12); border-color:var(--accent2); color:var(--accent2)}
+  .footer{margin-top:16px; max-width:520px; width:100%; display:flex; justify-content:space-between; gap:10px}
+  .footer button{flex:1; font-size:13px; padding:9px}
+  .done{text-align:center; padding:40px 10px}
+  .done .big{font-size:46px; margin-bottom:10px}
+  .toggle{display:flex; gap:6px; align-items:center; font-size:12px; color:var(--muted)}
+  .pill{background:var(--card2); border:1px solid var(--line); border-radius:99px; padding:4px 10px; font-size:12px}
+  .example{margin-top:16px; padding:12px 14px; background:var(--card2); border:1px solid var(--line); border-radius:12px; cursor:pointer; text-align:left}
+  .example:hover{border-color:#3c424f}
+  .ex-label{font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; margin-bottom:6px; display:flex; justify-content:space-between}
+  .ex-zh{font-size:19px; color:var(--ink); line-height:1.5}
+  .ex-pin{font-size:14px; color:var(--accent2); margin-top:3px}
+  .ex-es{font-size:14px; color:var(--muted); margin-top:3px}
+</style>
+</head>
+<body>
+  <h1>汉语 HSK 1 · Orden de trazos</h1>
+  <div class="sub">Adivina el significado, comprueba y avanza o repite</div>
+
+  <div class="bar">
+    <span class="pill" id="counter">0 / 0</span>
+    <div class="progress"><i id="progFill"></i></div>
+    <span class="pill" id="leftCount">restan 0</span>
+  </div>
+
+  <div class="card" id="card">
+    <div class="hanzi-row" id="hanziRow"></div>
+    <div class="speed" id="speedSel">
+      <span>Velocidad:</span>
+      <button data-s="0.4">🐢 Lento</button>
+      <button data-s="1">▶ Normal</button>
+      <button data-s="2.5">⚡ Rápido</button>
+    </div>
+    <div class="controls">
+      <button class="ghost" id="btnAnim">▶ Animar trazos</button>
+      <button class="ghost" id="btnSpeak">🔊 Escuchar</button>
+      <button class="ghost" id="btnOutline">擦 Mostrar/ocultar</button>
+      <button class="ghost" id="btnQuiz">✍ Practicar (trazar)</button>
+    </div>
+    <button class="btn-show" id="btnShow">👁 Mostrar significado</button>
+
+    <div class="reveal" id="reveal">
+      <div class="pinyin" id="pinyin"></div>
+      <div class="meaning" id="meaning"></div>
+      <div class="pos" id="pos"></div>
+      <div class="example" id="example" title="Toca para escuchar la frase">
+        <div class="ex-label"><span>Ejemplo</span><span>🔊 tocar</span></div>
+        <div class="ex-zh" id="exZh"></div>
+        <div class="ex-pin" id="exPin"></div>
+        <div class="ex-es" id="exEs"></div>
+      </div>
+      <div class="answer">
+        <button class="btn-big btn-ok" id="btnOk">✓ Acerté · siguiente</button>
+        <button class="btn-big btn-rep" id="btnRep">↻ Repetir más tarde</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <button id="btnShuffle">🔀 Mezclar</button>
+    <button id="btnRestart">⟲ Reiniciar todo</button>
+    <button id="btnSkip">⏭ Saltar</button>
+  </div>
+
+<script>
+const WORDS = [
+ ["爱","ài","amar","verbo"],["八","bā","ocho","número"],["爸爸","bàba","papá","sustantivo"],
+ ["杯子","bēizi","vaso / taza","sustantivo"],["北京","Běijīng","Pekín","nombre propio"],
+ ["本","běn","clasificador (libros)","clasificador"],["不客气","bú kèqi","de nada","frase"],
+ ["不","bù","no","adverbio"],["菜","cài","plato / verdura","sustantivo"],["茶","chá","té","sustantivo"],
+ ["吃","chī","comer","verbo"],["出租车","chūzūchē","taxi","sustantivo"],
+ ["打电话","dǎ diànhuà","llamar por teléfono","frase"],["大","dà","grande","adjetivo"],
+ ["的","de","partícula posesiva","partícula"],["点","diǎn","hora / punto","sustantivo"],
+ ["电脑","diànnǎo","computadora","sustantivo"],["电视","diànshì","televisión","sustantivo"],
+ ["电影","diànyǐng","película","sustantivo"],["东西","dōngxi","cosa","sustantivo"],
+ ["都","dōu","todos / ya","adverbio"],["读","dú","leer","verbo"],["对不起","duìbuqǐ","perdón","frase"],
+ ["多","duō","mucho","adjetivo"],["多少","duōshao","cuánto","pronombre"],["儿子","érzi","hijo","sustantivo"],
+ ["二","èr","dos","número"],["饭店","fàndiàn","restaurante / hotel","sustantivo"],
+ ["飞机","fēijī","avión","sustantivo"],["分钟","fēnzhōng","minuto","sustantivo"],
+ ["高兴","gāoxìng","contento","adjetivo"],["个","gè","clasificador general","clasificador"],
+ ["工作","gōngzuò","trabajar / trabajo","verbo/sust."],["狗","gǒu","perro","sustantivo"],
+ ["汉语","Hànyǔ","chino (idioma)","sustantivo"],["好","hǎo","bueno / bien","adjetivo"],
+ ["喝","hē","beber","verbo"],["和","hé","y / con","conjunción"],["很","hěn","muy","adverbio"],
+ ["后面","hòumiàn","detrás","sustantivo"],["回","huí","volver","verbo"],["会","huì","saber / poder","verbo"],
+ ["火车站","huǒchēzhàn","estación de tren","sustantivo"],["几","jǐ","cuántos","pronombre"],
+ ["家","jiā","casa / familia","sustantivo"],["叫","jiào","llamarse","verbo"],["今天","jīntiān","hoy","sustantivo"],
+ ["九","jiǔ","nueve","número"],["开","kāi","abrir","verbo"],["看","kàn","mirar","verbo"],
+ ["看见","kànjiàn","ver","verbo"],["块","kuài","unidad de dinero","clasificador"],["来","lái","venir","verbo"],
+ ["老师","lǎoshī","profesor(a)","sustantivo"],["了","le","partícula aspectual","partícula"],
+ ["冷","lěng","frío","adjetivo"],["里","lǐ","dentro","sustantivo"],["六","liù","seis","número"],
+ ["妈妈","māma","mamá","sustantivo"],["吗","ma","partícula interrogativa","partícula"],
+ ["买","mǎi","comprar","verbo"],["猫","māo","gato","sustantivo"],["没关系","méi guānxi","no importa","frase"],
+ ["没有","méiyǒu","no tener / no haber","verbo"],["米饭","mǐfàn","arroz cocido","sustantivo"],
+ ["名字","míngzi","nombre","sustantivo"],["明天","míngtiān","mañana (día)","sustantivo"],
+ ["哪","nǎ","cuál","pronombre"],["哪儿","nǎr","dónde","pronombre"],["那","nà","eso / aquel","pronombre"],
+ ["呢","ne","partícula","partícula"],["能","néng","poder","verbo"],["你","nǐ","tú","pronombre"],
+ ["年","nián","año","sustantivo"],["女儿","nǚ'ér","hija","sustantivo"],["朋友","péngyou","amigo","sustantivo"],
+ ["漂亮","piàoliang","bonito / guapo","adjetivo"],["苹果","píngguǒ","manzana","sustantivo"],
+ ["七","qī","siete","número"],["钱","qián","dinero","sustantivo"],["前面","qiánmiàn","delante","sustantivo"],
+ ["请","qǐng","por favor / invitar","verbo"],["去","qù","ir","verbo"],["热","rè","caliente / calor","adjetivo"],
+ ["人","rén","persona","sustantivo"],["认识","rènshi","conocer","verbo"],["三","sān","tres","número"],
+ ["商店","shāngdiàn","tienda","sustantivo"],["上","shàng","arriba / subir","sustantivo/verbo"],
+ ["上午","shàngwǔ","mañana (antes del mediodía)","sustantivo"],["少","shǎo","poco","adjetivo"],
+ ["谁","shéi","quién","pronombre"],["什么","shénme","qué","pronombre"],["十","shí","diez","número"],
+ ["时候","shíhou","momento / cuándo","sustantivo"],["是","shì","ser / estar","verbo"],
+ ["书","shū","libro","sustantivo"],["水","shuǐ","agua","sustantivo"],["水果","shuǐguǒ","fruta","sustantivo"],
+ ["睡觉","shuìjiào","dormir","verbo"],["说话","shuōhuà","hablar","verbo"],["四","sì","cuatro","número"],
+ ["岁","suì","años (edad)","clasificador"],["他","tā","él","pronombre"],["她","tā","ella","pronombre"],
+ ["太","tài","demasiado","adverbio"],["天气","tiānqì","clima","sustantivo"],["听","tīng","escuchar","verbo"],
+ ["同学","tóngxué","compañero de clase","sustantivo"],["喂","wéi","hola (al teléfono)","interjección"],
+ ["我","wǒ","yo","pronombre"],["我们","wǒmen","nosotros","pronombre"],["五","wǔ","cinco","número"],
+ ["喜欢","xǐhuan","gustar","verbo"],["下","xià","abajo / bajar","sustantivo/verbo"],
+ ["下午","xiàwǔ","tarde","sustantivo"],["下雨","xiàyǔ","llover","verbo"],["先生","xiānsheng","señor","sustantivo"],
+ ["现在","xiànzài","ahora","sustantivo"],["想","xiǎng","querer / pensar","verbo"],["小","xiǎo","pequeño","adjetivo"],
+ ["小姐","xiǎojiě","señorita","sustantivo"],["些","xiē","algunos","clasificador"],["写","xiě","escribir","verbo"],
+ ["谢谢","xièxie","gracias","frase"],["星期","xīngqī","semana","sustantivo"],["学生","xuéshēng","estudiante","sustantivo"],
+ ["学习","xuéxí","estudiar","verbo"],["学校","xuéxiào","escuela","sustantivo"],["一","yī","uno","número"],
+ ["衣服","yīfu","ropa","sustantivo"],["医生","yīshēng","médico","sustantivo"],["医院","yīyuàn","hospital","sustantivo"],
+ ["椅子","yǐzi","silla","sustantivo"],["一点儿","yìdiǎnr","un poco","frase"],["有","yǒu","tener / haber","verbo"],
+ ["月","yuè","mes","sustantivo"],["在","zài","estar (en)","verbo/prep."],["再见","zàijiàn","adiós","frase"],
+ ["怎么","zěnme","cómo","pronombre"],["怎么样","zěnmeyàng","qué tal","pronombre"],["这","zhè","este","pronombre"],
+ ["中国","Zhōngguó","China","nombre propio"],["中午","zhōngwǔ","mediodía","sustantivo"],["住","zhù","vivir","verbo"],
+ ["桌子","zhuōzi","mesa","sustantivo"],["字","zì","carácter / palabra","sustantivo"],
+ ["昨天","zuótiān","ayer","sustantivo"],["坐","zuò","sentarse","verbo"],["做","zuò","hacer","verbo"]
+];
+
+// Frase de ejemplo por palabra: [chino, pinyin, español]. Vocabulario HSK 1.
+const EXAMPLES = {
+ "爱":["我爱你。","Wǒ ài nǐ.","Te amo."],
+ "八":["我有八本书。","Wǒ yǒu bā běn shū.","Tengo ocho libros."],
+ "爸爸":["我爸爸是老师。","Wǒ bàba shì lǎoshī.","Mi papá es profesor."],
+ "杯子":["这个杯子很大。","Zhège bēizi hěn dà.","Este vaso es muy grande."],
+ "北京":["我住在北京。","Wǒ zhù zài Běijīng.","Vivo en Pekín."],
+ "本":["我买了三本书。","Wǒ mǎi le sān běn shū.","Compré tres libros."],
+ "不客气":["不客气！","Bú kèqi!","¡De nada!"],
+ "不":["我不喝茶。","Wǒ bù hē chá.","No bebo té."],
+ "菜":["我喜欢这个菜。","Wǒ xǐhuan zhège cài.","Me gusta este plato."],
+ "茶":["我喜欢喝茶。","Wǒ xǐhuan hē chá.","Me gusta beber té."],
+ "吃":["我想吃米饭。","Wǒ xiǎng chī mǐfàn.","Quiero comer arroz."],
+ "出租车":["我坐出租车去。","Wǒ zuò chūzūchē qù.","Voy en taxi."],
+ "打电话":["我想打电话。","Wǒ xiǎng dǎ diànhuà.","Quiero llamar por teléfono."],
+ "大":["这个苹果很大。","Zhège píngguǒ hěn dà.","Esta manzana es muy grande."],
+ "的":["这是我的书。","Zhè shì wǒ de shū.","Este es mi libro."],
+ "点":["现在三点。","Xiànzài sān diǎn.","Ahora son las tres."],
+ "电脑":["这是我的电脑。","Zhè shì wǒ de diànnǎo.","Esta es mi computadora."],
+ "电视":["我看电视。","Wǒ kàn diànshì.","Veo televisión."],
+ "电影":["我想看电影。","Wǒ xiǎng kàn diànyǐng.","Quiero ver una película."],
+ "东西":["我买东西。","Wǒ mǎi dōngxi.","Compro cosas."],
+ "都":["我们都是学生。","Wǒmen dōu shì xuéshēng.","Todos somos estudiantes."],
+ "读":["我读书。","Wǒ dú shū.","Leo un libro."],
+ "对不起":["对不起，老师。","Duìbuqǐ, lǎoshī.","Perdón, profesor."],
+ "多":["今天人很多。","Jīntiān rén hěn duō.","Hoy hay mucha gente."],
+ "多少":["这个多少钱？","Zhège duōshao qián?","¿Cuánto cuesta esto?"],
+ "儿子":["这是我的儿子。","Zhè shì wǒ de érzi.","Este es mi hijo."],
+ "二":["我有二十块钱。","Wǒ yǒu èrshí kuài qián.","Tengo veinte yuanes."],
+ "饭店":["我在饭店吃饭。","Wǒ zài fàndiàn chī fàn.","Como en el restaurante."],
+ "飞机":["我坐飞机去北京。","Wǒ zuò fēijī qù Běijīng.","Voy a Pekín en avión."],
+ "分钟":["请等我五分钟。","Qǐng děng wǒ wǔ fēnzhōng.","Espérame cinco minutos."],
+ "高兴":["我很高兴。","Wǒ hěn gāoxìng.","Estoy muy contento."],
+ "个":["我有三个杯子。","Wǒ yǒu sān gè bēizi.","Tengo tres vasos."],
+ "工作":["我在北京工作。","Wǒ zài Běijīng gōngzuò.","Trabajo en Pekín."],
+ "狗":["我喜欢狗。","Wǒ xǐhuan gǒu.","Me gustan los perros."],
+ "汉语":["我学习汉语。","Wǒ xuéxí Hànyǔ.","Estudio chino."],
+ "好":["你好吗？","Nǐ hǎo ma?","¿Cómo estás?"],
+ "喝":["我喝水。","Wǒ hē shuǐ.","Bebo agua."],
+ "和":["爸爸和妈妈。","Bàba hé māma.","Papá y mamá."],
+ "很":["今天很热。","Jīntiān hěn rè.","Hoy hace mucho calor."],
+ "后面":["商店在后面。","Shāngdiàn zài hòumiàn.","La tienda está detrás."],
+ "回":["我回家。","Wǒ huí jiā.","Vuelvo a casa."],
+ "会":["我会说汉语。","Wǒ huì shuō Hànyǔ.","Sé hablar chino."],
+ "火车站":["我去火车站。","Wǒ qù huǒchēzhàn.","Voy a la estación de tren."],
+ "几":["现在几点？","Xiànzài jǐ diǎn?","¿Qué hora es?"],
+ "家":["我在家。","Wǒ zài jiā.","Estoy en casa."],
+ "叫":["我叫王明。","Wǒ jiào Wáng Míng.","Me llamo Wang Ming."],
+ "今天":["今天天气很好。","Jīntiān tiānqì hěn hǎo.","Hoy hace buen tiempo."],
+ "九":["我有九本书。","Wǒ yǒu jiǔ běn shū.","Tengo nueve libros."],
+ "开":["商店九点开。","Shāngdiàn jiǔ diǎn kāi.","La tienda abre a las nueve."],
+ "看":["我看书。","Wǒ kàn shū.","Leo un libro."],
+ "看见":["我看见了猫。","Wǒ kànjiàn le māo.","Vi al gato."],
+ "块":["这个五块钱。","Zhège wǔ kuài qián.","Esto cuesta cinco yuanes."],
+ "来":["请来我家。","Qǐng lái wǒ jiā.","Ven a mi casa, por favor."],
+ "老师":["他是我的老师。","Tā shì wǒ de lǎoshī.","Él es mi profesor."],
+ "了":["我吃饭了。","Wǒ chī fàn le.","Ya comí."],
+ "冷":["今天很冷。","Jīntiān hěn lěng.","Hoy hace frío."],
+ "里":["猫在家里。","Māo zài jiā lǐ.","El gato está en casa."],
+ "六":["现在六点。","Xiànzài liù diǎn.","Ahora son las seis."],
+ "妈妈":["我妈妈很漂亮。","Wǒ māma hěn piàoliang.","Mi mamá es muy guapa."],
+ "吗":["你是学生吗？","Nǐ shì xuéshēng ma?","¿Eres estudiante?"],
+ "买":["我想买苹果。","Wǒ xiǎng mǎi píngguǒ.","Quiero comprar manzanas."],
+ "猫":["我喜欢猫。","Wǒ xǐhuan māo.","Me gustan los gatos."],
+ "没关系":["没关系！","Méi guānxi!","¡No importa!"],
+ "没有":["我没有钱。","Wǒ méiyǒu qián.","No tengo dinero."],
+ "米饭":["我吃米饭。","Wǒ chī mǐfàn.","Como arroz."],
+ "名字":["你叫什么名字？","Nǐ jiào shénme míngzi?","¿Cómo te llamas?"],
+ "明天":["明天见！","Míngtiān jiàn!","¡Hasta mañana!"],
+ "哪":["你喜欢哪个？","Nǐ xǐhuan nǎge?","¿Cuál te gusta?"],
+ "哪儿":["你去哪儿？","Nǐ qù nǎr?","¿A dónde vas?"],
+ "那":["那是什么？","Nà shì shénme?","¿Qué es eso?"],
+ "呢":["我很好，你呢？","Wǒ hěn hǎo, nǐ ne?","Estoy bien, ¿y tú?"],
+ "能":["我能来。","Wǒ néng lái.","Puedo venir."],
+ "你":["你好！","Nǐ hǎo!","¡Hola!"],
+ "年":["一年有十二个月。","Yì nián yǒu shí'èr gè yuè.","Un año tiene doce meses."],
+ "女儿":["这是我的女儿。","Zhè shì wǒ de nǚ'ér.","Esta es mi hija."],
+ "朋友":["他是我的朋友。","Tā shì wǒ de péngyou.","Él es mi amigo."],
+ "漂亮":["她很漂亮。","Tā hěn piàoliang.","Ella es muy guapa."],
+ "苹果":["我喜欢吃苹果。","Wǒ xǐhuan chī píngguǒ.","Me gusta comer manzanas."],
+ "七":["现在七点。","Xiànzài qī diǎn.","Ahora son las siete."],
+ "钱":["这个多少钱？","Zhège duōshao qián?","¿Cuánto cuesta esto?"],
+ "前面":["商店在前面。","Shāngdiàn zài qiánmiàn.","La tienda está delante."],
+ "请":["请坐。","Qǐng zuò.","Siéntese, por favor."],
+ "去":["我去学校。","Wǒ qù xuéxiào.","Voy a la escuela."],
+ "热":["今天很热。","Jīntiān hěn rè.","Hoy hace calor."],
+ "人":["他是好人。","Tā shì hǎo rén.","Él es buena persona."],
+ "认识":["很高兴认识你。","Hěn gāoxìng rènshi nǐ.","Encantado de conocerte."],
+ "三":["我有三个朋友。","Wǒ yǒu sān gè péngyou.","Tengo tres amigos."],
+ "商店":["我去商店买东西。","Wǒ qù shāngdiàn mǎi dōngxi.","Voy a la tienda a comprar cosas."],
+ "上":["书在桌子上。","Shū zài zhuōzi shàng.","El libro está sobre la mesa."],
+ "上午":["我上午学习。","Wǒ shàngwǔ xuéxí.","Estudio por la mañana."],
+ "少":["今天人很少。","Jīntiān rén hěn shǎo.","Hoy hay poca gente."],
+ "谁":["他是谁？","Tā shì shéi?","¿Quién es él?"],
+ "什么":["这是什么？","Zhè shì shénme?","¿Qué es esto?"],
+ "十":["现在十点。","Xiànzài shí diǎn.","Ahora son las diez."],
+ "时候":["你什么时候来？","Nǐ shénme shíhou lái?","¿Cuándo vienes?"],
+ "是":["我是学生。","Wǒ shì xuéshēng.","Soy estudiante."],
+ "书":["我喜欢看书。","Wǒ xǐhuan kàn shū.","Me gusta leer."],
+ "水":["我喝水。","Wǒ hē shuǐ.","Bebo agua."],
+ "水果":["我喜欢吃水果。","Wǒ xǐhuan chī shuǐguǒ.","Me gusta comer fruta."],
+ "睡觉":["我想睡觉。","Wǒ xiǎng shuìjiào.","Quiero dormir."],
+ "说话":["老师在说话。","Lǎoshī zài shuōhuà.","El profesor está hablando."],
+ "四":["现在四点。","Xiànzài sì diǎn.","Ahora son las cuatro."],
+ "岁":["我二十岁。","Wǒ èrshí suì.","Tengo veinte años."],
+ "他":["他是我朋友。","Tā shì wǒ péngyou.","Él es mi amigo."],
+ "她":["她是老师。","Tā shì lǎoshī.","Ella es profesora."],
+ "太":["太好了！","Tài hǎo le!","¡Qué bien!"],
+ "天气":["今天天气很好。","Jīntiān tiānqì hěn hǎo.","Hoy hace buen tiempo."],
+ "听":["我听老师说话。","Wǒ tīng lǎoshī shuōhuà.","Escucho hablar al profesor."],
+ "同学":["他是我的同学。","Tā shì wǒ de tóngxué.","Él es mi compañero de clase."],
+ "喂":["喂，你好！","Wéi, nǐ hǎo!","¿Aló? ¡Hola!"],
+ "我":["我是学生。","Wǒ shì xuéshēng.","Soy estudiante."],
+ "我们":["我们是朋友。","Wǒmen shì péngyou.","Somos amigos."],
+ "五":["现在五点。","Xiànzài wǔ diǎn.","Ahora son las cinco."],
+ "喜欢":["我喜欢你。","Wǒ xǐhuan nǐ.","Me gustas."],
+ "下":["猫在桌子下。","Māo zài zhuōzi xià.","El gato está debajo de la mesa."],
+ "下午":["我下午去商店。","Wǒ xiàwǔ qù shāngdiàn.","Voy a la tienda por la tarde."],
+ "下雨":["今天下雨。","Jīntiān xiàyǔ.","Hoy llueve."],
+ "先生":["王先生是老师。","Wáng xiānsheng shì lǎoshī.","El señor Wang es profesor."],
+ "现在":["现在几点？","Xiànzài jǐ diǎn?","¿Qué hora es ahora?"],
+ "想":["我想喝茶。","Wǒ xiǎng hē chá.","Quiero beber té."],
+ "小":["这个杯子很小。","Zhège bēizi hěn xiǎo.","Este vaso es muy pequeño."],
+ "小姐":["她是李小姐。","Tā shì Lǐ xiǎojiě.","Ella es la señorita Li."],
+ "些":["我买了一些水果。","Wǒ mǎi le yìxiē shuǐguǒ.","Compré algo de fruta."],
+ "写":["我写字。","Wǒ xiě zì.","Escribo caracteres."],
+ "谢谢":["谢谢你！","Xièxie nǐ!","¡Gracias!"],
+ "星期":["今天星期几？","Jīntiān xīngqī jǐ?","¿Qué día de la semana es hoy?"],
+ "学生":["我是学生。","Wǒ shì xuéshēng.","Soy estudiante."],
+ "学习":["我学习汉语。","Wǒ xuéxí Hànyǔ.","Estudio chino."],
+ "学校":["我去学校。","Wǒ qù xuéxiào.","Voy a la escuela."],
+ "一":["我有一个杯子。","Wǒ yǒu yí gè bēizi.","Tengo un vaso."],
+ "衣服":["我买衣服。","Wǒ mǎi yīfu.","Compro ropa."],
+ "医生":["他是医生。","Tā shì yīshēng.","Él es médico."],
+ "医院":["我去医院。","Wǒ qù yīyuàn.","Voy al hospital."],
+ "椅子":["这是我的椅子。","Zhè shì wǒ de yǐzi.","Esta es mi silla."],
+ "一点儿":["我会说一点儿汉语。","Wǒ huì shuō yìdiǎnr Hànyǔ.","Sé hablar un poco de chino."],
+ "有":["我有一个朋友。","Wǒ yǒu yí gè péngyou.","Tengo un amigo."],
+ "月":["一年有十二个月。","Yì nián yǒu shí'èr gè yuè.","Un año tiene doce meses."],
+ "在":["我在家。","Wǒ zài jiā.","Estoy en casa."],
+ "再见":["再见！","Zàijiàn!","¡Adiós!"],
+ "怎么":["这个字怎么写？","Zhège zì zěnme xiě?","¿Cómo se escribe este carácter?"],
+ "怎么样":["今天天气怎么样？","Jīntiān tiānqì zěnmeyàng?","¿Qué tal el tiempo hoy?"],
+ "这":["这是我的书。","Zhè shì wǒ de shū.","Este es mi libro."],
+ "中国":["我是中国人。","Wǒ shì Zhōngguó rén.","Soy chino."],
+ "中午":["我中午吃饭。","Wǒ zhōngwǔ chī fàn.","Como al mediodía."],
+ "住":["我住在北京。","Wǒ zhù zài Běijīng.","Vivo en Pekín."],
+ "桌子":["书在桌子上。","Shū zài zhuōzi shàng.","El libro está sobre la mesa."],
+ "字":["我写汉字。","Wǒ xiě Hànzì.","Escribo caracteres chinos."],
+ "昨天":["昨天下雨了。","Zuótiān xiàyǔ le.","Ayer llovió."],
+ "坐":["请坐。","Qǐng zuò.","Siéntese, por favor."],
+ "做":["我做饭。","Wǒ zuò fàn.","Hago la comida."]
+};
+
+const $ = id => document.getElementById(id);
+let deck = [], idx = 0, writers = [], revealed = false, shown = false, speed = 1;
+
+// --- Avance persistente ---
+const LS_KEY = "hsk1_progress_v1";
+let learned = new Set();
+try{ const s = JSON.parse(localStorage.getItem(LS_KEY)); if(s && Array.isArray(s.learned)) learned = new Set(s.learned); }catch(e){}
+function saveProgress(){ try{ localStorage.setItem(LS_KEY, JSON.stringify({learned:[...learned]})); }catch(e){} }
+window.resetAll = ()=>{ learned.clear(); saveProgress(); initDeck(true); };
+
+let zhVoice = null;
+function pickVoice(){
+  const vs = speechSynthesis.getVoices();
+  // prefiere una voz de chino mandarín (zh-CN, luego cualquier zh)
+  zhVoice = vs.find(v=>/zh[-_]CN/i.test(v.lang)) || vs.find(v=>/^zh/i.test(v.lang)) || null;
+}
+if("speechSynthesis" in window){
+  pickVoice();
+  speechSynthesis.onvoiceschanged = pickVoice;
+}
+function speak(text){
+  if(!("speechSynthesis" in window)) return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = "zh-CN";
+  if(zhVoice) u.voice = zhVoice;
+  u.rate = Math.min(1.3, Math.max(0.5, speed)); // habla legible aunque los trazos vayan rápido
+  speechSynthesis.speak(u);
+}
+const CARD_TPL = document.getElementById("card").innerHTML;
+
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+function initDeck(mix){
+  deck = WORDS.map((_,i)=>i).filter(i=>!learned.has(i));
+  if(mix) shuffle(deck);
+  idx = 0;
+  render();
+}
+
+function render(){
+  revealed = false; shown = false;
+
+  if(idx >= deck.length){
+    const msg = learned.size >= WORDS.length ? "¡Repasaste todo el HSK 1!" : "¡Terminaste esta ronda!";
+    $("card").innerHTML = '<div class="done"><div class="big">🎉</div><div>'+msg+'</div><div class="sub" style="margin-top:8px">Aprendidas: '+learned.size+' / '+WORDS.length+'</div><br><button class="btn-show" onclick="resetAll()">Borrar avance y empezar de nuevo</button></div>';
+    updateBar();
+    return;
+  }
+
+  $("card").innerHTML = CARD_TPL;
+  bindCard();
+
+  const [hanzi,pin,mean,pos] = WORDS[deck[idx]];
+  buildHanzi(hanzi);
+  $("pinyin").textContent = pin;
+  $("meaning").textContent = mean;
+  $("pos").textContent = pos;
+
+  const ex = EXAMPLES[hanzi];
+  if(ex){
+    $("exZh").textContent = ex[0];
+    $("exPin").textContent = ex[1];
+    $("exEs").textContent = ex[2];
+    $("example").style.display = "";
+    $("example").onclick = ()=> speak(ex[0]);
+  } else {
+    $("example").style.display = "none";
+  }
+
+  animateAll();
+  speak(hanzi);
+  updateBar();
+}
+
+function buildHanzi(hanzi){
+  shown = false;
+  writers = [];
+  const row = $("hanziRow");
+  row.innerHTML = "";
+  [...hanzi].forEach(ch=>{
+    const div = document.createElement("div");
+    div.className = "hz";
+    row.appendChild(div);
+    writers.push(HanziWriter.create(div, ch, {
+      width:130, height:130, padding:8,
+      showOutline:true, showCharacter:false,
+      strokeAnimationSpeed:speed, delayBetweenStrokes:120/speed,
+      strokeColor:"#f2f3f5", outlineColor:"#3a4150", radicalColor:"#e8b04b",
+      drawingColor:"#C41E3A"
+    }));
+  });
+}
+
+async function animateAll(){
+  for(const w of writers){
+    await new Promise(res=>w.animateCharacter({onComplete:res}));
+  }
+}
+
+function updateBar(){
+  const total = WORDS.length;
+  $("counter").textContent = learned.size + " / " + total + " aprendidas";
+  $("leftCount").textContent = "cola: " + Math.max(deck.length-idx,0);
+  $("progFill").style.width = (total? (learned.size/total*100):0) + "%";
+}
+
+function bindCard(){
+  document.querySelectorAll("#speedSel button").forEach(b=>{
+    b.classList.toggle("active", parseFloat(b.dataset.s)===speed);
+    b.onclick = ()=>{
+      speed = parseFloat(b.dataset.s);
+      document.querySelectorAll("#speedSel button").forEach(x=>x.classList.toggle("active", x===b));
+      buildHanzi(WORDS[deck[idx]][0]);
+      animateAll();
+    };
+  });
+  $("btnAnim").onclick = animateAll;
+  $("btnSpeak").onclick = ()=> speak(WORDS[deck[idx]][0]);
+  $("btnOutline").onclick = ()=>{ shown=!shown; writers.forEach(w=> shown? w.showCharacter():w.hideCharacter()); };
+  $("btnQuiz").onclick = ()=> writers.forEach(w=>{ w.hideCharacter(); w.quiz({showHintAfterMisses:2}); });
+  $("btnShow").onclick = ()=>{
+    revealed = !revealed;
+    $("reveal").classList.toggle("show", revealed);
+    $("btnShow").textContent = revealed ? "🙈 Ocultar significado" : "👁 Mostrar significado";
+  };
+  $("btnOk").onclick = ()=>{ learned.add(deck[idx]); saveProgress(); idx++; render(); };
+  $("btnRep").onclick = ()=>{ const c=deck.splice(idx,1)[0]; deck.push(c); render(); };
+}
+$("btnSkip").onclick = ()=>{ idx++; render(); };
+$("btnShuffle").onclick = ()=> initDeck(true);
+$("btnRestart").onclick = ()=>{ if(confirm("¿Borrar todo el avance guardado?")){ learned.clear(); saveProgress(); initDeck(false); } };
+
+initDeck(true);
+</script>
+</body>
+</html>
