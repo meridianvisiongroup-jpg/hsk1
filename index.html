@@ -80,12 +80,37 @@
   .ex-zh{font-size:19px; color:var(--ink); line-height:1.5}
   .ex-pin{font-size:14px; color:var(--accent2); margin-top:3px}
   .ex-es{font-size:14px; color:var(--muted); margin-top:3px}
+  .stack{width:100%; display:flex; flex-direction:column; align-items:center}
+  .hidden{display:none !important}
+  .home{width:100%; max-width:520px}
+  .levels{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:18px; justify-content:center}
+  .lvl{padding:9px 14px; border-radius:12px; font-weight:600}
+  .lvl.active{background:var(--accent); border-color:var(--accent); color:#fff}
+  .lvl:disabled{opacity:.4; cursor:not-allowed}
+  .units{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+  .unit{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px; cursor:pointer; transition:.15s}
+  .unit:hover{border-color:#3c424f; transform:translateY(-1px)}
+  .unit .u-title{font-weight:600; font-size:15px}
+  .unit .u-sample{color:var(--muted); font-size:13px; margin-top:4px; line-height:1.5; word-break:break-word}
+  .unit .u-prog{color:var(--accent2); font-size:12px; margin-top:8px}
+  .unit.mix{grid-column:1 / -1; background:linear-gradient(90deg,rgba(196,30,58,.14),rgba(232,176,75,.08))}
+  .u-bar{height:5px; background:var(--card2); border-radius:99px; overflow:hidden; margin-top:6px}
+  .u-bar > i{display:block; height:100%; background:linear-gradient(90deg,var(--accent),var(--accent2))}
 </style>
 </head>
 <body>
-  <h1>汉语 HSK 1 · Orden de trazos</h1>
-  <div class="sub">Adivina el significado, comprueba y avanza o repite</div>
+  <h1>汉语 HSK · Trazos · Pinyin · Audio</h1>
+  <div class="sub" id="sub">Elige un nivel y una unidad</div>
 
+  <div class="home" id="home">
+    <div class="levels" id="levels"></div>
+    <div class="units" id="units"></div>
+    <div style="text-align:center;margin-top:16px">
+      <button class="ghost" id="btnResetLevel" style="font-size:12px;padding:8px 12px">⟲ Reiniciar avance de este nivel</button>
+    </div>
+  </div>
+
+  <div class="stack hidden" id="exercise">
   <div class="bar">
     <span class="pill" id="counter">0 / 0</span>
     <div class="progress"><i id="progFill"></i></div>
@@ -126,9 +151,10 @@
   </div>
 
   <div class="footer">
+    <button id="btnMenu">← Menú</button>
     <button id="btnShuffle">🔀 Mezclar</button>
-    <button id="btnRestart">⟲ Reiniciar todo</button>
     <button id="btnSkip">⏭ Saltar</button>
+  </div>
   </div>
 
 <script>
@@ -348,51 +374,128 @@ const EXAMPLES = {
 };
 
 const $ = id => document.getElementById(id);
+const shuffle = a => { for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; };
+
+// --- Niveles y unidades ---
+const LEVELS = [
+  {id:"hsk1", name:"HSK 1", words:WORDS, examples:EXAMPLES, ready:true},
+  {id:"hsk2", name:"HSK 2", ready:false},
+  {id:"hsk3", name:"HSK 3", ready:false},
+  {id:"hsk4", name:"HSK 4", ready:false},
+  {id:"hsk5", name:"HSK 5", ready:false},
+  {id:"hsk6", name:"HSK 6", ready:false}
+];
+const UNIT_SIZE = 15;
+function unitsOf(level){
+  const arr = [];
+  for(let s=0; s<level.words.length; s+=UNIT_SIZE){
+    const end = Math.min(s+UNIT_SIZE, level.words.length);
+    arr.push({ num: arr.length+1, idxs: Array.from({length:end-s},(_,k)=>s+k) });
+  }
+  return arr;
+}
+
+// --- Avance persistente por nivel ---
+const LS_KEY = "hsk1_progress_v2";
+let progress = {};
+try{ const v = JSON.parse(localStorage.getItem(LS_KEY)); if(v && typeof v==="object") progress = v; }catch(e){}
+if(!progress.hsk1){ try{ const v1 = JSON.parse(localStorage.getItem("hsk1_progress_v1")); if(v1 && Array.isArray(v1.learned)) progress.hsk1 = v1.learned; }catch(e){} }
+
+// --- Estado ---
+let curLevel = LEVELS[0];
+let learned = new Set(progress[curLevel.id] || []);
+let pool = [], poolLabel = "";
 let deck = [], idx = 0, writers = [], revealed = false, shown = false, speed = 1;
 
-// --- Avance persistente ---
-const LS_KEY = "hsk1_progress_v1";
-let learned = new Set();
-try{ const s = JSON.parse(localStorage.getItem(LS_KEY)); if(s && Array.isArray(s.learned)) learned = new Set(s.learned); }catch(e){}
-function saveProgress(){ try{ localStorage.setItem(LS_KEY, JSON.stringify({learned:[...learned]})); }catch(e){} }
-window.resetAll = ()=>{ learned.clear(); saveProgress(); initDeck(true); };
+function saveProgress(){ progress[curLevel.id] = [...learned]; try{ localStorage.setItem(LS_KEY, JSON.stringify(progress)); }catch(e){} }
 
+// --- Voz (TTS) ---
 let zhVoice = null;
 function pickVoice(){
   const vs = speechSynthesis.getVoices();
-  // prefiere una voz de chino mandarín (zh-CN, luego cualquier zh)
   zhVoice = vs.find(v=>/zh[-_]CN/i.test(v.lang)) || vs.find(v=>/^zh/i.test(v.lang)) || null;
 }
-if("speechSynthesis" in window){
-  pickVoice();
-  speechSynthesis.onvoiceschanged = pickVoice;
-}
+if("speechSynthesis" in window){ pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
 function speak(text){
   if(!("speechSynthesis" in window)) return;
   speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(text);
   u.lang = "zh-CN";
   if(zhVoice) u.voice = zhVoice;
-  u.rate = Math.min(1.3, Math.max(0.5, speed)); // habla legible aunque los trazos vayan rápido
+  u.rate = Math.min(1.3, Math.max(0.5, speed));
   speechSynthesis.speak(u);
 }
 const CARD_TPL = document.getElementById("card").innerHTML;
 
-function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+// --- Pantalla de inicio (selección de nivel y unidad) ---
+function progBar(done,total){
+  return '<div class="u-prog">'+done+' / '+total+' aprendidas</div><div class="u-bar"><i style="width:'+(total?done/total*100:0)+'%"></i></div>';
+}
+function showHome(){
+  $("exercise").classList.add("hidden");
+  $("home").classList.remove("hidden");
+  $("sub").textContent = "Elige un nivel y una unidad";
+  renderHome();
+}
+function renderHome(){
+  const lv = $("levels"); lv.innerHTML = "";
+  LEVELS.forEach(L=>{
+    const b = document.createElement("button");
+    b.className = "lvl" + (L===curLevel ? " active" : "");
+    b.textContent = L.ready ? L.name : L.name+" 🔒";
+    b.disabled = !L.ready;
+    b.title = L.ready ? "" : "Próximamente";
+    if(L.ready) b.onclick = ()=>{ curLevel = L; learned = new Set(progress[L.id]||[]); renderHome(); };
+    lv.appendChild(b);
+  });
+  const cont = $("units"); cont.innerHTML = "";
+  const words = curLevel.words;
+  if(!curLevel.ready || !words){
+    cont.innerHTML = '<div class="unit" style="grid-column:1/-1;text-align:center;cursor:default"><div class="u-title">Próximamente</div><div class="u-sample">Este nivel se habilitará con su vocabulario.</div></div>';
+    return;
+  }
+  const all = words.map((_,i)=>i);
+  const mix = document.createElement("div");
+  mix.className = "unit mix";
+  mix.innerHTML = '<div class="u-title">🔀 Mezcladas · todo el nivel</div><div class="u-sample">Ejercicios con las '+all.length+' palabras en orden aleatorio.</div>'+progBar(all.filter(i=>learned.has(i)).length, all.length);
+  mix.onclick = ()=> startSession(all.slice(), "Mezcladas · "+curLevel.name);
+  cont.appendChild(mix);
+  unitsOf(curLevel).forEach(U=>{
+    const done = U.idxs.filter(i=>learned.has(i)).length;
+    const sample = U.idxs.slice(0,5).map(i=>words[i][0]).join(" ");
+    const d = document.createElement("div");
+    d.className = "unit";
+    d.innerHTML = '<div class="u-title">Unidad '+U.num+'</div><div class="u-sample">'+sample+' …</div>'+progBar(done, U.idxs.length);
+    d.onclick = ()=> startSession(U.idxs.slice(), curLevel.name+" · Unidad "+U.num);
+    cont.appendChild(d);
+  });
+}
 
-function initDeck(mix){
-  deck = WORDS.map((_,i)=>i).filter(i=>!learned.has(i));
-  if(mix) shuffle(deck);
-  idx = 0;
+// --- Sesión de ejercicios ---
+function startSession(idxs, label){
+  pool = idxs; poolLabel = label;
+  buildDeck(true);
+  $("home").classList.add("hidden");
+  $("exercise").classList.remove("hidden");
+  $("sub").textContent = label;
   render();
 }
+function buildDeck(mix){
+  deck = pool.filter(i=>!learned.has(i));
+  if(deck.length===0) deck = pool.slice(); // todo aprendido → repaso libre
+  if(mix) shuffle(deck);
+  idx = 0;
+}
+window.showHome = showHome;
+window.repeatSession = ()=> startSession(pool.slice(), poolLabel);
 
 function render(){
   revealed = false; shown = false;
+  const words = curLevel.words, examples = curLevel.examples;
 
   if(idx >= deck.length){
-    const msg = learned.size >= WORDS.length ? "¡Repasaste todo el HSK 1!" : "¡Terminaste esta ronda!";
-    $("card").innerHTML = '<div class="done"><div class="big">🎉</div><div>'+msg+'</div><div class="sub" style="margin-top:8px">Aprendidas: '+learned.size+' / '+WORDS.length+'</div><br><button class="btn-show" onclick="resetAll()">Borrar avance y empezar de nuevo</button></div>';
+    const done = pool.filter(i=>learned.has(i)).length;
+    $("card").innerHTML = '<div class="done"><div class="big">🎉</div><div>¡Terminaste '+poolLabel+'!</div><div class="sub" style="margin-top:8px">Aprendidas: '+done+' / '+pool.length+'</div><br><button class="btn-show" onclick="repeatSession()">↻ Repasar de nuevo</button><br><button class="ghost" style="margin-top:10px" onclick="showHome()">← Volver al menú</button></div>';
     updateBar();
     return;
   }
@@ -400,13 +503,13 @@ function render(){
   $("card").innerHTML = CARD_TPL;
   bindCard();
 
-  const [hanzi,pin,mean,pos] = WORDS[deck[idx]];
+  const [hanzi,pin,mean,pos] = words[deck[idx]];
   buildHanzi(hanzi);
   $("pinyin").textContent = pin;
   $("meaning").textContent = mean;
   $("pos").textContent = pos;
 
-  const ex = EXAMPLES[hanzi];
+  const ex = examples && examples[hanzi];
   if(ex){
     $("exZh").textContent = ex[0];
     $("exPin").textContent = ex[1];
@@ -449,10 +552,10 @@ async function animateAll(){
 }
 
 function updateBar(){
-  const total = WORDS.length;
-  $("counter").textContent = learned.size + " / " + total + " aprendidas";
+  const done = pool.filter(i=>learned.has(i)).length;
+  $("counter").textContent = done + " / " + pool.length + " aprendidas";
   $("leftCount").textContent = "cola: " + Math.max(deck.length-idx,0);
-  $("progFill").style.width = (total? (learned.size/total*100):0) + "%";
+  $("progFill").style.width = (pool.length ? done/pool.length*100 : 0) + "%";
 }
 
 function bindCard(){
@@ -461,12 +564,12 @@ function bindCard(){
     b.onclick = ()=>{
       speed = parseFloat(b.dataset.s);
       document.querySelectorAll("#speedSel button").forEach(x=>x.classList.toggle("active", x===b));
-      buildHanzi(WORDS[deck[idx]][0]);
+      buildHanzi(curLevel.words[deck[idx]][0]);
       animateAll();
     };
   });
   $("btnAnim").onclick = animateAll;
-  $("btnSpeak").onclick = ()=> speak(WORDS[deck[idx]][0]);
+  $("btnSpeak").onclick = ()=> speak(curLevel.words[deck[idx]][0]);
   $("btnOutline").onclick = ()=>{ shown=!shown; writers.forEach(w=> shown? w.showCharacter():w.hideCharacter()); };
   $("btnQuiz").onclick = ()=> writers.forEach(w=>{ w.hideCharacter(); w.quiz({showHintAfterMisses:2}); });
   $("btnShow").onclick = ()=>{
@@ -477,11 +580,12 @@ function bindCard(){
   $("btnOk").onclick = ()=>{ learned.add(deck[idx]); saveProgress(); idx++; render(); };
   $("btnRep").onclick = ()=>{ const c=deck.splice(idx,1)[0]; deck.push(c); render(); };
 }
+$("btnMenu").onclick = showHome;
 $("btnSkip").onclick = ()=>{ idx++; render(); };
-$("btnShuffle").onclick = ()=> initDeck(true);
-$("btnRestart").onclick = ()=>{ if(confirm("¿Borrar todo el avance guardado?")){ learned.clear(); saveProgress(); initDeck(false); } };
+$("btnShuffle").onclick = ()=>{ buildDeck(true); render(); };
+$("btnResetLevel").onclick = ()=>{ if(confirm("¿Borrar el avance de "+curLevel.name+"?")){ learned.clear(); saveProgress(); renderHome(); } };
 
-initDeck(true);
+showHome();
 </script>
 </body>
 </html>
