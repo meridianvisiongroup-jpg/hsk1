@@ -143,6 +143,10 @@
   .rd-s.reading .rd-zh{color:var(--accent); font-weight:600}
   .rd-mode{display:flex; gap:6px; margin-bottom:8px}
   .rd-mode .set-btn{flex:1}
+  .rd-shadow{display:flex; gap:6px; align-items:center; margin-top:8px; font-size:13px; color:var(--muted); flex-wrap:wrap}
+  .rd-shadow > span{min-width:120px}
+  .rd-shadow .sr{flex:1; padding:9px 8px; font-size:13px; border-radius:99px}
+  .rd-shadow .sr.active{background:var(--accent); border-color:var(--accent); color:#fff}
   .rd-s.dlg{display:flex; gap:10px; align-items:flex-start}
   .rd-sp{flex:0 0 26px; height:26px; line-height:26px; text-align:center; border-radius:50%; font-size:13px; font-weight:700; color:#fff}
   .rd-sp-A{background:var(--accent)}
@@ -206,13 +210,12 @@
   <div class="card" id="card">
     <div class="hanzi-row" id="hanziRow"></div>
     <div class="speed" id="speedSel">
-      <span>Velocidad:</span>
+      <span>Velocidad de trazo:</span>
       <button data-s="0.4">🐢 Lento</button>
       <button data-s="1">▶ Normal</button>
       <button data-s="2.5">⚡ Rápido</button>
     </div>
     <div class="controls">
-      <button class="ghost" id="btnAnim">▶ Animar trazos</button>
       <button class="ghost" id="btnSpeak">🔊 Escuchar</button>
       <button class="ghost" id="btnOutline">擦 Mostrar/ocultar</button>
       <button class="ghost" id="btnQuiz">✍ Practicar (trazar)</button>
@@ -694,11 +697,14 @@ let deck = [], idx = 0, writers = [], revealed = false, shown = false, speed = 1
 function saveProgress(){ progress[curLevel.id] = [...learned]; try{ localStorage.setItem(LS_KEY, JSON.stringify(progress)); }catch(e){} }
 
 // --- Voz (TTS) ---
-let voiceGender = "female", voiceRate = 1;
+let voiceGender = "female", voiceRate = 1, shadowRate = 0.65;
 try{
   const g = localStorage.getItem("hsk_voice_gender"); if(g) voiceGender = g;
   const r = parseFloat(localStorage.getItem("hsk_voice_rate")); if(r) voiceRate = r;
+  const s = parseFloat(localStorage.getItem("hsk_shadow_rate")); if(s) shadowRate = s;
 }catch(e){}
+// Voz de contenido según el selecto ♀/♂: f = femenina (Bobo), m = masculina (Yun).
+function contentVk(){ return voiceGender === "male" ? "m" : "f"; }
 let zhVoice = null;
 function zhVoices(){ return speechSynthesis.getVoices().filter(v=>/^zh/i.test(v.lang)); }
 function pickVoice(){
@@ -740,21 +746,26 @@ function wsSpeak(text, rate, onstart, onend, vk){
   speechSynthesis.speak(u);
 }
 // Reproduce un texto: MP3 pre-generado si existe; si no, cae a la voz del navegador.
-function playAudio(text, vk, onstart, onend){
+function playAudio(text, vk, onstart, onend, rate){
+  rate = rate || 1;
   const f = clipFile(text, vk);
   if(f){
     const a = new Audio("audio/" + encodeURIComponent(f));
+    a.preservesPitch = a.mozPreservesPitch = a.webkitPreservesPitch = true; // ralentiza SIN bajar el tono
+    a.playbackRate = rate;
     curAudio = a;
     a.onplay  = ()=>{ onstart && onstart(); };
     a.onended = ()=>{ if(curAudio===a) curAudio=null; onend && onend(); };
-    a.onerror = ()=>{ if(curAudio===a) curAudio=null; wsSpeak(text, 1, onstart, onend, vk); };
-    a.play().catch(()=>{ if(curAudio===a) curAudio=null; wsSpeak(text, 1, onstart, onend, vk); });
+    a.onerror = ()=>{ if(curAudio===a) curAudio=null; wsSpeak(text, rate, onstart, onend, vk); };
+    a.play().catch(()=>{ if(curAudio===a) curAudio=null; wsSpeak(text, rate, onstart, onend, vk); });
   } else {
-    wsSpeak(text, 1, onstart, onend, vk);
+    wsSpeak(text, rate, onstart, onend, vk);
   }
 }
-// Reproducción simple (ejercicio, ejemplo): voz femenina, sin callbacks.
-function speak(text){ stopAudio(); playAudio(text, "f"); }
+// Reproducción simple (ejercicio, ejemplo): voz de contenido (♀/♂) a la velocidad elegida.
+function speak(text){ stopAudio(); playAudio(text, contentVk(), null, null, voiceRate); }
+// Muestra de la voz seleccionada (para "Probar" y al cambiar de voz): usa un clip real.
+function sampleVoice(){ stopAudio(); playAudio("谢谢你！", contentVk(), null, null, voiceRate); }
 const CARD_TPL = document.getElementById("card").innerHTML;
 
 // --- Pantalla de inicio (selección de nivel y unidad) ---
@@ -926,7 +937,6 @@ function bindCard(){
       animateAll();
     };
   });
-  $("btnAnim").onclick = animateAll;
   $("btnSpeak").onclick = ()=> speak(curLevel.words[deck[idx]][0]);
   $("btnOutline").onclick = ()=>{ shown=!shown; writers.forEach(w=> shown? w.showCharacter():w.hideCharacter()); };
   $("btnQuiz").onclick = ()=> writers.forEach(w=>{ w.hideCharacter(); w.quiz({showHintAfterMisses:2}); });
@@ -1003,8 +1013,12 @@ function openReading(unitNum){
       const chip = o.sp ? '<span class="rd-sp rd-sp-'+o.sp+'">'+o.sp+'</span>' : '';
       html += '<div class="rd-s'+(o.sp?" dlg":"")+'" data-i="'+i+'" title="Toca para escuchar">'+chip+'<span class="rd-txt"><span class="rd-zh">'+o.zh+'</span><span class="rd-pin">'+o.pin+'</span><span class="rd-es">'+o.es+'</span></span></div>';
     });
-    html += '</div><div class="rd-actions"><button id="rdAll">🔊 Escuchar todo</button><button id="rdShadow" title="Lectura lenta para repetir (shadowing)">🐢 Modo sombra</button></div>';
-    html += '<div class="rd-actions"><button id="rdStop">⏹ Detener</button><button class="ghost" id="rdBack">← Menú</button></div></div>';
+    html += '</div><div class="rd-actions"><button id="rdAll">🔊 Escuchar todo</button><button id="rdStop">⏹ Detener</button></div>';
+    html += '<div class="rd-shadow"><span>🐢 Modo sombra:</span>'
+          + '<button class="sr'+(shadowRate==0.5?" active":"")+'" data-sr="0.5">0.5×</button>'
+          + '<button class="sr'+(shadowRate==0.65?" active":"")+'" data-sr="0.65">0.65×</button>'
+          + '<button class="sr'+(shadowRate==0.8?" active":"")+'" data-sr="0.8">0.8×</button></div>';
+    html += '<div class="rd-actions"><button class="ghost" id="rdBack">← Menú</button></div></div>';
     p.innerHTML = html;
     bind();
   }
@@ -1012,11 +1026,12 @@ function openReading(unitNum){
     const sents = [...p.querySelectorAll(".rd-s")];
     const highlight = i => sents.forEach((el,j)=> el.classList.toggle("reading", j===i));
     const clearHl = () => sents.forEach(el=> el.classList.remove("reading"));
-    const vkOf = o => (mode==="dialogo" && o.sp==="B") ? "m" : "f";
+    // Historia → voz de contenido (♀/♂); Diálogo → A femenina (f) / B masculina (m).
+    const vkOf = o => (mode==="dialogo") ? (o.sp==="B" ? "m" : "f") : contentVk();
     let token = 0;
     function stopReading(){ token++; stopAudio(); clearHl(); }
-    // Reproduce toda la lectura en secuencia. slow=true → voz del navegador lenta (shadowing).
-    function playSeq(slow){
+    // Reproduce toda la lectura en secuencia a la velocidad dada (rate<1 = modo sombra, MP3 lento con tono preservado).
+    function playSeq(rate){
       token++; const my = token; stopAudio(); clearHl();
       const arr = curLines(); let i = 0;
       (function step(){
@@ -1024,14 +1039,13 @@ function openReading(unitNum){
         if(i >= arr.length){ clearHl(); return; }
         const o = norm(arr[i]); highlight(i);
         const advance = ()=>{ if(my===token){ i++; step(); } };
-        if(slow) wsSpeak(o.zh, 0.35, null, advance, vkOf(o));
-        else playAudio(o.zh, vkOf(o), null, advance);
+        playAudio(o.zh, vkOf(o), null, advance, rate);
       })();
     }
     sents.forEach(el=> el.onclick = ()=>{
       const i = +el.dataset.i, o = norm(curLines()[i]);
       stopReading(); const my = token; highlight(i);
-      playAudio(o.zh, vkOf(o), null, ()=>{ if(my===token) clearHl(); });
+      playAudio(o.zh, vkOf(o), null, ()=>{ if(my===token) clearHl(); }, voiceRate);
     });
     p.querySelectorAll(".rd-mode [data-m]").forEach(b=> b.onclick = ()=>{ stopReading(); mode = b.dataset.m; render(); });
     p.querySelectorAll(".rd-toggles [data-t]").forEach(b=> b.onclick = ()=>{
@@ -1039,8 +1053,13 @@ function openReading(unitNum){
       b.classList.toggle("active");
       $("rdBody").classList.toggle(b.dataset.t==="pin" ? "hide-pin" : "hide-es");
     });
-    $("rdAll").onclick = ()=> playSeq(false);
-    $("rdShadow").onclick = ()=> playSeq(true);
+    p.querySelectorAll(".rd-shadow [data-sr]").forEach(b=> b.onclick = ()=>{
+      shadowRate = parseFloat(b.dataset.sr);
+      try{ localStorage.setItem("hsk_shadow_rate", shadowRate); }catch(e){}
+      p.querySelectorAll(".rd-shadow [data-sr]").forEach(x=> x.classList.toggle("active", x===b));
+      playSeq(shadowRate);
+    });
+    $("rdAll").onclick = ()=> playSeq(voiceRate);
     $("rdStop").onclick = ()=> stopReading();
     $("rdBack").onclick = ()=>{ stopReading(); showHome(); };
   }
@@ -1123,14 +1142,14 @@ function refreshSettingsUI(){
 document.querySelectorAll('#settings [data-g]').forEach(b=> b.onclick = ()=>{
   voiceGender = b.dataset.g;
   try{ localStorage.setItem("hsk_voice_gender", voiceGender); }catch(e){}
-  pickVoice(); refreshSettingsUI(); speak("你好");
+  pickVoice(); refreshSettingsUI(); sampleVoice();
 });
 document.querySelectorAll('#settings [data-vr]').forEach(b=> b.onclick = ()=>{
   voiceRate = parseFloat(b.dataset.vr);
   try{ localStorage.setItem("hsk_voice_rate", voiceRate); }catch(e){}
-  refreshSettingsUI(); speak("你好，我们学习汉语。");
+  refreshSettingsUI(); sampleVoice();
 });
-$("tryVoice").onclick = ()=> speak("你好，我叫小明，很高兴认识你。");
+$("tryVoice").onclick = ()=> sampleVoice();
 refreshSettingsUI();
 
 // --- Guardar / restaurar avance (backup entre dispositivos) ---
