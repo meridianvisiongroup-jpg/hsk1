@@ -254,7 +254,7 @@
       <ul>
         <li>Animación de trazos: <strong>Hanzi Writer</strong>, © David Chanin, licencia MIT. <a href="https://github.com/chanind/hanzi-writer" target="_blank" rel="noopener">github.com/chanind/hanzi-writer</a></li>
         <li>Datos de trazos: proyecto <strong>Make Me a Hanzi</strong>, basado en las fuentes Arphic PL KaitiM / UKai, © Arphic Technology Co., Ltd. (1999) y © Shaunak Kishore (2016), bajo <strong>Arphic Public License</strong> (dataset incluido sin modificar en esta app). <a href="https://github.com/skishore/makemeahanzi" target="_blank" rel="noopener">github.com/skishore/makemeahanzi</a></li>
-        <li>Audio: generado localmente por el sintetizador de voz de tu dispositivo (Web Speech API del navegador / sistema operativo). No se transmite ni almacena audio en nuestros servidores.</li>
+        <li>Audio: voces de síntesis (IA) pre-generadas con <strong>ElevenLabs</strong>. Si algún clip no está disponible, se usa el sintetizador de voz del propio dispositivo. La reproducción es local; no se transmite audio a nuestros servidores.</li>
       </ul>
 
       <p style="margin-top:10px"><a href="LICENSES.txt" target="_blank" rel="noopener">Ver texto completo de las licencias de terceros →</a></p>
@@ -712,20 +712,49 @@ function pickVoice(){
 }
 if("speechSynthesis" in window){ pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
 function voicePitch(){ return voiceGender === "male" ? 0.7 : 1.2; }
-function stopAudio(){ if("speechSynthesis" in window) speechSynthesis.cancel(); }
-// El TTS de macOS "se come" 爱 (ài) cuando va pegado a la sílaba siguiente;
-// insertamos una micro-pausa después de 爱 SOLO en el audio (el texto visible no cambia).
+// El TTS del navegador "se come" 爱 (ài) pegándola a la sílaba siguiente;
+// micro-pausa SOLO en el fallback hablado (el texto visible y los MP3 no cambian).
 function ttsText(t){ return t.replace(/爱(?=[一-鿿])/g, "爱，"); }
-function speak(text){
-  if(!("speechSynthesis" in window)) return;
-  speechSynthesis.cancel();
+
+// --- Audio: clips pre-generados (ElevenLabs) con fallback a voz del navegador ---
+let AUDIO = { f:{}, m:{} };
+let curAudio = null;
+fetch("audio/manifest.json").then(r=> r.ok ? r.json() : null)
+  .then(m=>{ if(m){ AUDIO.f = m.f || {}; AUDIO.m = m.m || {}; } }).catch(()=>{});
+function clipFile(text, vk){ const t = AUDIO[vk] || {}; return t[text] || null; }
+
+function stopAudio(){
+  if("speechSynthesis" in window) speechSynthesis.cancel();
+  if(curAudio){ try{ curAudio.pause(); }catch(e){} curAudio.onended = curAudio.onerror = null; curAudio = null; }
+}
+// Voz del navegador con callbacks (fallback). vk: "f" | "m" | null
+function wsSpeak(text, rate, onstart, onend, vk){
+  if(!("speechSynthesis" in window)){ onend && onend(); return; }
   const u = new SpeechSynthesisUtterance(ttsText(text));
   u.lang = "zh-CN";
   if(zhVoice) u.voice = zhVoice;
-  u.rate = voiceRate;
-  u.pitch = voicePitch();
+  u.rate = rate || voiceRate;
+  u.pitch = vk === "m" ? 0.8 : (vk === "f" ? 1.12 : voicePitch());
+  if(onstart) u.onstart = onstart;
+  if(onend) u.onend = onend;
   speechSynthesis.speak(u);
 }
+// Reproduce un texto: MP3 pre-generado si existe; si no, cae a la voz del navegador.
+function playAudio(text, vk, onstart, onend){
+  const f = clipFile(text, vk);
+  if(f){
+    const a = new Audio("audio/" + encodeURIComponent(f));
+    curAudio = a;
+    a.onplay  = ()=>{ onstart && onstart(); };
+    a.onended = ()=>{ if(curAudio===a) curAudio=null; onend && onend(); };
+    a.onerror = ()=>{ if(curAudio===a) curAudio=null; wsSpeak(text, 1, onstart, onend, vk); };
+    a.play().catch(()=>{ if(curAudio===a) curAudio=null; wsSpeak(text, 1, onstart, onend, vk); });
+  } else {
+    wsSpeak(text, 1, onstart, onend, vk);
+  }
+}
+// Reproducción simple (ejercicio, ejemplo): voz femenina, sin callbacks.
+function speak(text){ stopAudio(); playAudio(text, "f"); }
 const CARD_TPL = document.getElementById("card").innerHTML;
 
 // --- Pantalla de inicio (selección de nivel y unidad) ---
@@ -983,44 +1012,37 @@ function openReading(unitNum){
     const sents = [...p.querySelectorAll(".rd-s")];
     const highlight = i => sents.forEach((el,j)=> el.classList.toggle("reading", j===i));
     const clearHl = () => sents.forEach(el=> el.classList.remove("reading"));
-    function utter(o, rate){
-      const u = new SpeechSynthesisUtterance(ttsText(o.zh));
-      u.lang = "zh-CN";
-      const cfg = (mode==="dialogo") ? (o.sp==="B" ? dv.B : dv.A) : null;
-      if(cfg && cfg.voice) u.voice = cfg.voice; else if(zhVoice) u.voice = zhVoice;
-      u.rate = rate || voiceRate;
-      u.pitch = cfg ? cfg.pitch : voicePitch();
-      return u;
-    }
-    function playAll(rate){
-      stopAudio(); clearHl();
-      if(!("speechSynthesis" in window)) return;
-      const arr = curLines();
-      arr.forEach((L,i)=>{
-        const u = utter(norm(L), rate);
-        u.onstart = ()=> highlight(i);
-        u.onend = ()=>{ if(i===arr.length-1) clearHl(); };
-        speechSynthesis.speak(u);
-      });
+    const vkOf = o => (mode==="dialogo" && o.sp==="B") ? "m" : "f";
+    let token = 0;
+    function stopReading(){ token++; stopAudio(); clearHl(); }
+    // Reproduce toda la lectura en secuencia. slow=true → voz del navegador lenta (shadowing).
+    function playSeq(slow){
+      token++; const my = token; stopAudio(); clearHl();
+      const arr = curLines(); let i = 0;
+      (function step(){
+        if(my !== token) return;
+        if(i >= arr.length){ clearHl(); return; }
+        const o = norm(arr[i]); highlight(i);
+        const advance = ()=>{ if(my===token){ i++; step(); } };
+        if(slow) wsSpeak(o.zh, 0.35, null, advance, vkOf(o));
+        else playAudio(o.zh, vkOf(o), null, advance);
+      })();
     }
     sents.forEach(el=> el.onclick = ()=>{
-      const i = +el.dataset.i;
-      stopAudio(); clearHl();
-      const u = utter(norm(curLines()[i]));
-      u.onstart = ()=> highlight(i);
-      u.onend = ()=> clearHl();
-      speechSynthesis.speak(u);
+      const i = +el.dataset.i, o = norm(curLines()[i]);
+      stopReading(); const my = token; highlight(i);
+      playAudio(o.zh, vkOf(o), null, ()=>{ if(my===token) clearHl(); });
     });
-    p.querySelectorAll(".rd-mode [data-m]").forEach(b=> b.onclick = ()=>{ stopAudio(); mode = b.dataset.m; render(); });
+    p.querySelectorAll(".rd-mode [data-m]").forEach(b=> b.onclick = ()=>{ stopReading(); mode = b.dataset.m; render(); });
     p.querySelectorAll(".rd-toggles [data-t]").forEach(b=> b.onclick = ()=>{
       if(b.dataset.t==="pin") pinOn=!pinOn; else esOn=!esOn;
       b.classList.toggle("active");
       $("rdBody").classList.toggle(b.dataset.t==="pin" ? "hide-pin" : "hide-es");
     });
-    $("rdAll").onclick = ()=> playAll(voiceRate);
-    $("rdShadow").onclick = ()=> playAll(0.35);
-    $("rdStop").onclick = ()=>{ stopAudio(); clearHl(); };
-    $("rdBack").onclick = showHome;
+    $("rdAll").onclick = ()=> playSeq(false);
+    $("rdShadow").onclick = ()=> playSeq(true);
+    $("rdStop").onclick = ()=> stopReading();
+    $("rdBack").onclick = ()=>{ stopReading(); showHome(); };
   }
   render();
 }
