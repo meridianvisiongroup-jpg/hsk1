@@ -4,17 +4,31 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HSK 1 · Trazos · Pinyin · Español</title>
+<meta name="theme-color" content="#0f1115">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="HSK">
+<link rel="apple-touch-icon" href="icon.svg">
 <script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.7/dist/hanzi-writer.min.js"></script>
 <style>
-  :root{
+  :root, :root[data-theme="dark"]{
     --bg:#0f1115; --card:#1a1d24; --card2:#21252e; --ink:#f2f3f5;
     --muted:#9aa3b2; --accent:#C41E3A; --accent2:#e8b04b; --ok:#2ea66b;
-    --line:#2c313c;
+    --line:#2c313c; --grid:#3a4150;
+    --bggrad:radial-gradient(1200px 600px at 50% -10%, #1b2030 0%, var(--bg) 60%);
+    --shadow:0 20px 50px rgba(0,0,0,.45);
+  }
+  :root[data-theme="light"]{
+    --bg:#f4f5f7; --card:#ffffff; --card2:#eef0f3; --ink:#1a1d24;
+    --muted:#5b6472; --accent:#C41E3A; --accent2:#b8860b; --ok:#1e8a56;
+    --line:#dde1e8; --grid:#c2c9d4;
+    --bggrad:radial-gradient(1200px 600px at 50% -10%, #ffffff 0%, var(--bg) 60%);
+    --shadow:0 16px 40px rgba(30,40,60,.12);
   }
   *{box-sizing:border-box}
   body{
     margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
-    background:radial-gradient(1200px 600px at 50% -10%, #1b2030 0%, var(--bg) 60%);
+    background:var(--bggrad);
     color:var(--ink); min-height:100vh; display:flex; flex-direction:column; align-items:center;
     padding:24px 16px 48px;
   }
@@ -28,7 +42,7 @@
   .progress > i{display:block; height:100%; width:0; background:linear-gradient(90deg,var(--accent),var(--accent2)); transition:width .3s}
   .card{
     width:100%; max-width:520px; background:var(--card); border:1px solid var(--line);
-    border-radius:20px; padding:24px; box-shadow:0 20px 50px rgba(0,0,0,.45);
+    border-radius:20px; padding:24px; box-shadow:var(--shadow);
   }
   .hanzi-row{display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin:6px 0 16px}
   .hz{
@@ -36,7 +50,7 @@
     position:relative; border:1px solid var(--line);
   }
   /* cuadrícula米 */
-  .hz::before,.hz::after{content:""; position:absolute; background:repeating-linear-gradient(transparent,transparent 4px,#3a4150 4px,#3a4150 8px)}
+  .hz::before,.hz::after{content:""; position:absolute; background:repeating-linear-gradient(transparent,transparent 4px,var(--grid) 4px,var(--grid) 8px)}
   .hz::before{left:50%; top:6%; width:1px; height:88%; transform:translateX(-.5px)}
   .hz::after{top:50%; left:6%; height:1px; width:88%; transform:translateY(-.5px)}
   .speed{display:flex; gap:6px; justify-content:center; align-items:center; margin-bottom:10px; flex-wrap:wrap; font-size:13px; color:var(--muted)}
@@ -96,17 +110,89 @@
   .unit.mix{grid-column:1 / -1; background:linear-gradient(90deg,rgba(196,30,58,.14),rgba(232,176,75,.08))}
   .u-bar{height:5px; background:var(--card2); border-radius:99px; overflow:hidden; margin-top:6px}
   .u-bar > i{display:block; height:100%; background:linear-gradient(90deg,var(--accent),var(--accent2))}
+  /* Botón de tema */
+  .theme-btn{position:fixed; top:14px; right:14px; z-index:20; padding:8px 12px; font-size:15px; border-radius:99px; background:var(--card2); border:1px solid var(--line)}
+  /* Modal Acerca de / Créditos */
+  .modal{position:fixed; inset:0; background:rgba(0,0,0,.55); display:flex; align-items:center; justify-content:center; padding:20px; z-index:50}
+  .modal.hidden{display:none}
+  .modal-card{background:var(--card); border:1px solid var(--line); border-radius:16px; max-width:520px; width:100%; max-height:85vh; overflow:auto; padding:22px; box-shadow:var(--shadow)}
+  .modal-card h2{font-size:17px; margin:0 0 4px}
+  .modal-card h3{font-size:13px; margin:16px 0 6px; color:var(--accent2); text-transform:uppercase; letter-spacing:.5px}
+  .modal-card p{font-size:13px; color:var(--muted); line-height:1.6; margin:6px 0}
+  .modal-card ul{margin:6px 0; padding-left:18px}
+  .modal-card li{font-size:13px; color:var(--muted); line-height:1.6; margin:4px 0}
+  .modal-card a{color:var(--accent2); word-break:break-all}
+  /* Acciones por unidad */
+  .u-actions{display:flex; gap:6px; margin-top:10px}
+  .u-btn{flex:1; padding:7px; font-size:12px}
+  /* Lectura */
+  .rd-title,.ts-title{font-size:16px; margin:0 0 14px; line-height:1.4}
+  .rd-body{display:flex; flex-direction:column; gap:12px}
+  .rd-s{margin:0; padding:12px 14px; background:var(--card2); border:1px solid var(--line); border-radius:12px; cursor:pointer; text-align:left; transition:.15s}
+  .rd-s:hover{border-color:var(--accent2)}
+  .rd-zh{display:block; font-size:20px; line-height:1.5}
+  .rd-pin{display:block; font-size:14px; color:var(--accent2); margin-top:3px}
+  .rd-es{display:block; font-size:14px; color:var(--muted); margin-top:3px}
+  .rd-actions{display:flex; gap:8px; margin-top:12px}
+  .rd-actions button{flex:1}
+  .rd-toggles{display:flex; gap:6px; margin-bottom:12px}
+  .rd-toggles .set-btn{flex:1}
+  .rd-body.hide-pin .rd-pin{display:none}
+  .rd-body.hide-es .rd-es{display:none}
+  .rd-s.reading{background:rgba(196,30,58,.14); border-color:var(--accent)}
+  .rd-s.reading .rd-zh{color:var(--accent); font-weight:600}
+  .rd-mode{display:flex; gap:6px; margin-bottom:8px}
+  .rd-mode .set-btn{flex:1}
+  .rd-s.dlg{display:flex; gap:10px; align-items:flex-start}
+  .rd-sp{flex:0 0 26px; height:26px; line-height:26px; text-align:center; border-radius:50%; font-size:13px; font-weight:700; color:#fff}
+  .rd-sp-A{background:var(--accent)}
+  .rd-sp-B{background:var(--accent2)}
+  .rd-txt{flex:1; min-width:0}
+  /* Test */
+  .ts-q{font-size:40px; text-align:center; margin:10px 0 2px}
+  .ts-pin{text-align:center; color:var(--accent2); font-size:18px; margin-bottom:18px}
+  .ts-opts{display:flex; flex-direction:column; gap:10px}
+  .ts-opts button{padding:14px; font-size:15px; text-align:left}
+  .ts-opts button.good{background:rgba(46,166,107,.18); border-color:var(--ok); color:var(--ok); font-weight:600}
+  .ts-opts button.bad{background:rgba(196,30,58,.15); border-color:var(--accent); color:var(--accent)}
+  /* Ajustes (voz / velocidad / avance) */
+  .settings{width:100%; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:12px 14px; margin-bottom:14px; display:flex; flex-direction:column; gap:8px}
+  .set-row{display:flex; gap:6px; align-items:center; flex-wrap:wrap; font-size:13px; color:var(--muted)}
+  .set-row > span{min-width:96px}
+  .set-btn{padding:7px 11px; font-size:13px; border-radius:99px}
+  .set-btn.active{background:var(--accent); border-color:var(--accent); color:#fff}
 </style>
 </head>
 <body>
+  <button class="theme-btn" id="themeBtn" title="Tema claro / oscuro" aria-label="Cambiar tema">🌙</button>
   <h1>汉语 HSK · Trazos · Pinyin · Audio</h1>
   <div class="sub" id="sub">Elige un nivel y una unidad</div>
 
   <div class="home" id="home">
     <div class="levels" id="levels"></div>
+    <div class="settings" id="settings">
+      <div class="set-row"><span>🗣 Voz:</span>
+        <button class="set-btn" data-g="female">♀ Femenina</button>
+        <button class="set-btn" data-g="male">♂ Masculina</button>
+      </div>
+      <div class="set-row"><span>⏱ Velocidad:</span>
+        <button class="set-btn" data-vr="0.6">🐢 Lenta</button>
+        <button class="set-btn" data-vr="1">▶ Normal</button>
+        <button class="set-btn" data-vr="1.4">⚡ Rápida</button>
+        <button class="set-btn ghost" id="tryVoice">🔊 Probar</button>
+      </div>
+      <div class="set-row"><span>💾 Avance:</span>
+        <button class="set-btn ghost" id="btnExport">⬇ Guardar</button>
+        <button class="set-btn ghost" id="btnImport">⬆ Restaurar</button>
+        <input type="file" id="fileImport" accept="application/json,.json" hidden>
+      </div>
+    </div>
     <div class="units" id="units"></div>
     <div style="text-align:center;margin-top:16px">
       <button class="ghost" id="btnResetLevel" style="font-size:12px;padding:8px 12px">⟲ Reiniciar avance de este nivel</button>
+    </div>
+    <div style="text-align:center;margin-top:8px">
+      <button class="ghost" id="btnAbout" style="font-size:12px;padding:8px 12px">ℹ️ Acerca de · Créditos</button>
     </div>
   </div>
 
@@ -155,6 +241,30 @@
     <button id="btnShuffle">🔀 Mezclar</button>
     <button id="btnSkip">⏭ Saltar</button>
   </div>
+  </div>
+
+  <div class="stack hidden" id="panel"></div>
+
+  <div class="modal hidden" id="aboutModal">
+    <div class="modal-card">
+      <h2>Acerca de esta app</h2>
+      <p>Aplicación desarrollada por <strong>Meridian Vision SpA</strong> para el aprendizaje de vocabulario HSK 1 (chino mandarín).</p>
+
+      <h3>Créditos de terceros</h3>
+      <ul>
+        <li>Animación de trazos: <strong>Hanzi Writer</strong>, © David Chanin, licencia MIT. <a href="https://github.com/chanind/hanzi-writer" target="_blank" rel="noopener">github.com/chanind/hanzi-writer</a></li>
+        <li>Datos de trazos: proyecto <strong>Make Me a Hanzi</strong>, basado en las fuentes Arphic PL KaitiM / UKai, © Arphic Technology Co., Ltd. (1999) y © Shaunak Kishore (2016), bajo <strong>Arphic Public License</strong>. <a href="https://github.com/skishore/makemeahanzi" target="_blank" rel="noopener">github.com/skishore/makemeahanzi</a></li>
+        <li>Audio: generado localmente por el sintetizador de voz de tu dispositivo (Web Speech API del navegador / sistema operativo). No se transmite ni almacena audio en nuestros servidores.</li>
+      </ul>
+
+      <h3>Contenido original</h3>
+      <p>Las frases de ejemplo, historias, diálogos y la organización en unidades de esta app son creación original de Meridian Vision SpA / Media Management SpA. Todos los derechos reservados.</p>
+
+      <h3>Privacidad</h3>
+      <p>Tu progreso de aprendizaje se guarda únicamente en este dispositivo (almacenamiento local del navegador). No recopilamos datos personales, no usamos cookies de terceros ni analítica.</p>
+
+      <button class="btn-show" id="aboutClose" style="margin-top:18px">Cerrar</button>
+    </div>
   </div>
 
 <script>
@@ -373,6 +483,178 @@ const EXAMPLES = {
  "做":["我做饭。","Wǒ zuò fàn.","Hago la comida."]
 };
 
+// Lectura por unidad: destaca las 15 palabras de la unidad, apoyada en vocabulario básico HSK 1.
+// READINGS[levelId][unidad-1] = [ [chino, pinyin, español], ... ]
+const READINGS = {
+ hsk1: [
+  [ // Unidad 1
+   ["我爸爸在北京工作，他很爱喝茶。", "Wǒ bàba zài Běijīng gōngzuò, tā hěn ài hē chá.", "Mi papá trabaja en Pekín y le encanta el té."],
+   ["今天他不坐飞机，他坐出租车回家。", "Jīntiān tā bù zuò fēijī, tā zuò chūzūchē huí jiā.", "Hoy no toma el avión; vuelve a casa en taxi."],
+   ["他打电话说：“我想你们。”", "Tā dǎ diànhuà shuō: “Wǒ xiǎng nǐmen.”", "Llama por teléfono y dice: «Los extraño»."],
+   ["家里有八个大杯子。", "Jiā lǐ yǒu bā ge dà bēizi.", "En casa hay ocho vasos grandes esperándolo."],
+   ["爸爸和我喝茶，也吃菜。", "Bàba hé wǒ hē chá, yě chī cài.", "Papá y yo tomamos té y también comemos."],
+   ["爸爸说“谢谢”，我说“不客气”。", "Bàba shuō “xièxie”, wǒ shuō “bú kèqi”.", "Él dice «gracias» y yo digo «de nada»."]
+  ],
+  [ // Unidad 2
+   ["我儿子有一个电脑，他很爱看电影。", "Wǒ érzi yǒu yí ge diànnǎo, tā hěn ài kàn diànyǐng.", "Mi hijo tiene una computadora y le encanta ver películas."],
+   ["今天我们不看电视，我们看电影。", "Jīntiān wǒmen bù kàn diànshì, wǒmen kàn diànyǐng.", "Hoy no vemos la tele; vemos una película."],
+   ["看电影的时候，我读了二十分钟的书。", "Kàn diànyǐng de shíhou, wǒ dú le èrshí fēnzhōng de shū.", "Mientras veíamos la película, leí veinte minutos."],
+   ["现在我们都想去饭店吃东西。", "Xiànzài wǒmen dōu xiǎng qù fàndiàn chī dōngxi.", "Ahora los dos queremos ir a comer al restaurante."],
+   ["饭店的东西很多，对不起，我没有很多钱。", "Fàndiàn de dōngxi hěn duō, duìbuqǐ, wǒ méiyǒu hěn duō qián.", "En el restaurante hay mucho; disculpa, no tengo mucho dinero."],
+   ["儿子说：“没关系，明天我请你。”", "Érzi shuō: “Méi guānxi, míngtiān wǒ qǐng nǐ.”", "Mi hijo dice: «No importa, mañana te invito yo»."]
+  ],
+  [ // Unidad 3
+   ["我在火车站工作。今天工作很好，我很高兴。", "Wǒ zài huǒchēzhàn gōngzuò. Jīntiān gōngzuò hěn hǎo, wǒ hěn gāoxìng.", "Trabajo en la estación de tren. Hoy fue un buen día y estoy muy contento."],
+   ["几点了？我想回家了。", "Jǐ diǎn le? Wǒ xiǎng huí jiā le.", "¿Qué hora es? Ya quiero irme a casa."],
+   ["我家有一个狗，狗在我的后面。", "Wǒ jiā yǒu yí ge gǒu, gǒu zài wǒ de hòumiàn.", "En casa tengo un perro, y siempre está detrás de mí."],
+   ["回家后，我和爸爸喝茶。", "Huí jiā hòu, wǒ hé bàba hē chá.", "Al llegar a casa, papá y yo tomamos té."],
+   ["我在学习汉语，现在我会说一点儿了。", "Wǒ zài xuéxí Hànyǔ, xiànzài wǒ huì shuō yìdiǎnr le.", "Estoy aprendiendo chino; ya sé decir un poquito."]
+  ],
+  [ // Unidad 4
+   ["我叫小明。今天很冷。", "Wǒ jiào Xiǎomíng. Jīntiān hěn lěng.", "Me llamo Xiaoming. Hoy hace mucho frío."],
+   ["九点了，老师来了。老师说：“今天我们看书。”", "Jiǔ diǎn le, lǎoshī lái le. Lǎoshī shuō: “Jīntiān wǒmen kàn shū.”", "Son las nueve y llega la profesora. Dice: «Hoy leemos»."],
+   ["我看见妈妈也在学校里。", "Wǒ kànjiàn māma yě zài xuéxiào lǐ.", "Veo que mamá también está en la escuela."],
+   ["妈妈来了，我和妈妈回家。", "Māma lái le, wǒ hé māma huí jiā.", "Mamá vino y volvemos a casa."],
+   ["家在商店后面。商店九点开，妈妈买了一本书，六块钱。", "Jiā zài shāngdiàn hòumiàn. Shāngdiàn jiǔ diǎn kāi, māma mǎi le yì běn shū, liù kuài qián.", "Nuestra casa está detrás de la tienda. Abre a las nueve, y mamá compró un libro por seis yuanes."],
+   ["妈妈说：“来，我们回家看书。”", "Māma shuō: “Lái, wǒmen huí jiā kàn shū.”", "Mamá dice: «Ven, vamos a leer a casa»."]
+  ],
+  [ // Unidad 5
+   ["我女儿叫小美，她想买一个猫。", "Wǒ nǚ'ér jiào Xiǎoměi, tā xiǎng mǎi yí ge māo.", "Mi hija se llama Xiaomei y quiere comprar un gato."],
+   ["明天我们去商店买猫。", "Míngtiān wǒmen qù shāngdiàn mǎi māo.", "Mañana vamos a la tienda a comprar el gato."],
+   ["小美很高兴，她说：“猫在哪儿呢？”", "Xiǎoměi hěn gāoxìng, tā shuō: “Māo zài nǎr ne?”", "Xiaomei está feliz y pregunta: «¿Dónde está el gato?»."],
+   ["家里没有米饭了。没关系，我们去饭店吃。", "Jiā lǐ méiyǒu mǐfàn le. Méi guānxi, wǒmen qù fàndiàn chī.", "En casa ya no hay arroz. No importa, comemos en el restaurante."],
+   ["我说：“那个猫在那儿，你能看见吗？”", "Wǒ shuō: “Nàge māo zài nàr, nǐ néng kànjiàn ma?”", "Le digo: «Ese gatito está allá, ¿lo puedes ver?»."],
+   ["小美今年八岁，明年九岁。", "Xiǎoměi jīnnián bā suì, míngnián jiǔ suì.", "Xiaomei tiene ocho años; el año que viene cumple nueve."]
+  ],
+  [ // Unidad 6
+   ["上午我认识了三个朋友，他们都很好。", "Shàngwǔ wǒ rènshi le sān ge péngyou, tāmen dōu hěn hǎo.", "Por la mañana conocí a tres amigos; todos son muy simpáticos."],
+   ["天气很好，我们去商店。", "Tiānqì hěn hǎo, wǒmen qù shāngdiàn.", "Hacía buen tiempo y fuimos a la tienda."],
+   ["商店在饭店前面，前面的人很多。", "Shāngdiàn zài fàndiàn qiánmiàn, qiánmiàn de rén hěn duō.", "La tienda está frente al restaurante, y había mucha gente."],
+   ["今天很热，我想买苹果。", "Jīntiān hěn rè, wǒ xiǎng mǎi píngguǒ.", "Hacía calor y quise comprar manzanas."],
+   ["苹果很漂亮，七块钱。", "Píngguǒ hěn piàoliang, qī kuài qián.", "Las manzanas se veían muy lindas: siete yuanes."],
+   ["朋友说：“请来我家吃苹果。”", "Péngyou shuō: “Qǐng lái wǒ jiā chī píngguǒ.”", "Un amigo dice: «Ven a mi casa a comer manzanas»."]
+  ],
+  [ // Unidad 7
+   ["他是谁？他是我的好朋友，他有一个女儿。", "Tā shì shéi? Tā shì wǒ de hǎo péngyou, tā yǒu yí ge nǚ'ér.", "¿Quién es? Es mi buen amigo y tiene una hija."],
+   ["女儿四岁了，她很小，说话很少。", "Nǚ'ér sì suì le, tā hěn xiǎo, shuōhuà hěn shǎo.", "Su hija tiene cuatro años; es muy pequeña y habla poco."],
+   ["什么时候睡觉？她十点睡觉。", "Shénme shíhou shuìjiào? Tā shí diǎn shuìjiào.", "¿A qué hora se duerme? A las diez."],
+   ["睡觉前，他和女儿看书。", "Shuìjiào qián, tā hé nǚ'ér kàn shū.", "Antes de dormir, él y su hija leen un libro."],
+   ["女儿爱喝水，也爱吃水果。", "Nǚ'ér ài hē shuǐ, yě ài chī shuǐguǒ.", "A la niña le gusta beber agua y comer fruta."],
+   ["他很爱他的女儿。", "Tā hěn ài tā de nǚ'ér.", "Él quiere mucho a su hija."]
+  ],
+  [ // Unidad 8
+   ["喂，你好！现在几点？", "Wéi, nǐ hǎo! Xiànzài jǐ diǎn?", "¿Aló? ¡Hola! ¿Qué hora es?"],
+   ["现在五点。今天天气太好了！", "Xiànzài wǔ diǎn. Jīntiān tiānqì tài hǎo le!", "Son las cinco. ¡Hoy hace un tiempo estupendo!"],
+   ["下午我想和同学去商店。", "Xiàwǔ wǒ xiǎng hé tóngxué qù shāngdiàn.", "Por la tarde quiero ir a la tienda con un compañero."],
+   ["我们都很喜欢下午喝茶。", "Wǒmen dōu hěn xǐhuan xiàwǔ hē chá.", "A los dos nos gusta mucho tomar té por la tarde."],
+   ["现在下雨了，我们不去了。", "Xiànzài xiàyǔ le, wǒmen bù qù le.", "Ahora se puso a llover y ya no fuimos."],
+   ["我听王先生说：“下雨了，我们明天去。”", "Wǒ tīng Wáng xiānsheng shuō: “Xiàyǔ le, wǒmen míngtiān qù.”", "Escucho al señor Wang decir: «Está lloviendo, vamos mañana»."]
+  ],
+  [ // Unidad 9
+   ["我是学生。这个星期我在学校学习汉语。", "Wǒ shì xuéshēng. Zhège xīngqī wǒ zài xuéxiào xuéxí Hànyǔ.", "Soy estudiante. Esta semana estudio chino en la escuela."],
+   ["我学习写字，现在我会写一点儿了。", "Wǒ xuéxí xiě zì, xiànzài wǒ huì xiě yìdiǎnr le.", "Aprendo a escribir; ya sé escribir un poquito."],
+   ["我的朋友李小姐是医生，她在医院工作。", "Wǒ de péngyou Lǐ xiǎojiě shì yīshēng, tā zài yīyuàn gōngzuò.", "Mi amiga, la señorita Li, es médica y trabaja en el hospital."],
+   ["下午我去商店，买了一些衣服和一个小椅子。", "Xiàwǔ wǒ qù shāngdiàn, mǎi le yìxiē yīfu hé yí ge xiǎo yǐzi.", "Por la tarde fui a la tienda y compré algo de ropa y una sillita."],
+   ["李小姐说：“谢谢你！”我说：“不客气。”", "Lǐ xiǎojiě shuō: “Xièxie nǐ!” Wǒ shuō: “Bú kèqi.”", "La señorita Li dice: «¡Gracias!» y yo digo: «De nada»."]
+  ],
+  [ // Unidad 10
+   ["我是中国人，我住在北京。", "Wǒ shì Zhōngguó rén, wǒ zhù zài Běijīng.", "Soy chino y vivo en Pekín."],
+   ["昨天中午我在家做饭。", "Zuótiān zhōngwǔ wǒ zài jiā zuò fàn.", "Ayer al mediodía cociné en casa."],
+   ["我想学习写字，可是我不会写这个字。", "Wǒ xiǎng xuéxí xiě zì, kěshì wǒ bú huì xiě zhège zì.", "Quiero aprender a escribir, pero no sé cómo se escribe este carácter."],
+   ["我说：“妈妈，这个字怎么写？”", "Wǒ shuō: “Māma, zhège zì zěnme xiě?”", "Le digo a mamá: «¿Cómo se escribe este carácter?»."],
+   ["妈妈说：“请坐，桌子上有一本书。”", "Māma shuō: “Qǐng zuò, zhuōzi shàng yǒu yì běn shū.”", "Mamá dice: «Siéntate, sobre la mesa hay un libro»."],
+   ["今天怎么样？这个月很冷，我很好。", "Jīntiān zěnmeyàng? Zhège yuè hěn lěng, wǒ hěn hǎo.", "¿Qué tal hoy? Este mes hace frío, pero yo estoy bien."],
+   ["好，再见！", "Hǎo, zàijiàn!", "Bueno, ¡hasta pronto!"]
+  ]
+ ]
+};
+
+// Diálogo entre 2 personas por unidad: [ hablante("A"/"B"), chino, pinyin, español ]
+const DIALOGUES = {
+ hsk1: [
+  [ // Unidad 1
+   ["A","爸爸，你爱喝茶吗？","Bàba, nǐ ài hē chá ma?","Papá, ¿te gusta el té?"],
+   ["B","爱，我爱喝茶，也爱吃菜。","Ài, wǒ ài hē chá, yě ài chī cài.","Sí, me gusta el té y también comer verduras."],
+   ["A","这个大杯子是你的吗？","Zhège dà bēizi shì nǐ de ma?","¿Este vaso grande es tuyo?"],
+   ["B","是我的。谢谢你！","Shì wǒ de. Xièxie nǐ!","Es mío. ¡Gracias!"],
+   ["A","不客气！","Bú kèqi!","¡De nada!"]
+  ],
+  [ // Unidad 2
+   ["A","你儿子在看电视吗？","Nǐ érzi zài kàn diànshì ma?","¿Tu hijo está viendo la tele?"],
+   ["B","不，他看电影，他都爱看电影。","Bù, tā kàn diànyǐng, tā dōu ài kàn diànyǐng.","No, ve películas, siempre le gustan las películas."],
+   ["A","这个电脑多少钱？","Zhège diànnǎo duōshao qián?","¿Cuánto cuesta esta computadora?"],
+   ["B","对不起，很多钱。","Duìbuqǐ, hěn duō qián.","Perdón, cuesta mucho."],
+   ["A","我们二点去饭店，好吗？","Wǒmen èr diǎn qù fàndiàn, hǎo ma?","¿Vamos al restaurante a las dos?"],
+   ["B","好！读书二十分钟，我们去。","Hǎo! Dú shū èrshí fēnzhōng, wǒmen qù.","¡Bien! Leemos veinte minutos y vamos."]
+  ],
+  [ // Unidad 3
+   ["A","你好！你在哪儿工作？","Nǐ hǎo! Nǐ zài nǎr gōngzuò?","¡Hola! ¿Dónde trabajas?"],
+   ["B","我在火车站工作。你会说汉语吗？","Wǒ zài huǒchēzhàn gōngzuò. Nǐ huì shuō Hànyǔ ma?","Trabajo en la estación de tren. ¿Sabes hablar chino?"],
+   ["A","会一点儿。我家有一个狗。","Huì yìdiǎnr. Wǒ jiā yǒu yí ge gǒu.","Un poco. En mi casa hay un perro."],
+   ["B","狗在后面吗？","Gǒu zài hòumiàn ma?","¿El perro está detrás?"],
+   ["A","是的。几点回家喝茶？","Shì de. Jǐ diǎn huí jiā hē chá?","Sí. ¿A qué hora volvemos a casa a tomar té?"],
+   ["B","好，爸爸和我都很高兴！","Hǎo, bàba hé wǒ dōu hěn gāoxìng!","¡Bien, papá y yo estamos muy contentos!"]
+  ],
+  [ // Unidad 4
+   ["A","你叫什么名字？","Nǐ jiào shénme míngzi?","¿Cómo te llamas?"],
+   ["B","我叫小明。今天很冷。","Wǒ jiào Xiǎomíng. Jīntiān hěn lěng.","Me llamo Xiaoming. Hoy hace frío."],
+   ["A","老师来了吗？","Lǎoshī lái le ma?","¿Vino la profesora?"],
+   ["B","来了，商店九点开。","Lái le, shāngdiàn jiǔ diǎn kāi.","Sí, la tienda abre a las nueve."],
+   ["A","你看见我妈妈了吗？","Nǐ kànjiàn wǒ māma le ma?","¿Viste a mi mamá?"],
+   ["B","看见了，她在家里。这本书六块钱。","Kànjiàn le, tā zài jiā lǐ. Zhè běn shū liù kuài qián.","Sí, está en casa. Este libro cuesta seis yuanes."]
+  ],
+  [ // Unidad 5
+   ["A","你叫什么名字？","Nǐ jiào shénme míngzi?","¿Cómo te llamas?"],
+   ["B","我叫小美。明天你去哪儿？","Wǒ jiào Xiǎoměi. Míngtiān nǐ qù nǎr?","Me llamo Xiaomei. ¿A dónde vas mañana?"],
+   ["A","我想去买一个猫。你女儿来吗？","Wǒ xiǎng qù mǎi yí ge māo. Nǐ nǚ'ér lái ma?","Quiero ir a comprar un gato. ¿Viene tu hija?"],
+   ["B","来。你们家有米饭吗？","Lái. Nǐmen jiā yǒu mǐfàn ma?","Sí. ¿Tienen arroz en casa?"],
+   ["A","没有了。没关系，我们去饭店。","Méiyǒu le. Méi guānxi, wǒmen qù fàndiàn.","Ya no. No importa, vamos al restaurante."],
+   ["B","那是什么？你能来吗？","Nà shì shénme? Nǐ néng lái ma?","¿Qué es eso? ¿Puedes venir?"],
+   ["A","能！我很好，你呢？","Néng! Wǒ hěn hǎo, nǐ ne?","¡Sí! Estoy bien, ¿y tú?"]
+  ],
+  [ // Unidad 6
+   ["A","很高兴认识你！你是小明的朋友吗？","Hěn gāoxìng rènshi nǐ! Nǐ shì Xiǎomíng de péngyou ma?","¡Encantado! ¿Eres amigo de Xiaoming?"],
+   ["B","是，我有三个朋友。上午我们去商店，好吗？","Shì, wǒ yǒu sān ge péngyou. Shàngwǔ wǒmen qù shāngdiàn, hǎo ma?","Sí, tengo tres amigos. ¿Vamos a la tienda por la mañana?"],
+   ["A","好，我想买苹果。","Hǎo, wǒ xiǎng mǎi píngguǒ.","Bien, quiero comprar manzanas."],
+   ["B","苹果七块钱。请来我家吃。","Píngguǒ qī kuài qián. Qǐng lái wǒ jiā chī.","Las manzanas cuestan siete yuanes. Ven a comer a mi casa."],
+   ["A","今天很热，商店前面人很多。","Jīntiān hěn rè, shāngdiàn qiánmiàn rén hěn duō.","Hoy hace calor, hay mucha gente frente a la tienda."],
+   ["B","是的，人很多！","Shì de, rén hěn duō!","¡Sí, hay mucha gente!"]
+  ],
+  [ // Unidad 7
+   ["A","他是谁？","Tā shì shéi?","¿Quién es él?"],
+   ["B","他是我朋友。你什么时候睡觉？","Tā shì wǒ péngyou. Nǐ shénme shíhou shuìjiào?","Es mi amigo. ¿Cuándo te acuestas?"],
+   ["A","十点。你喝水吗？","Shí diǎn. Nǐ hē shuǐ ma?","A las diez. ¿Bebes agua?"],
+   ["B","喝。我爱吃水果。这是什么书？","Hē. Wǒ ài chī shuǐguǒ. Zhè shì shénme shū?","Sí. Me gusta comer fruta. ¿Qué libro es este?"],
+   ["A","是汉语书。老师在说话，学生很少。","Shì Hànyǔ shū. Lǎoshī zài shuōhuà, xuéshēng hěn shǎo.","Es un libro de chino. La profesora habla, hay pocos estudiantes."],
+   ["B","她四岁，他十岁。","Tā sì suì, tā shí suì.","Ella tiene cuatro años, él diez."]
+  ],
+  [ // Unidad 8
+   ["A","喂，你好！现在几点？","Wéi, nǐ hǎo! Xiànzài jǐ diǎn?","¿Aló, hola! ¿Qué hora es?"],
+   ["B","现在五点。今天天气太好了！","Xiànzài wǔ diǎn. Jīntiān tiānqì tài hǎo le!","Son las cinco. ¡Hoy hace muy buen tiempo!"],
+   ["A","下午我和同学去商店。","Xiàwǔ wǒ hé tóngxué qù shāngdiàn.","Por la tarde voy a la tienda con un compañero."],
+   ["B","我也想去。我们都喜欢下午的茶。","Wǒ yě xiǎng qù. Wǒmen dōu xǐhuan xiàwǔ de chá.","Yo también quiero ir. A todos nos gusta el té de la tarde."],
+   ["A","现在下雨了，我想回家。","Xiànzài xiàyǔ le, wǒ xiǎng huí jiā.","Ahora llueve, quiero volver a casa."],
+   ["B","王先生，我们听老师说话吗？","Wáng xiānsheng, wǒmen tīng lǎoshī shuōhuà ma?","Señor Wang, ¿escuchamos a la profesora?"]
+  ],
+  [ // Unidad 9
+   ["A","你是学生吗？","Nǐ shì xuéshēng ma?","¿Eres estudiante?"],
+   ["B","是，我在学校学习汉语。","Shì, wǒ zài xuéxiào xuéxí Hànyǔ.","Sí, estudio chino en la escuela."],
+   ["A","这个星期你学习写字吗？","Zhège xīngqī nǐ xuéxí xiě zì ma?","¿Esta semana aprendes a escribir caracteres?"],
+   ["B","是。李小姐是医生，她在医院工作。","Shì. Lǐ xiǎojiě shì yīshēng, tā zài yīyuàn gōngzuò.","Sí. La señorita Li es médica, trabaja en el hospital."],
+   ["A","我买了一些衣服和一个小椅子。","Wǒ mǎi le yìxiē yīfu hé yí ge xiǎo yǐzi.","Compré algo de ropa y una silla pequeña."],
+   ["B","谢谢！我会说一点儿汉语。","Xièxie! Wǒ huì shuō yìdiǎnr Hànyǔ.","¡Gracias! Sé hablar un poco de chino."]
+  ],
+  [ // Unidad 10
+   ["A","你是中国人吗？","Nǐ shì Zhōngguó rén ma?","¿Eres chino?"],
+   ["B","是，我住在北京。这个字怎么写？","Shì, wǒ zhù zài Běijīng. Zhège zì zěnme xiě?","Sí, vivo en Pekín. ¿Cómo se escribe este carácter?"],
+   ["A","昨天中午我在家做饭。","Zuótiān zhōngwǔ wǒ zài jiā zuò fàn.","Ayer al mediodía cociné en casa."],
+   ["B","今天天气怎么样？","Jīntiān tiānqì zěnmeyàng?","¿Qué tal el tiempo hoy?"],
+   ["A","很好。一年有十二个月。请坐，书在桌子上。","Hěn hǎo. Yì nián yǒu shí'èr ge yuè. Qǐng zuò, shū zài zhuōzi shàng.","Muy bueno. Un año tiene doce meses. Siéntate, el libro está sobre la mesa."],
+   ["B","好，再见！","Hǎo, zàijiàn!","¡Bien, adiós!"]
+  ]
+ ]
+};
+
 const $ = id => document.getElementById(id);
 const shuffle = a => { for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; };
 
@@ -410,19 +692,36 @@ let deck = [], idx = 0, writers = [], revealed = false, shown = false, speed = 1
 function saveProgress(){ progress[curLevel.id] = [...learned]; try{ localStorage.setItem(LS_KEY, JSON.stringify(progress)); }catch(e){} }
 
 // --- Voz (TTS) ---
+let voiceGender = "female", voiceRate = 1;
+try{
+  const g = localStorage.getItem("hsk_voice_gender"); if(g) voiceGender = g;
+  const r = parseFloat(localStorage.getItem("hsk_voice_rate")); if(r) voiceRate = r;
+}catch(e){}
 let zhVoice = null;
+function zhVoices(){ return speechSynthesis.getVoices().filter(v=>/^zh/i.test(v.lang)); }
 function pickVoice(){
-  const vs = speechSynthesis.getVoices();
-  zhVoice = vs.find(v=>/zh[-_]CN/i.test(v.lang)) || vs.find(v=>/^zh/i.test(v.lang)) || null;
+  const zh = zhVoices();
+  const femRe = /female|婷|Ting|Mei|Sinji|Xiao|Yao|Zhiyu|Hui|Tracy|Li[- ]?mu|女/i;
+  const maleRe = /male|Yun|Kang|Han|Liang|Danny|Zhi[- ]?wei|男/i;
+  let v = null;
+  if(voiceGender === "male") v = zh.find(x=>maleRe.test(x.name)) || zh.find(x=>!femRe.test(x.name));
+  else v = zh.find(x=>femRe.test(x.name));
+  zhVoice = v || zh.find(x=>/zh[-_]CN/i.test(x.lang)) || zh[0] || null;
 }
 if("speechSynthesis" in window){ pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
+function voicePitch(){ return voiceGender === "male" ? 0.7 : 1.2; }
+function stopAudio(){ if("speechSynthesis" in window) speechSynthesis.cancel(); }
+// El TTS de macOS "se come" 爱 (ài) cuando va pegado a la sílaba siguiente;
+// insertamos una micro-pausa después de 爱 SOLO en el audio (el texto visible no cambia).
+function ttsText(t){ return t.replace(/爱(?=[一-鿿])/g, "爱，"); }
 function speak(text){
   if(!("speechSynthesis" in window)) return;
   speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text);
+  const u = new SpeechSynthesisUtterance(ttsText(text));
   u.lang = "zh-CN";
   if(zhVoice) u.voice = zhVoice;
-  u.rate = Math.min(1.3, Math.max(0.5, speed));
+  u.rate = voiceRate;
+  u.pitch = voicePitch();
   speechSynthesis.speak(u);
 }
 const CARD_TPL = document.getElementById("card").innerHTML;
@@ -432,10 +731,18 @@ function progBar(done,total){
   return '<div class="u-prog">'+done+' / '+total+' aprendidas</div><div class="u-bar"><i style="width:'+(total?done/total*100:0)+'%"></i></div>';
 }
 function showHome(){
+  stopAudio();
   $("exercise").classList.add("hidden");
+  $("panel").classList.add("hidden");
   $("home").classList.remove("hidden");
   $("sub").textContent = "Elige un nivel y una unidad";
   renderHome();
+}
+function showPanel(){
+  stopAudio();
+  $("home").classList.add("hidden");
+  $("exercise").classList.add("hidden");
+  $("panel").classList.remove("hidden");
 }
 function renderHome(){
   const lv = $("levels"); lv.innerHTML = "";
@@ -465,8 +772,11 @@ function renderHome(){
     const sample = U.idxs.slice(0,5).map(i=>words[i][0]).join(" ");
     const d = document.createElement("div");
     d.className = "unit";
-    d.innerHTML = '<div class="u-title">Unidad '+U.num+'</div><div class="u-sample">'+sample+' …</div>'+progBar(done, U.idxs.length);
+    d.innerHTML = '<div class="u-title">Unidad '+U.num+'</div><div class="u-sample">'+sample+' …</div>'+progBar(done, U.idxs.length)+
+      '<div class="u-actions"><button class="u-btn" data-a="read">📖 Lectura</button><button class="u-btn" data-a="test">📝 Test</button></div>';
     d.onclick = ()=> startSession(U.idxs.slice(), curLevel.name+" · Unidad "+U.num);
+    d.querySelector('[data-a="read"]').onclick = e=>{ e.stopPropagation(); openReading(U.num); };
+    d.querySelector('[data-a="test"]').onclick = e=>{ e.stopPropagation(); openTest(U.idxs.slice(), curLevel.name+" · Unidad "+U.num); };
     cont.appendChild(d);
   });
 }
@@ -526,11 +836,18 @@ function render(){
   updateBar();
 }
 
+function hanziColors(){
+  const light = document.documentElement.getAttribute("data-theme") === "light";
+  return light
+    ? { stroke:"#1a1d24", outline:"#b7bfcc", radical:"#b8860b", drawing:"#C41E3A" }
+    : { stroke:"#f2f3f5", outline:"#3a4150", radical:"#e8b04b", drawing:"#ff5470" };
+}
 function buildHanzi(hanzi){
   shown = false;
   writers = [];
   const row = $("hanziRow");
   row.innerHTML = "";
+  const col = hanziColors();
   [...hanzi].forEach(ch=>{
     const div = document.createElement("div");
     div.className = "hz";
@@ -539,8 +856,8 @@ function buildHanzi(hanzi){
       width:130, height:130, padding:8,
       showOutline:true, showCharacter:false,
       strokeAnimationSpeed:speed, delayBetweenStrokes:120/speed,
-      strokeColor:"#f2f3f5", outlineColor:"#3a4150", radicalColor:"#e8b04b",
-      drawingColor:"#C41E3A"
+      strokeColor:col.stroke, outlineColor:col.outline, radicalColor:col.radical,
+      drawingColor:col.drawing
     }));
   });
 }
@@ -584,6 +901,251 @@ $("btnMenu").onclick = showHome;
 $("btnSkip").onclick = ()=>{ idx++; render(); };
 $("btnShuffle").onclick = ()=>{ buildDeck(true); render(); };
 $("btnResetLevel").onclick = ()=>{ if(confirm("¿Borrar el avance de "+curLevel.name+"?")){ learned.clear(); saveProgress(); renderHome(); } };
+$("btnAbout").onclick = ()=> $("aboutModal").classList.remove("hidden");
+$("aboutClose").onclick = ()=> $("aboutModal").classList.add("hidden");
+$("aboutModal").onclick = (e)=>{ if(e.target === $("aboutModal")) $("aboutModal").classList.add("hidden"); };
+
+// --- Audio secuencial (para la lectura) ---
+function speakSeq(list, rate){
+  if(!("speechSynthesis" in window)) return;
+  speechSynthesis.cancel();
+  list.forEach(t=>{
+    const u = new SpeechSynthesisUtterance(ttsText(t));
+    u.lang = "zh-CN";
+    if(zhVoice) u.voice = zhVoice;
+    u.rate = rate || voiceRate;
+    u.pitch = voicePitch();
+    speechSynthesis.speak(u);
+  });
+}
+
+// --- Lectura por unidad (historia o diálogo) ---
+function pickDialogueVoices(){
+  const zh = zhVoices();
+  const femRe = /female|婷|Ting|Mei|Sinji|Xiao|Yao|Zhiyu|Hui|Sandy|Shelley|Grandma|Flo|女/i;
+  const maleRe = /male|Yun|Kang|Han|Liang|Grandpa|Eddy|Reed|Rocko|男/i;
+  const fem = zh.find(v=>femRe.test(v.name)) || zh[0] || zhVoice;
+  // B: preferir una voz masculina; si no, cualquier voz DISTINTA de A; último recurso, misma con otro tono
+  let male = zh.find(v=> maleRe.test(v.name) && v!==fem)
+          || zh.find(v=> v!==fem)
+          || fem;
+  return { A:{ voice: fem, pitch:1.12 }, B:{ voice: male, pitch:0.8 } };
+}
+function openReading(unitNum){
+  showPanel();
+  $("sub").textContent = curLevel.name+" · Lectura Unidad "+unitNum;
+  const p = $("panel");
+  const historia = (READINGS[curLevel.id] || [])[unitNum-1] || null;
+  const dialogo  = (DIALOGUES[curLevel.id] || [])[unitNum-1] || null;
+  if(!historia && !dialogo){
+    p.innerHTML = '<div class="card"><div class="rd-title">📖 Lectura</div><div class="u-sample">Aún no hay lectura para esta unidad.</div><div class="rd-actions"><button class="ghost" id="rdBack">← Menú</button></div></div>';
+    $("rdBack").onclick = showHome; return;
+  }
+  const dv = pickDialogueVoices();
+  // por defecto muestra uno u otro al azar (a veces historia, a veces diálogo)
+  let mode = (historia && dialogo) ? (Math.random()<0.5 ? "historia" : "dialogo") : (historia ? "historia" : "dialogo");
+  let pinOn = true, esOn = true;
+
+  function curLines(){ return mode==="dialogo" ? dialogo : historia; }
+  function norm(L){ return mode==="dialogo" ? {sp:L[0],zh:L[1],pin:L[2],es:L[3]} : {sp:null,zh:L[0],pin:L[1],es:L[2]}; }
+
+  function render(){
+    const title = mode==="dialogo" ? "💬 Diálogo" : "📖 Historia";
+    let html = '<div class="card"><div class="rd-title">'+title+' · '+curLevel.name+' · Unidad '+unitNum+'</div>';
+    if(historia && dialogo){
+      html += '<div class="rd-mode"><button class="set-btn'+(mode==="historia"?" active":"")+'" data-m="historia">📖 Historia</button><button class="set-btn'+(mode==="dialogo"?" active":"")+'" data-m="dialogo">💬 Diálogo</button></div>';
+    }
+    html += '<div class="rd-toggles"><button class="set-btn'+(pinOn?" active":"")+'" data-t="pin">拼 Pinyin</button><button class="set-btn'+(esOn?" active":"")+'" data-t="es">ES Español</button></div>';
+    html += '<div class="rd-body'+(pinOn?"":" hide-pin")+(esOn?"":" hide-es")+'" id="rdBody">';
+    curLines().forEach((L,i)=>{
+      const o = norm(L);
+      const chip = o.sp ? '<span class="rd-sp rd-sp-'+o.sp+'">'+o.sp+'</span>' : '';
+      html += '<div class="rd-s'+(o.sp?" dlg":"")+'" data-i="'+i+'" title="Toca para escuchar">'+chip+'<span class="rd-txt"><span class="rd-zh">'+o.zh+'</span><span class="rd-pin">'+o.pin+'</span><span class="rd-es">'+o.es+'</span></span></div>';
+    });
+    html += '</div><div class="rd-actions"><button id="rdAll">🔊 Escuchar todo</button><button id="rdShadow" title="Lectura lenta para repetir (shadowing)">🐢 Modo sombra</button></div>';
+    html += '<div class="rd-actions"><button id="rdStop">⏹ Detener</button><button class="ghost" id="rdBack">← Menú</button></div></div>';
+    p.innerHTML = html;
+    bind();
+  }
+  function bind(){
+    const sents = [...p.querySelectorAll(".rd-s")];
+    const highlight = i => sents.forEach((el,j)=> el.classList.toggle("reading", j===i));
+    const clearHl = () => sents.forEach(el=> el.classList.remove("reading"));
+    function utter(o, rate){
+      const u = new SpeechSynthesisUtterance(ttsText(o.zh));
+      u.lang = "zh-CN";
+      const cfg = (mode==="dialogo") ? (o.sp==="B" ? dv.B : dv.A) : null;
+      if(cfg && cfg.voice) u.voice = cfg.voice; else if(zhVoice) u.voice = zhVoice;
+      u.rate = rate || voiceRate;
+      u.pitch = cfg ? cfg.pitch : voicePitch();
+      return u;
+    }
+    function playAll(rate){
+      stopAudio(); clearHl();
+      if(!("speechSynthesis" in window)) return;
+      const arr = curLines();
+      arr.forEach((L,i)=>{
+        const u = utter(norm(L), rate);
+        u.onstart = ()=> highlight(i);
+        u.onend = ()=>{ if(i===arr.length-1) clearHl(); };
+        speechSynthesis.speak(u);
+      });
+    }
+    sents.forEach(el=> el.onclick = ()=>{
+      const i = +el.dataset.i;
+      stopAudio(); clearHl();
+      const u = utter(norm(curLines()[i]));
+      u.onstart = ()=> highlight(i);
+      u.onend = ()=> clearHl();
+      speechSynthesis.speak(u);
+    });
+    p.querySelectorAll(".rd-mode [data-m]").forEach(b=> b.onclick = ()=>{ stopAudio(); mode = b.dataset.m; render(); });
+    p.querySelectorAll(".rd-toggles [data-t]").forEach(b=> b.onclick = ()=>{
+      if(b.dataset.t==="pin") pinOn=!pinOn; else esOn=!esOn;
+      b.classList.toggle("active");
+      $("rdBody").classList.toggle(b.dataset.t==="pin" ? "hide-pin" : "hide-es");
+    });
+    $("rdAll").onclick = ()=> playAll(voiceRate);
+    $("rdShadow").onclick = ()=> playAll(0.35);
+    $("rdStop").onclick = ()=>{ stopAudio(); clearHl(); };
+    $("rdBack").onclick = showHome;
+  }
+  render();
+}
+
+// --- Test rápido (opción múltiple) ---
+function openTest(idxs, label){
+  showPanel();
+  $("sub").textContent = label+" · Test";
+  const words = curLevel.words;
+  const qs = shuffle(idxs.slice()).slice(0, Math.min(10, idxs.length));
+  const allMeanings = [...new Set(words.map(w=>w[2]))];
+  let qi = 0, score = 0;
+  const p = $("panel");
+  function q(){
+    if(qi >= qs.length){
+      const pass = qs.length ? score/qs.length >= 0.8 : false;
+      if(pass){ qs.forEach(i=>learned.add(i)); saveProgress(); }
+      p.innerHTML = '<div class="card"><div class="done"><div class="big">'+(pass?'🏆':'📚')+'</div><div>'+(pass?'¡Aprobado!':'Sigue practicando')+'</div>'+
+        '<div class="sub" style="margin-top:8px">Puntaje: '+score+' / '+qs.length+'</div>'+
+        (pass?'<div class="sub">Palabras marcadas como aprendidas.</div>':'<div class="sub">Necesitas 80% para aprobar.</div>')+
+        '<br><button class="btn-show" id="tsAgain">↻ Repetir test</button><br><button class="ghost" style="margin-top:10px" id="tsBack">← Menú</button></div></div>';
+      $("tsAgain").onclick = ()=> openTest(idxs, label);
+      $("tsBack").onclick = showHome;
+      return;
+    }
+    const w = words[qs[qi]];
+    const opts = shuffle([w[2], ...shuffle(allMeanings.filter(m=>m!==w[2])).slice(0,3)]);
+    let html = '<div class="card"><div class="ts-title">📝 Test · '+label+' <span class="pill" style="float:right">'+(qi+1)+' / '+qs.length+'</span></div>';
+    html += '<div class="ts-q">'+w[0]+'</div><div class="ts-pin">'+w[1]+'</div><div class="ts-opts">';
+    html += opts.map(o=>'<button data-o="'+encodeURIComponent(o)+'">'+o+'</button>').join('');
+    html += '</div><div class="rd-actions"><button class="ghost" id="tsBack2">← Menú</button></div></div>';
+    p.innerHTML = html;
+    speak(w[0]);
+    $("tsBack2").onclick = showHome;
+    p.querySelectorAll(".ts-opts button").forEach(b=> b.onclick = ()=>{
+      const chosen = decodeURIComponent(b.dataset.o);
+      p.querySelectorAll(".ts-opts button").forEach(x=>{
+        x.disabled = true;
+        const xv = decodeURIComponent(x.dataset.o);
+        if(xv === w[2]) x.classList.add("good");
+        else if(x === b) x.classList.add("bad");
+      });
+      if(chosen === w[2]) score++;
+      setTimeout(()=>{ qi++; q(); }, 800);
+    });
+  }
+  q();
+}
+
+// --- Tema claro / oscuro ---
+function applyTheme(t){
+  document.documentElement.setAttribute("data-theme", t);
+  const m = document.querySelector('meta[name="theme-color"]');
+  if(m) m.setAttribute("content", t==="light" ? "#f4f5f7" : "#0f1115");
+  $("themeBtn").textContent = t==="light" ? "☀️" : "🌙";
+  try{ localStorage.setItem("hsk_theme", t); }catch(e){}
+}
+(function(){
+  let t = null;
+  try{ t = localStorage.getItem("hsk_theme"); }catch(e){}
+  if(!t) t = (window.matchMedia && matchMedia("(prefers-color-scheme: light)").matches) ? "light" : "dark";
+  applyTheme(t);
+})();
+$("themeBtn").onclick = ()=>{
+  applyTheme(document.documentElement.getAttribute("data-theme")==="light" ? "dark" : "light");
+  // recolorear los trazos del carácter en pantalla si hay un ejercicio abierto
+  if(!$("exercise").classList.contains("hidden") && writers.length && deck[idx]!=null){
+    buildHanzi(curLevel.words[deck[idx]][0]);
+    if(shown) writers.forEach(w=>w.showCharacter()); else animateAll();
+  }
+};
+
+// --- Ajustes de voz y velocidad ---
+function refreshSettingsUI(){
+  document.querySelectorAll('#settings [data-g]').forEach(b=> b.classList.toggle("active", b.dataset.g===voiceGender));
+  document.querySelectorAll('#settings [data-vr]').forEach(b=> b.classList.toggle("active", parseFloat(b.dataset.vr)===voiceRate));
+}
+document.querySelectorAll('#settings [data-g]').forEach(b=> b.onclick = ()=>{
+  voiceGender = b.dataset.g;
+  try{ localStorage.setItem("hsk_voice_gender", voiceGender); }catch(e){}
+  pickVoice(); refreshSettingsUI(); speak("你好");
+});
+document.querySelectorAll('#settings [data-vr]').forEach(b=> b.onclick = ()=>{
+  voiceRate = parseFloat(b.dataset.vr);
+  try{ localStorage.setItem("hsk_voice_rate", voiceRate); }catch(e){}
+  refreshSettingsUI(); speak("你好，我们学习汉语。");
+});
+$("tryVoice").onclick = ()=> speak("你好，我叫小明，很高兴认识你。");
+refreshSettingsUI();
+
+// --- Guardar / restaurar avance (backup entre dispositivos) ---
+$("btnExport").onclick = ()=>{
+  let settings = {};
+  try{ settings = { theme: localStorage.getItem("hsk_theme"), voice_gender: localStorage.getItem("hsk_voice_gender"), voice_rate: localStorage.getItem("hsk_voice_rate") }; }catch(e){}
+  const data = { app:"hsk", version:2, exported:new Date().toISOString(), progress:progress, settings:settings };
+  const blob = new Blob([JSON.stringify(data,null,2)], {type:"application/json"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = "hsk-avance-"+new Date().toISOString().slice(0,10)+".json";
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url), 1000);
+};
+$("btnImport").onclick = ()=> $("fileImport").click();
+$("fileImport").onchange = (e)=>{
+  const f = e.target.files[0]; if(!f) return;
+  const r = new FileReader();
+  r.onload = ()=>{
+    try{
+      const data = JSON.parse(r.result);
+      if(data && data.progress && typeof data.progress==="object"){
+        Object.keys(data.progress).forEach(k=>{
+          const merged = new Set(progress[k]||[]);
+          (data.progress[k]||[]).forEach(x=> merged.add(x));
+          progress[k] = [...merged];
+        });
+        try{ localStorage.setItem(LS_KEY, JSON.stringify(progress)); }catch(err){}
+        learned = new Set(progress[curLevel.id]||[]);
+        if(data.settings && data.settings.theme) applyTheme(data.settings.theme);
+        renderHome();
+        alert("✓ Avance restaurado y combinado con el actual.");
+      } else {
+        alert("Archivo no válido: no contiene avance HSK.");
+      }
+    }catch(err){ alert("No se pudo leer el archivo."); }
+    e.target.value = "";
+  };
+  r.readAsText(f);
+};
+
+// --- PWA: registro de service worker DESACTIVADO por ahora ---
+// Motivo: el SW cacheaba el HTML y servía versiones viejas tras cada update.
+// Se reactivará cuando la app esté estable y los trazos se auto-hospeden (offline real).
+// Mientras tanto liberamos cualquier SW ya instalado para que siempre se vea la última versión.
+if("serviceWorker" in navigator){
+  navigator.serviceWorker.getRegistrations().then(rs=> rs.forEach(r=> r.unregister())).catch(()=>{});
+  if(window.caches) caches.keys().then(ks=> ks.forEach(k=> caches.delete(k))).catch(()=>{});
+}
 
 showHome();
 </script>
