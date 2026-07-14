@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="HSK">
 <link rel="apple-touch-icon" href="icon.svg">
-<script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.7/dist/hanzi-writer.min.js"></script>
+<script src="hanzi-writer.min.js"></script>
 <style>
   :root, :root[data-theme="dark"]{
     --bg:#0f1115; --card:#1a1d24; --card2:#21252e; --ink:#f2f3f5;
@@ -253,9 +253,11 @@
       <h3>Créditos de terceros</h3>
       <ul>
         <li>Animación de trazos: <strong>Hanzi Writer</strong>, © David Chanin, licencia MIT. <a href="https://github.com/chanind/hanzi-writer" target="_blank" rel="noopener">github.com/chanind/hanzi-writer</a></li>
-        <li>Datos de trazos: proyecto <strong>Make Me a Hanzi</strong>, basado en las fuentes Arphic PL KaitiM / UKai, © Arphic Technology Co., Ltd. (1999) y © Shaunak Kishore (2016), bajo <strong>Arphic Public License</strong>. <a href="https://github.com/skishore/makemeahanzi" target="_blank" rel="noopener">github.com/skishore/makemeahanzi</a></li>
+        <li>Datos de trazos: proyecto <strong>Make Me a Hanzi</strong>, basado en las fuentes Arphic PL KaitiM / UKai, © Arphic Technology Co., Ltd. (1999) y © Shaunak Kishore (2016), bajo <strong>Arphic Public License</strong> (dataset incluido sin modificar en esta app). <a href="https://github.com/skishore/makemeahanzi" target="_blank" rel="noopener">github.com/skishore/makemeahanzi</a></li>
         <li>Audio: generado localmente por el sintetizador de voz de tu dispositivo (Web Speech API del navegador / sistema operativo). No se transmite ni almacena audio en nuestros servidores.</li>
       </ul>
+
+      <p style="margin-top:10px"><a href="LICENSES.txt" target="_blank" rel="noopener">Ver texto completo de las licencias de terceros →</a></p>
 
       <h3>Contenido original</h3>
       <p>Las frases de ejemplo, historias, diálogos y la organización en unidades de esta app son creación original de Meridian Vision SpA / Media Management SpA. Todos los derechos reservados.</p>
@@ -842,6 +844,15 @@ function hanziColors(){
     ? { stroke:"#1a1d24", outline:"#b7bfcc", radical:"#b8860b", drawing:"#C41E3A" }
     : { stroke:"#f2f3f5", outline:"#3a4150", radical:"#e8b04b", drawing:"#ff5470" };
 }
+// Carga los datos de trazos desde ./data/ (auto-hospedado, offline).
+// Fallback al CDN solo por si faltara algún carácter (no ocurre si hay conexión).
+function charLoader(char, onComplete){
+  fetch("data/" + encodeURIComponent(char) + ".json")
+    .then(r=>{ if(!r.ok) throw 0; return r.json(); })
+    .then(onComplete)
+    .catch(()=> fetch("https://cdn.jsdelivr.net/npm/hanzi-writer-data@2.0/" + encodeURIComponent(char) + ".json")
+      .then(r=>r.json()).then(onComplete).catch(()=>{}));
+}
 function buildHanzi(hanzi){
   shown = false;
   writers = [];
@@ -857,7 +868,8 @@ function buildHanzi(hanzi){
       showOutline:true, showCharacter:false,
       strokeAnimationSpeed:speed, delayBetweenStrokes:120/speed,
       strokeColor:col.stroke, outlineColor:col.outline, radicalColor:col.radical,
-      drawingColor:col.drawing
+      drawingColor:col.drawing,
+      charDataLoader: charLoader
     }));
   });
 }
