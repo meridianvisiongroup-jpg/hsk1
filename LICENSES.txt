@@ -3,8 +3,7 @@ LICENCIAS DE TERCEROS — App HSK (Meridian Vision SpA)
 
 Esta app incluye/usa componentes de terceros. Sus licencias se reproducen
 a continuación, según lo exigido por cada una. El resto del código, las
-frases, historias, diálogos y la interfaz son © Meridian Vision SpA /
-Media Management SpA.
+frases, historias, diálogos y la interfaz son © Meridian Vision SpA.
 
 ########################################################
 # 1) Hanzi Writer (animación de trazos) — Licencia MIT #
