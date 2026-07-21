@@ -154,6 +154,8 @@
   .rd-txt{flex:1; min-width:0}
   .rd-s.numbered{display:flex; gap:10px; align-items:flex-start}
   .ph-num{flex:0 0 26px; height:26px; line-height:26px; text-align:center; border-radius:50%; font-size:13px; font-weight:700; color:var(--muted); background:var(--card); border:1px solid var(--line)}
+  .ph-cat{margin:16px 0 8px; font-size:14px; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:.04em}
+  .ph-cat:first-child{margin-top:0}
   /* Test */
   .ts-q{font-size:40px; text-align:center; margin:10px 0 2px}
   .ts-pin{text-align:center; color:var(--accent2); font-size:18px; margin-bottom:18px}
@@ -898,56 +900,68 @@ const WORDS2 = [
 // PHRASES[levelId] = [ [chino, pinyin, español], ... ]
 const PHRASES = {
   hsk1: [
-    ["你好","Nǐ hǎo","Hola"],
-    ["你好吗？","Nǐ hǎo ma?","¿Cómo estás?"],
-    ["我很好，谢谢","Wǒ hěn hǎo, xièxie","Estoy bien, gracias"],
-    ["谢谢","Xièxie","Gracias"],
-    ["不客气","Bú kèqi","De nada"],
-    ["对不起","Duìbuqǐ","Perdón"],
-    ["没关系","Méi guānxi","No importa"],
-    ["再见","Zàijiàn","Adiós"],
-    ["请问","Qǐngwèn","Disculpe (para preguntar)"],
-    ["你叫什么名字？","Nǐ jiào shénme míngzi?","¿Cómo te llamas?"],
-    ["我叫……","Wǒ jiào……","Me llamo……"],
-    ["很高兴认识你","Hěn gāoxìng rènshi nǐ","Encantado de conocerte"],
-    ["你是哪国人？","Nǐ shì nǎ guó rén?","¿De qué país eres?"],
-    ["你会说汉语吗？","Nǐ huì shuō Hànyǔ ma?","¿Hablas chino?"],
-    ["我会说一点儿","Wǒ huì shuō yìdiǎnr","Hablo un poco"],
-    ["我听不懂","Wǒ tīng bù dǒng","No entiendo (al oír)"],
-    ["请再说一遍","Qǐng zài shuō yí biàn","Repite, por favor"],
-    ["请说慢一点","Qǐng shuō màn yìdiǎn","Habla más despacio, por favor"],
-    ["这个多少钱？","Zhège duōshao qián?","¿Cuánto cuesta esto?"],
-    ["太贵了","Tài guì le","Es muy caro"],
-    ["便宜一点吧","Piányi yìdiǎn ba","Un poco más barato, ¿sí?"],
-    ["我要这个","Wǒ yào zhège","Quiero este"],
-    ["洗手间在哪儿？","Xǐshǒujiān zài nǎr?","¿Dónde está el baño?"],
-    ["我不知道","Wǒ bù zhīdào","No lo sé"],
-    ["没问题","Méi wèntí","No hay problema"],
-    ["我饿了","Wǒ è le","Tengo hambre"],
-    ["我渴了","Wǒ kě le","Tengo sed"],
-    ["我想喝水","Wǒ xiǎng hē shuǐ","Quiero beber agua"],
-    ["很好吃","Hěn hǎochī","Está muy rico"],
-    ["我吃饱了","Wǒ chī bǎo le","Estoy lleno"],
-    ["服务员，买单","Fúwùyuán, mǎidān","Camarero, la cuenta"],
-    ["现在几点？","Xiànzài jǐ diǎn?","¿Qué hora es?"],
-    ["今天星期几？","Jīntiān xīngqī jǐ?","¿Qué día es hoy?"],
-    ["我很忙","Wǒ hěn máng","Estoy muy ocupado"],
-    ["我累了","Wǒ lèi le","Estoy cansado"],
-    ["等一下","Děng yíxià","Espera un momento"],
-    ["快一点","Kuài yìdiǎn","Más rápido"],
-    ["我们走吧","Wǒmen zǒu ba","Vámonos"],
-    ["你去哪儿？","Nǐ qù nǎr?","¿A dónde vas?"],
-    ["我要回家","Wǒ yào huí jiā","Voy a casa"],
-    ["祝你生日快乐","Zhù nǐ shēngrì kuàilè","Feliz cumpleaños"],
-    ["你身体好吗？","Nǐ shēntǐ hǎo ma?","¿Cómo está tu salud?"],
-    ["我生病了","Wǒ shēngbìng le","Me enfermé"],
-    ["帮我一下","Bāng wǒ yíxià","Ayúdame un momento"],
-    ["可以吗？","Kěyǐ ma?","¿Se puede?"],
-    ["当然可以","Dāngrán kěyǐ","Claro que sí"],
-    ["真的吗？","Zhēn de ma?","¿En serio?"],
-    ["我明白了","Wǒ míngbai le","Entendí"],
-    ["加油！","Jiāyóu!","¡Ánimo!"],
-    ["慢走","Màn zǒu","Que te vaya bien (al despedirse)"]
+    {cat:"Saludos y presentación", items:[
+      ["你好！","Nǐ hǎo!","¡Hola!"],
+      ["你好吗？","Nǐ hǎo ma?","¿Cómo estás?"],
+      ["你叫什么名字？","Nǐ jiào shénme míngzi?","¿Cómo te llamas?"],
+      ["我叫……","Wǒ jiào……","Me llamo……"],
+      ["认识你很高兴。","Rènshi nǐ hěn gāoxìng.","Encantado de conocerte."],
+      ["你是哪国人？","Nǐ shì nǎ guó rén?","¿De qué país eres?"],
+      ["你是学生吗？","Nǐ shì xuésheng ma?","¿Eres estudiante?"],
+      ["他是我的老师。","Tā shì wǒ de lǎoshī.","Él es mi profesor."],
+      ["这是我的朋友。","Zhè shì wǒ de péngyou.","Este es mi amigo."]
+    ]},
+    {cat:"Edad y familia", items:[
+      ["你多大？","Nǐ duō dà?","¿Cuántos años tienes?"],
+      ["我二十岁。","Wǒ èrshí suì.","Tengo veinte años."],
+      ["你家有几口人？","Nǐ jiā yǒu jǐ kǒu rén?","¿Cuántas personas hay en tu familia?"],
+      ["我有一个女儿。","Wǒ yǒu yí ge nǚ'ér.","Tengo una hija."],
+      ["我爸爸妈妈在家。","Wǒ bàba māma zài jiā.","Mis papás están en casa."]
+    ]},
+    {cat:"Tiempo, fechas y horarios", items:[
+      ["今天星期几？","Jīntiān xīngqī jǐ?","¿Qué día es hoy?"],
+      ["今天几月几号？","Jīntiān jǐ yuè jǐ hào?","¿Qué fecha es hoy?"],
+      ["现在几点？","Xiànzài jǐ diǎn?","¿Qué hora es?"],
+      ["明天见。","Míngtiān jiàn.","Hasta mañana."],
+      ["今天天气怎么样？","Jīntiān tiānqì zěnmeyàng?","¿Cómo está el clima hoy?"],
+      ["今天很热。","Jīntiān hěn rè.","Hoy hace mucho calor."],
+      ["今天很冷。","Jīntiān hěn lěng.","Hoy hace mucho frío."],
+      ["下雨了。","Xiàyǔ le.","Está lloviendo."]
+    ]},
+    {cat:"Gustos, planes y compras", items:[
+      ["你喜欢吃什么？","Nǐ xǐhuan chī shénme?","¿Qué te gusta comer?"],
+      ["你喜欢喝什么？","Nǐ xǐhuan hē shénme?","¿Qué te gusta beber?"],
+      ["我喜欢中国菜。","Wǒ xǐhuan Zhōngguó cài.","Me gustan los platos chinos."],
+      ["我想喝茶。","Wǒ xiǎng hē chá.","Quiero tomar té."],
+      ["我想吃米饭。","Wǒ xiǎng chī mǐfàn.","Quiero comer arroz."],
+      ["你去哪儿？","Nǐ qù nǎr?","¿A dónde vas?"],
+      ["我去学校。","Wǒ qù xuéxiào.","Voy a la escuela."],
+      ["我们去饭店。","Wǒmen qù fàndiàn.","Vamos al restaurante."],
+      ["这个多少钱？","Zhège duōshao qián?","¿Cuánto cuesta esto?"],
+      ["我想买这个。","Wǒ xiǎng mǎi zhège.","Quiero comprar esto."]
+    ]},
+    {cat:"Cortesía y estado", items:[
+      ["谢谢！","Xièxie!","¡Gracias!"],
+      ["不客气。","Bú kèqi.","De nada."],
+      ["对不起。","Duìbuqǐ.","Perdón."],
+      ["没关系。","Méi guānxi.","No importa."],
+      ["请坐。","Qǐng zuò.","Siéntese, por favor."],
+      ["请喝茶。","Qǐng hē chá.","Tome té, por favor."],
+      ["你呢？","Nǐ ne?","¿Y tú?"],
+      ["你怎么样？","Nǐ zěnmeyàng?","¿Qué tal estás?"],
+      ["我很高兴。","Wǒ hěn gāoxìng.","Estoy muy contento."],
+      ["再见！","Zàijiàn!","¡Adiós!"]
+    ]},
+    {cat:"Comunicación y estudio", items:[
+      ["你会说汉语吗？","Nǐ huì shuō Hànyǔ ma?","¿Hablas chino?"],
+      ["我会说一点儿。","Wǒ huì shuō yìdiǎnr.","Hablo un poco."],
+      ["请说。","Qǐng shuō.","Dígame, por favor."],
+      ["我不会。","Wǒ bú huì.","No sé hacerlo."],
+      ["我不认识这个字。","Wǒ bú rènshi zhège zì.","No conozco este carácter."],
+      ["我们是同学。","Wǒmen shì tóngxué.","Somos compañeros de clase."],
+      ["我想打电话。","Wǒ xiǎng dǎ diànhuà.","Quiero hacer una llamada."],
+      ["我想睡觉。","Wǒ xiǎng shuìjiào.","Quiero dormir."]
+    ]}
   ]
 };
 
@@ -1092,11 +1106,11 @@ function renderHome(){
     return;
   }
   const all = words.map((_,i)=>i);
-  const phr = PHRASES[curLevel.id];
-  if(phr && phr.length){
+  const phrN = phraseFlat(curLevel.id).length;
+  if(phrN){
     const pc = document.createElement("div");
     pc.className = "unit mix";
-    pc.innerHTML = '<div class="u-title">🗣 Frases para conversar</div><div class="u-sample">'+phr.length+' frases útiles · estudia con audio y practica con un test.</div>';
+    pc.innerHTML = '<div class="u-title">🗣 Frases para conversar</div><div class="u-sample">'+phrN+' frases útiles por categorías · estudia con audio y practica con un test.</div>';
     pc.onclick = ()=> openPhrases();
     cont.appendChild(pc);
   }
@@ -1279,16 +1293,18 @@ function pickDialogueVoices(){
   return { A:{ voice: fem, pitch:1.12 }, B:{ voice: male, pitch:0.8 } };
 }
 // --- Frases para conversar: estudiar (con audio) o ejercitar (test) ---
+function phraseFlat(id){ return (PHRASES[id] || []).flatMap(g=>g.items); }
 function openPhrases(){
   showPanel();
   $("sub").textContent = curLevel.name+" · Frases para conversar";
-  const phr = PHRASES[curLevel.id] || [];
+  const groups = PHRASES[curLevel.id] || [];
+  const flat = phraseFlat(curLevel.id);
   const p = $("panel");
   let pinOn = true, esOn = true;
 
   function menu(){
     p.innerHTML = '<div class="card"><div class="rd-title">🗣 Frases para conversar · '+curLevel.name+'</div>'+
-      '<div class="u-sample" style="margin-bottom:14px">'+phr.length+' frases útiles para el día a día. Estúdialas con audio y luego practica con un test.</div>'+
+      '<div class="u-sample" style="margin-bottom:14px">'+flat.length+' frases útiles en '+groups.length+' categorías. Estúdialas con audio y luego practica con un test.</div>'+
       '<div class="rd-mode"><button class="set-btn active" id="phStudy">📖 Estudiar</button><button class="set-btn" id="phQuiz">📝 Ejercicio</button></div>'+
       '<div class="rd-actions"><button class="ghost" id="phBack">← Menú</button></div></div>';
     $("phStudy").onclick = study;
@@ -1300,12 +1316,17 @@ function openPhrases(){
     let html = '<div class="card"><div class="rd-title">📖 Frases · '+curLevel.name+'</div>'+
       '<div class="rd-toggles"><button class="set-btn'+(pinOn?" active":"")+'" data-t="pin">拼 Pinyin</button><button class="set-btn'+(esOn?" active":"")+'" data-t="es">ES Español</button></div>'+
       '<div class="rd-body'+(pinOn?"":" hide-pin")+(esOn?"":" hide-es")+'" id="phBody">';
-    phr.forEach((L,i)=>{
-      html += '<div class="rd-s numbered" data-i="'+i+'" title="Toca para escuchar"><span class="ph-num">'+(i+1)+'</span><span class="rd-txt"><span class="rd-zh">'+L[0]+'</span><span class="rd-pin">'+L[1]+'</span><span class="rd-es">'+L[2]+'</span></span></div>';
+    let n = 0;
+    groups.forEach((g,gi)=>{
+      html += '<div class="ph-cat">'+(gi+1)+'. '+g.cat+'</div>';
+      g.items.forEach(L=>{
+        html += '<div class="rd-s numbered" data-f="'+n+'" title="Toca para escuchar"><span class="ph-num">'+(n+1)+'</span><span class="rd-txt"><span class="rd-zh">'+L[0]+'</span><span class="rd-pin">'+L[1]+'</span><span class="rd-es">'+L[2]+'</span></span></div>';
+        n++;
+      });
     });
     html += '</div><div class="rd-actions"><button class="ghost" id="phMenu">← Volver</button></div></div>';
     p.innerHTML = html;
-    p.querySelectorAll("#phBody .rd-s").forEach(el=> el.onclick = ()=> speak(phr[+el.dataset.i][0]));
+    p.querySelectorAll("#phBody .rd-s").forEach(el=> el.onclick = ()=> speak(flat[+el.dataset.f][0]));
     p.querySelectorAll('.rd-toggles [data-t]').forEach(b=> b.onclick = ()=>{
       if(b.dataset.t==="pin") pinOn=!pinOn; else esOn=!esOn;
       study();
@@ -1314,7 +1335,7 @@ function openPhrases(){
   }
 
   function quiz(){
-    const qs = shuffle(phr.slice()).slice(0, Math.min(10, phr.length));
+    const qs = shuffle(flat.slice()).slice(0, Math.min(10, flat.length));
     let qi = 0, score = 0;
     function q(){
       if(qi >= qs.length){
@@ -1327,7 +1348,7 @@ function openPhrases(){
         return;
       }
       const cur = qs[qi];
-      const opts = shuffle([cur, ...shuffle(phr.filter(x=>x[0]!==cur[0])).slice(0,3)]);
+      const opts = shuffle([cur, ...shuffle(flat.filter(x=>x[0]!==cur[0])).slice(0,3)]);
       let html = '<div class="card"><div class="ts-title">📝 Frases · '+curLevel.name+' <span class="pill" style="float:right">'+(qi+1)+' / '+qs.length+'</span></div>';
       html += '<div class="u-sample" style="text-align:center;margin:4px 0 10px">¿Cómo se dice en chino?</div>';
       html += '<div class="ts-q" style="font-size:20px">'+cur[2]+'</div>';
