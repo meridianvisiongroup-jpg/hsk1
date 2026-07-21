@@ -152,6 +152,8 @@
   .rd-sp-A{background:var(--accent)}
   .rd-sp-B{background:var(--accent2)}
   .rd-txt{flex:1; min-width:0}
+  .rd-s.numbered{display:flex; gap:10px; align-items:flex-start}
+  .ph-num{flex:0 0 26px; height:26px; line-height:26px; text-align:center; border-radius:50%; font-size:13px; font-weight:700; color:var(--muted); background:var(--card); border:1px solid var(--line)}
   /* Test */
   .ts-q{font-size:40px; text-align:center; margin:10px 0 2px}
   .ts-pin{text-align:center; color:var(--accent2); font-size:18px; margin-bottom:18px}
@@ -1299,7 +1301,7 @@ function openPhrases(){
       '<div class="rd-toggles"><button class="set-btn'+(pinOn?" active":"")+'" data-t="pin">拼 Pinyin</button><button class="set-btn'+(esOn?" active":"")+'" data-t="es">ES Español</button></div>'+
       '<div class="rd-body'+(pinOn?"":" hide-pin")+(esOn?"":" hide-es")+'" id="phBody">';
     phr.forEach((L,i)=>{
-      html += '<div class="rd-s" data-i="'+i+'" title="Toca para escuchar"><span class="rd-txt"><span class="rd-zh">'+L[0]+'</span><span class="rd-pin">'+L[1]+'</span><span class="rd-es">'+L[2]+'</span></span></div>';
+      html += '<div class="rd-s numbered" data-i="'+i+'" title="Toca para escuchar"><span class="ph-num">'+(i+1)+'</span><span class="rd-txt"><span class="rd-zh">'+L[0]+'</span><span class="rd-pin">'+L[1]+'</span><span class="rd-es">'+L[2]+'</span></span></div>';
     });
     html += '</div><div class="rd-actions"><button class="ghost" id="phMenu">← Volver</button></div></div>';
     p.innerHTML = html;
