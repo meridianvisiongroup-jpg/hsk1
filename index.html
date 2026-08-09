@@ -163,6 +163,43 @@
   .ts-opts button{padding:14px; font-size:15px; text-align:left}
   .ts-opts button.good{background:rgba(46,166,107,.18); border-color:var(--ok); color:var(--ok); font-weight:600}
   .ts-opts button.bad{background:rgba(196,30,58,.15); border-color:var(--accent); color:var(--accent)}
+  /* Simulacro de examen (formato tipo HSK 1) */
+  .xm-bar{display:flex; gap:8px; align-items:center; justify-content:space-between; margin-bottom:12px; font-size:12px; color:var(--muted); flex-wrap:wrap}
+  .xm-sec{font-weight:700; color:var(--accent); letter-spacing:.03em}
+  .xm-time{font-variant-numeric:tabular-nums; background:var(--card2); border:1px solid var(--line); border-radius:99px; padding:4px 10px}
+  .xm-time.low{color:#fff; background:var(--accent); border-color:var(--accent); font-weight:700}
+  .xm-inst{font-size:13px; color:var(--muted); margin-bottom:14px; line-height:1.5}
+  .xm-pic{font-size:64px; text-align:center; line-height:1.2; margin:8px 0 16px}
+  .xm-zh{font-size:22px; text-align:center; line-height:1.7; margin:6px 0 16px}
+  .xm-gap{color:var(--accent); font-weight:700}
+  .xm-opts{display:flex; flex-direction:column; gap:10px}
+  .xm-opts.grid{display:grid; grid-template-columns:repeat(3,1fr); gap:10px}
+  .xm-opts button{padding:14px; font-size:15px; text-align:left; display:flex; gap:10px; align-items:center}
+  .xm-opts.grid button{flex-direction:column; text-align:center; font-size:34px; padding:12px 6px; gap:6px}
+  .xm-let{flex:0 0 24px; height:24px; line-height:22px; text-align:center; border-radius:50%; background:var(--card); border:1px solid var(--line); font-size:12px; font-weight:700; color:var(--muted)}
+  .xm-opts button.sel{border-color:var(--accent); background:rgba(196,30,58,.14)}
+  .xm-opts button.sel .xm-let{background:var(--accent); border-color:var(--accent); color:#fff}
+  .xm-nav{display:flex; gap:8px; margin-top:16px}
+  .xm-nav button{flex:1}
+  .xm-dots{display:flex; flex-wrap:wrap; gap:4px; margin-top:14px; justify-content:center}
+  .xm-dot{width:24px; height:24px; border-radius:7px; font-size:10px; line-height:24px; text-align:center; background:var(--card2); border:1px solid var(--line); color:var(--muted); cursor:pointer}
+  .xm-dot.done{background:rgba(232,176,75,.18); border-color:var(--accent2); color:var(--accent2)}
+  .xm-dot.cur{background:var(--accent); border-color:var(--accent); color:#fff}
+  .xm-score{font-size:46px; font-weight:700; text-align:center; line-height:1.1}
+  .xm-score small{display:block; font-size:14px; font-weight:400; color:var(--muted); margin-top:4px}
+  .xm-tbl{width:100%; border-collapse:collapse; margin-top:16px; font-size:13px}
+  .xm-tbl td{padding:8px 4px; border-bottom:1px solid var(--line)}
+  .xm-tbl td:last-child{text-align:right; color:var(--muted); white-space:nowrap}
+  .xm-tbl tr.sec td{color:var(--accent); font-weight:700}
+  .xm-rev{border:1px solid var(--line); border-radius:12px; padding:12px 14px; margin-bottom:10px; background:var(--card2); text-align:left}
+  .xm-rev.bad{border-color:var(--accent)}
+  .xm-rev.good{border-color:var(--ok)}
+  .xm-rev .r-h{font-size:12px; color:var(--muted); margin-bottom:6px; display:flex; justify-content:space-between; gap:8px}
+  .xm-rev .r-zh{font-size:18px; line-height:1.5}
+  .xm-rev .r-pin{font-size:13px; color:var(--accent2); margin-top:2px}
+  .xm-rev .r-es{font-size:13px; color:var(--muted); margin-top:2px}
+  .xm-rev .r-ans{font-size:13px; margin-top:8px; line-height:1.6}
+  .xm-legal{font-size:11px; color:var(--muted); line-height:1.55; margin-top:16px; border-top:1px solid var(--line); padding-top:10px; text-align:left}
   /* Ajustes (voz / velocidad / avance) */
   .settings{width:100%; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:12px 14px; margin-bottom:14px; display:flex; flex-direction:column; gap:8px}
   .set-row{display:flex; gap:6px; align-items:center; flex-wrap:wrap; font-size:13px; color:var(--muted)}
@@ -267,7 +304,11 @@
       <p style="margin-top:10px"><a href="LICENSES.txt" target="_blank" rel="noopener">Ver texto completo de las licencias de terceros →</a></p>
 
       <h3>Contenido original</h3>
-      <p>Las frases de ejemplo, historias, diálogos y la organización en unidades de esta app son creación original de Meridian Vision SpA. Todos los derechos reservados.</p>
+      <p>Las frases de ejemplo, historias, diálogos, frases de conversación, las preguntas del simulacro de examen y la organización en unidades de esta app son creación original de Meridian Vision SpA. Todos los derechos reservados.</p>
+
+      <h3>Sobre el simulacro de examen</h3>
+      <p>El simulacro reproduce el <strong>formato</strong> del examen HSK 1 (partes y tipos de pregunta), que es de conocimiento público, con preguntas <strong>escritas por Meridian Vision SpA</strong>. No reproduce ítems, textos ni imágenes de exámenes oficiales ni de material de terceros; las ilustraciones son emoji del sistema del propio dispositivo.</p>
+      <p>Meridian Vision SpA <strong>no está afiliada ni respaldada</strong> por el Center for Language Education and Cooperation (CLEC / Hanban) ni por Chinese Testing International. «HSK» y «汉语水平考试» son marcas de sus respectivos titulares y se mencionan únicamente para describir el nivel de referencia del contenido. El resultado del simulacro es orientativo y <strong>no tiene validez oficial</strong>.</p>
 
       <h3>Privacidad</h3>
       <p>Tu progreso de aprendizaje se guarda únicamente en este dispositivo (almacenamiento local del navegador). No recopilamos datos personales, no usamos cookies de terceros ni analítica.</p>
@@ -725,6 +766,90 @@ const READINGS = {
    ["妈妈说：“请坐，桌子上有一本书。”", "Māma shuō: “Qǐng zuò, zhuōzi shàng yǒu yì běn shū.”", "Mamá dice: «Siéntate, sobre la mesa hay un libro»."],
    ["今天怎么样？这个月很冷，我很好。", "Jīntiān zěnmeyàng? Zhège yuè hěn lěng, wǒ hěn hǎo.", "¿Qué tal hoy? Este mes hace frío, pero yo estoy bien."],
    ["好，再见！", "Hǎo, zàijiàn!", "Bueno, ¡hasta pronto!"]
+  ] ],
+ hsk2: [
+  [ // Unidad 1
+   ["今天早上我穿了一件白衣服。", "Jīntiān zǎoshang wǒ chuānle yí jiàn bái yīfu.", "Esta mañana me puse una camisa blanca."],
+   ["我从家里出来，买了一张报纸。", "Wǒ cóng jiā lǐ chūlái, mǎile yì zhāng bàozhǐ.", "Salí de casa y compré un periódico."],
+   ["报纸上说，坐船比坐飞机便宜一百块。", "Bàozhǐ shàng shuō, zuò chuán bǐ zuò fēijī piányi yìbǎi kuài.", "El periódico decía que ir en barco es cien yuanes más barato que en avión."],
+   ["我想坐一次船，别再坐飞机了吧。", "Wǒ xiǎng zuò yí cì chuán, bié zài zuò fēijī le ba.", "Quiero ir una vez en barco; mejor no volver a tomar el avión."],
+   ["妹妹说她也想去，她可以帮助我买票。", "Mèimei shuō tā yě xiǎng qù, tā kěyǐ bāngzhù wǒ mǎi piào.", "Mi hermana menor dijo que también quiere ir y que puede ayudarme a comprar los boletos."],
+   ["在船上我们一起唱歌，那天我们没有坐错船。", "Zài chuán shàng wǒmen yìqǐ chànggē, nà tiān wǒmen méiyǒu zuò cuò chuán.", "En el barco cantamos juntas; ese día no nos equivocamos de barco."]
+  ],
+  [ // Unidad 2
+   ["我哥哥非常高，他打篮球打得很好。", "Wǒ gēge fēicháng gāo, tā dǎ lánqiú dǎ de hěn hǎo.", "Mi hermano mayor es muy alto y juega muy bien al baloncesto."],
+   ["我弟弟也想打篮球，但是他还很小。", "Wǒ dìdi yě xiǎng dǎ lánqiú, dànshì tā hái hěn xiǎo.", "Mi hermano menor también quiere jugar, pero todavía es muy pequeño."],
+   ["昨天哥哥告诉我们：星期六大家一起去打球。", "Zuótiān gēge gàosu wǒmen: xīngqīliù dàjiā yìqǐ qù dǎ qiú.", "Ayer mi hermano nos avisó: el sábado vamos todos juntos a jugar."],
+   ["到了那天，我和弟弟第一个到。", "Dàole nà tiān, wǒ hé dìdi dì yī ge dào.", "Llegado el día, mi hermano menor y yo fuimos los primeros en llegar."],
+   ["我们在房间里等哥哥，服务员给我们送来了水。", "Wǒmen zài fángjiān lǐ děng gēge, fúwùyuán gěi wǒmen sònglái le shuǐ.", "Esperamos a mi hermano en la sala y el mesero nos trajo agua."],
+   ["弟弟不懂那些话，我告诉他：今天哥哥是第一。", "Dìdi bù dǒng nàxiē huà, wǒ gàosu tā: jīntiān gēge shì dì yī.", "Mi hermano menor no entendía lo que decían; le expliqué que hoy el primero era nuestro hermano mayor."]
+  ],
+  [ // Unidad 3
+   ["今天是九号，我的朋友到机场了。", "Jīntiān shì jiǔ hào, wǒ de péngyou dào jīchǎng le.", "Hoy es día nueve y mi amigo llegó al aeropuerto."],
+   ["我坐公共汽车去，路上还买了两公斤鸡蛋。", "Wǒ zuò gōnggòng qìchē qù, lù shàng hái mǎile liǎng gōngjīn jīdàn.", "Fui en autobús y de camino compré dos kilos de huevos."],
+   ["我穿了一件红衣服，朋友说这样很好找。", "Wǒ chuānle yí jiàn hóng yīfu, péngyou shuō zhèyàng hěn hǎo zhǎo.", "Me puse una camisa roja; mi amigo dijo que así era fácil encontrarme."],
+   ["他的孩子问了很多问题，我一个一个回答。", "Tā de háizi wènle hěn duō wèntí, wǒ yí ge yí ge huídá.", "Su hijo hizo muchas preguntas y las respondí una por una."],
+   ["我们去了公司旁边的饭店，那儿的菜很好吃，但是有点儿贵。", "Wǒmen qùle gōngsī pángbiān de fàndiàn, nàr de cài hěn hǎochī, dànshì yǒudiǎnr guì.", "Fuimos al restaurante junto a la empresa: la comida es rica, pero un poco cara."],
+   ["我说：欢迎你们来！天黑了，我们才回家。", "Wǒ shuō: huānyíng nǐmen lái! Tiān hēi le, wǒmen cái huí jiā.", "Les dije: ¡bienvenidos! Ya era de noche cuando volvimos a casa."]
+  ],
+  [ // Unidad 4
+   ["我姐姐在学校学汉语，学校离她家很近。", "Wǒ jiějie zài xuéxiào xué Hànyǔ, xuéxiào lí tā jiā hěn jìn.", "Mi hermana mayor estudia chino en la escuela; la escuela queda cerca de su casa."],
+   ["今天上午有课，她进教室的时候，课已经开始了。", "Jīntiān shàngwǔ yǒu kè, tā jìn jiàoshì de shíhou, kè yǐjīng kāishǐ le.", "Esta mañana tenía clase; cuando entró al aula, la clase ya había empezado."],
+   ["老师请她介绍一下新同学。", "Lǎoshī qǐng tā jièshào yíxià xīn tóngxué.", "La profesora le pidió que presentara al compañero nuevo."],
+   ["下了课，她们一起去喝咖啡。", "Xiàle kè, tāmen yìqǐ qù hē kāfēi.", "Al terminar la clase, fueron juntas a tomar café."],
+   ["姐姐说：下个星期就要考试了，我觉得可能会很忙。", "Jiějie shuō: xià ge xīngqī jiù yào kǎoshì le, wǒ juéde kěnéng huì hěn máng.", "Mi hermana dijo: la próxima semana ya hay examen, creo que estaré muy ocupada."],
+   ["我说：你可以的，快乐一点儿！", "Wǒ shuō: nǐ kěyǐ de, kuàilè yìdiǎnr!", "Le dije: ¡tú puedes, anímate!"]
+  ],
+  [ // Unidad 5
+   ["妹妹每天很忙，她想去旅游，休息两天。", "Mèimei měi tiān hěn máng, tā xiǎng qù lǚyóu, xiūxi liǎng tiān.", "Mi hermana menor está ocupada todos los días; quiere viajar y descansar dos días."],
+   ["她家离火车站不远，走路二十分钟。", "Tā jiā lí huǒchēzhàn bù yuǎn, zǒulù èrshí fēnzhōng.", "Su casa no queda lejos de la estación: veinte minutos caminando."],
+   ["那天早上她出门很慢，因为她太累了。", "Nà tiān zǎoshang tā chū mén hěn màn, yīnwèi tā tài lèi le.", "Esa mañana salió muy lento de casa porque estaba agotada."],
+   ["路上有一个男人在卖牛奶，一个女人在卖水果。", "Lù shàng yǒu yí ge nánrén zài mài niúnǎi, yí ge nǚrén zài mài shuǐguǒ.", "En la calle un hombre vendía leche y una mujer vendía fruta."],
+   ["妹妹买了两个苹果和牛奶。", "Mèimei mǎile liǎng ge píngguǒ hé niúnǎi.", "Mi hermana compró dos manzanas y leche."],
+   ["她笑着说：您好，谢谢您！", "Tā xiào zhe shuō: nín hǎo, xièxie nín!", "Sonriendo dijo: ¡buenos días, muchas gracias!"]
+  ],
+  [ // Unidad 6
+   ["去年我生病了，身体不太好。", "Qùnián wǒ shēngbìng le, shēntǐ bú tài hǎo.", "El año pasado me enfermé y no andaba bien de salud."],
+   ["医生让我每天早上起床后跑步。", "Yīshēng ràng wǒ měi tiān zǎoshang qǐchuáng hòu pǎobù.", "El médico me mandó correr cada mañana al levantarme."],
+   ["我家旁边就是学校，我在那儿跑步。", "Wǒ jiā pángbiān jiù shì xuéxiào, wǒ zài nàr pǎobù.", "Justo al lado de mi casa está la escuela; ahí corro."],
+   ["今天天气很晴，我跑了三千步。", "Jīntiān tiānqì hěn qíng, wǒ pǎole sānqiān bù.", "Hoy el día está despejado y corrí tres mil pasos."],
+   ["我妻子说：上班的事情可以慢一点儿，身体不能。", "Wǒ qīzi shuō: shàngbān de shìqing kěyǐ màn yìdiǎnr, shēntǐ bù néng.", "Mi esposa dice: el trabajo puede ir más lento; la salud, no."],
+   ["现在我每天有时间跑步了。", "Xiànzài wǒ měi tiān yǒu shíjiān pǎobù le.", "Ahora tengo tiempo de correr todos los días."],
+   ["下个月是我的生日，我想买两张票，和她一起去旅游。", "Xià ge yuè shì wǒ de shēngrì, wǒ xiǎng mǎi liǎng zhāng piào, hé tā yìqǐ qù lǚyóu.", "El mes que viene es mi cumpleaños: quiero comprar dos boletos y viajar con ella."]
+  ],
+  [ // Unidad 7
+   ["昨天晚上，我在外面玩的时候，手机没电了。", "Zuótiān wǎnshang, wǒ zài wàimiàn wán de shíhou, shǒujī méi diàn le.", "Anoche, mientras estaba afuera pasándola bien, se me acabó la batería del celular."],
+   ["所以我看了看手表，已经十点了。", "Suǒyǐ wǒ kànle kàn shǒubiǎo, yǐjīng shí diǎn le.", "Así que miré el reloj: ya eran las diez."],
+   ["回家的路上，我看见一个小狗，它在门外。", "Huí jiā de lù shàng, wǒ kànjiàn yí ge xiǎo gǒu, tā zài mén wài.", "De vuelta a casa vi un perrito: estaba afuera de la puerta."],
+   ["我问妈妈：可以让它进来吗？", "Wǒ wèn māma: kěyǐ ràng tā jìnlái ma?", "Le pregunté a mamá: ¿puedo dejarlo entrar?"],
+   ["妈妈笑着说：这不是问题，但是你的题做完了吗？", "Māma xiào zhe shuō: zhè bú shì wèntí, dànshì nǐ de tí zuò wán le ma?", "Mamá dijo sonriendo: eso no es problema, ¿pero ya terminaste los ejercicios?"],
+   ["我说：做完了！为了这个小狗，我做得非常快。", "Wǒ shuō: zuò wán le! Wèile zhège xiǎo gǒu, wǒ zuò de fēicháng kuài.", "Le dije: ¡ya! Por este perrito los hice rapidísimo."],
+   ["朋友说这个小狗是送给我的。晚上我们一起玩，妹妹还在旁边跳舞。", "Péngyou shuō zhège xiǎo gǒu shì sòng gěi wǒ de. Wǎnshang wǒmen yìqǐ wán, mèimei hái zài pángbiān tiàowǔ.", "Mi amigo dijo que el perrito era un regalo para mí. Por la noche jugamos juntos y mi hermana bailaba al lado."]
+  ],
+  [ // Unidad 8
+   ["早上外面下雪了，很白很漂亮。", "Zǎoshang wàimiàn xià xuě le, hěn bái hěn piàoliang.", "Por la mañana nevó afuera: todo blanco y muy bonito."],
+   ["我要去买东西，妈妈说：路上慢一点儿。", "Wǒ yào qù mǎi dōngxi, māma shuō: lù shàng màn yìdiǎnr.", "Yo iba a hacer las compras y mamá me dijo: ve con cuidado."],
+   ["我在商店里买了西瓜、羊肉，还有一件新衣服。", "Wǒ zài shāngdiàn lǐ mǎile xīguā, yángròu, hái yǒu yí jiàn xīn yīfu.", "En la tienda compré sandía, carne de cordero y también una camisa nueva."],
+   ["卖东西的人姓王，他的眼睛很大，他看着我笑。", "Mài dōngxi de rén xìng Wáng, tā de yǎnjing hěn dà, tā kàn zhe wǒ xiào.", "El vendedor se apellida Wang, tiene los ojos grandes y me miró sonriendo."],
+   ["我向他问了路。那件新衣服的颜色很好看。", "Wǒ xiàng tā wènle lù. Nà jiàn xīn yīfu de yánsè hěn hǎokàn.", "Le pregunté el camino. El color de la camisa nueva es muy lindo."],
+   ["我到家，洗了西瓜。妈妈说：你今天走了两个小时，休息一下吧。", "Wǒ dào jiā, xǐle xīguā. Māma shuō: nǐ jīntiān zǒule liǎng ge xiǎoshí, xiūxi yíxià ba.", "Llegué a casa y lavé la sandía. Mamá dijo: caminaste dos horas hoy, descansa un poco."],
+   ["弟弟生病了，要吃药，我希望他快点儿好。", "Dìdi shēngbìng le, yào chī yào, wǒ xīwàng tā kuài diǎnr hǎo.", "Mi hermano menor está enfermo y tiene que tomar el medicamento; espero que mejore pronto."]
+  ],
+  [ // Unidad 9
+   ["今天早上天很阴，但是我们还是去了。", "Jīntiān zǎoshang tiān hěn yīn, dànshì wǒmen háishì qù le.", "Esta mañana el cielo estaba nublado, pero fuimos igual."],
+   ["因为姐姐喜欢运动，我们一起去游泳。", "Yīnwèi jiějie xǐhuan yùndòng, wǒmen yìqǐ qù yóuyǒng.", "Como a mi hermana le gusta el deporte, fuimos juntas a nadar."],
+   ["游泳的地方不远，就在学校右边。", "Yóuyǒng de dìfang bù yuǎn, jiù zài xuéxiào yòubian.", "La piscina no queda lejos: está justo a la derecha de la escuela."],
+   ["一张票二十元，我也买了一张。", "Yì zhāng piào èrshí yuán, wǒ yě mǎile yì zhāng.", "Una entrada cuesta veinte yuanes; yo también compré una."],
+   ["在水里我看见了很多鱼，真有意思。", "Zài shuǐ lǐ wǒ kànjiàn le hěn duō yú, zhēn yǒu yìsi.", "En el agua vi muchos peces: qué entretenido."],
+   ["姐姐已经游了一个小时，她说：我们下次再来吧。", "Jiějie yǐjīng yóule yí ge xiǎoshí, tā shuō: wǒmen xià cì zài lái ba.", "Mi hermana ya llevaba una hora nadando y dijo: volvamos la próxima vez."]
+  ],
+  [ // Unidad 10
+   ["今天是我最忙的一天。", "Jīntiān shì wǒ zuì máng de yì tiān.", "Hoy fue mi día más ocupado."],
+   ["我的丈夫正在准备晚饭，我在找我的自行车。", "Wǒ de zhàngfu zhèngzài zhǔnbèi wǎnfàn, wǒ zài zhǎo wǒ de zìxíngchē.", "Mi marido estaba preparando la cena y yo buscaba mi bicicleta."],
+   ["我知道昨天它就在门的左边。", "Wǒ zhīdào zuótiān tā jiù zài mén de zuǒbian.", "Sabía que ayer estaba justo a la izquierda de la puerta."],
+   ["我走出去看，自行车还在那儿，旁边坐着一个小猫。", "Wǒ zǒu chūqù kàn, zìxíngchē hái zài nàr, pángbiān zuò zhe yí ge xiǎo māo.", "Salí a mirar: la bicicleta seguía ahí y al lado había un gatito sentado."],
+   ["去公司的路很长，走着去太远了，自行车快多了。", "Qù gōngsī de lù hěn cháng, zǒu zhe qù tài yuǎn le, zìxíngchē kuài duō le.", "El camino a la empresa es largo: a pie queda lejísimos, en bicicleta es mucho más rápido."],
+   ["丈夫笑着说：真快！你今天不会晚了。", "Zhàngfu xiào zhe shuō: zhēn kuài! Nǐ jīntiān bú huì wǎn le.", "Mi marido dijo sonriendo: ¡qué rápido! Hoy no vas a llegar tarde."]
   ]
  ]
 };
@@ -811,6 +936,87 @@ const DIALOGUES = {
    ["B","今天天气怎么样？","Jīntiān tiānqì zěnmeyàng?","¿Qué tal el tiempo hoy?"],
    ["A","很好。一年有十二个月。请坐，书在桌子上。","Hěn hǎo. Yì nián yǒu shí'èr ge yuè. Qǐng zuò, shū zài zhuōzi shàng.","Muy bueno. Un año tiene doce meses. Siéntate, el libro está sobre la mesa."],
    ["B","好，再见！","Hǎo, zàijiàn!","¡Bien, adiós!"]
+  ] ],
+ hsk2: [
+  [ // Unidad 1
+   ["A","你看报纸了吗？","Nǐ kàn bàozhǐ le ma?","¿Leíste el periódico?"],
+   ["B","看了。报纸上说，坐船比坐飞机便宜。","Kàn le. Bàozhǐ shàng shuō, zuò chuán bǐ zuò fēijī piányi.","Sí. Dice que ir en barco es más barato que en avión."],
+   ["A","便宜多少？","Piányi duōshao?","¿Cuánto más barato?"],
+   ["B","便宜一百多块吧。","Piányi yìbǎi duō kuài ba.","Como cien yuanes o más."],
+   ["A","那我们坐船去，别买飞机票了。","Nà wǒmen zuò chuán qù, bié mǎi fēijī piào le.","Entonces vamos en barco; no compremos los boletos de avión."],
+   ["B","好。我们还可以在船上唱歌。","Hǎo. Wǒmen hái kěyǐ zài chuán shàng chànggē.","Bueno. Además podemos cantar en el barco."]
+  ],
+  [ // Unidad 2
+   ["A","你哥哥今天来吗？","Nǐ gēge jīntiān lái ma?","¿Viene hoy tu hermano mayor?"],
+   ["B","来。他告诉我，他非常想打篮球。","Lái. Tā gàosu wǒ, tā fēicháng xiǎng dǎ lánqiú.","Sí. Me dijo que tiene muchas ganas de jugar baloncesto."],
+   ["A","他打得好吗？","Tā dǎ de hǎo ma?","¿Juega bien?"],
+   ["B","很好，他很高。我弟弟也想去，但是他还小。","Hěn hǎo, tā hěn gāo. Wǒ dìdi yě xiǎng qù, dànshì tā hái xiǎo.","Muy bien, es alto. Mi hermano menor también quiere ir, pero todavía es chico."],
+   ["A","没关系，大家一起玩。","Méi guānxi, dàjiā yìqǐ wán.","No importa, jugamos todos juntos."],
+   ["B","好，我们在房间里等他们吧。","Hǎo, wǒmen zài fángjiān lǐ děng tāmen ba.","Bien, esperémoslos en la sala."]
+  ],
+  [ // Unidad 3
+   ["A","你怎么去机场？","Nǐ zěnme qù jīchǎng?","¿Cómo vas al aeropuerto?"],
+   ["B","我坐公共汽车去。","Wǒ zuò gōnggòng qìchē qù.","Voy en autobús."],
+   ["A","几号的票？","Jǐ hào de piào?","¿Para qué día es el boleto?"],
+   ["B","十五号早上的。","Shíwǔ hào zǎoshang de.","Del día quince por la mañana."],
+   ["A","你穿那件红的吧，很好找。","Nǐ chuān nà jiàn hóng de ba, hěn hǎo zhǎo.","Ponte la roja, así te encuentro fácil."],
+   ["B","好，谢谢！欢迎你也来玩。","Hǎo, xièxie! Huānyíng nǐ yě lái wán.","Bueno, ¡gracias! Y bienvenido cuando quieras venir."]
+  ],
+  [ // Unidad 4
+   ["A","你现在在哪儿？","Nǐ xiànzài zài nǎr?","¿Dónde estás ahora?"],
+   ["B","我在教室，课已经开始了。","Wǒ zài jiàoshì, kè yǐjīng kāishǐ le.","En el aula; la clase ya empezó."],
+   ["A","这个星期有考试吗？","Zhège xīngqī yǒu kǎoshì ma?","¿Hay examen esta semana?"],
+   ["B","有，可能在星期五。","Yǒu, kěnéng zài xīngqīwǔ.","Sí, quizá el viernes."],
+   ["A","我们下了课去喝咖啡，可以吗？","Wǒmen xiàle kè qù hē kāfēi, kěyǐ ma?","¿Vamos por un café al salir de clase?"],
+   ["B","可以！我觉得很好。","Kěyǐ! Wǒ juéde hěn hǎo.","¡Claro! Me parece muy bien."]
+  ],
+  [ // Unidad 5
+   ["A","你今天很累吗？","Nǐ jīntiān hěn lèi ma?","¿Estás muy cansada hoy?"],
+   ["B","是，公司的事情很多，我很忙。","Shì, gōngsī de shìqing hěn duō, wǒ hěn máng.","Sí, hay mucho que hacer en la empresa; estoy muy ocupada."],
+   ["A","那你可以去旅游，休息两天。","Nà nǐ kěyǐ qù lǚyóu, xiūxi liǎng tiān.","Entonces podrías viajar y descansar dos días."],
+   ["B","我也想。我家离火车站很近，走路十分钟。","Wǒ yě xiǎng. Wǒ jiā lí huǒchēzhàn hěn jìn, zǒulù shí fēnzhōng.","Yo también quiero. Vivo cerca de la estación, a diez minutos a pie."],
+   ["A","那太好了。","Nà tài hǎo le.","Qué bien."],
+   ["B","谢谢您，我明天就去买票。","Xièxie nín, wǒ míngtiān jiù qù mǎi piào.","Gracias; mañana mismo voy a comprar el boleto."]
+  ],
+  [ // Unidad 6
+   ["A","你去年生病了吗？","Nǐ qùnián shēngbìng le ma?","¿Te enfermaste el año pasado?"],
+   ["B","生病了，所以现在我每天早上起床后跑步。","Shēngbìng le, suǒyǐ xiànzài wǒ měi tiān zǎoshang qǐchuáng hòu pǎobù.","Sí, por eso ahora corro cada mañana al levantarme."],
+   ["A","跑多长时间？","Pǎo duō cháng shíjiān?","¿Cuánto tiempo corres?"],
+   ["B","一个小时。","Yí ge xiǎoshí.","Una hora."],
+   ["A","真好。下个月是你的生日吧？","Zhēn hǎo. Xià ge yuè shì nǐ de shēngrì ba?","Qué bien. El mes que viene es tu cumpleaños, ¿no?"],
+   ["B","是，我妻子想让我去旅游。","Shì, wǒ qīzi xiǎng ràng wǒ qù lǚyóu.","Sí, mi esposa quiere que salgamos de viaje."]
+  ],
+  [ // Unidad 7
+   ["A","你的手机呢？","Nǐ de shǒujī ne?","¿Y tu celular?"],
+   ["B","我找不到它。","Wǒ zhǎo bú dào tā.","No lo encuentro."],
+   ["A","昨天晚上你在外面玩了吗？","Zuótiān wǎnshang nǐ zài wàimiàn wán le ma?","¿Anoche saliste?"],
+   ["B","玩了，我们在外面踢球。手机可能在朋友家。","Wán le, wǒmen zài wàimiàn tī qiú. Shǒujī kěnéng zài péngyou jiā.","Sí, jugamos a la pelota afuera. El celular quizá quedó en casa de un amigo."],
+   ["A","你先做完题，我给他打电话，好吗？","Nǐ xiān zuò wán tí, wǒ gěi tā dǎ diànhuà, hǎo ma?","Termina los ejercicios y yo lo llamo, ¿te parece?"],
+   ["B","好，谢谢！这不是大问题。","Hǎo, xièxie! Zhè bú shì dà wèntí.","Bueno, ¡gracias! No es un gran problema."]
+  ],
+  [ // Unidad 8
+   ["A","外面下雪了，你要出去吗？","Wàimiàn xià xuě le, nǐ yào chūqù ma?","Está nevando afuera, ¿vas a salir?"],
+   ["B","我要去买西瓜和羊肉。","Wǒ yào qù mǎi xīguā hé yángròu.","Voy a comprar sandía y carne de cordero."],
+   ["A","弟弟还在吃药吗？","Dìdi hái zài chī yào ma?","¿Tu hermano sigue tomando el medicamento?"],
+   ["B","在吃。我希望他快点儿好。","Zài chī. Wǒ xīwàng tā kuài diǎnr hǎo.","Sí. Espero que mejore pronto."],
+   ["A","那你早点儿回来休息。","Nà nǐ zǎo diǎnr huílái xiūxi.","Entonces vuelve temprano a descansar."],
+   ["B","好，我走得慢一点儿。","Hǎo, wǒ zǒu de màn yìdiǎnr.","Bueno, iré despacio."]
+  ],
+  [ // Unidad 9
+   ["A","今天天气很阴，我们还去游泳吗？","Jīntiān tiānqì hěn yīn, wǒmen hái qù yóuyǒng ma?","Hoy está nublado, ¿vamos igual a nadar?"],
+   ["B","去吧！游泳的地方不远，就在学校右边。","Qù ba! Yóuyǒng de dìfang bù yuǎn, jiù zài xuéxiào yòubian.","¡Vamos! La piscina no queda lejos, está a la derecha de la escuela."],
+   ["A","票多少钱？","Piào duōshao qián?","¿Cuánto cuesta la entrada?"],
+   ["B","一张二十元。","Yì zhāng èrshí yuán.","Veinte yuanes cada una."],
+   ["A","好，我也去。","Hǎo, wǒ yě qù.","Bien, yo también voy."],
+   ["B","我们运动一个小时，再回来。","Wǒmen yùndòng yí ge xiǎoshí, zài huílái.","Hacemos ejercicio una hora y volvemos."]
+  ],
+  [ // Unidad 10
+   ["A","你在找什么？","Nǐ zài zhǎo shénme?","¿Qué buscas?"],
+   ["B","我的自行车。我知道它就在门的左边。","Wǒ de zìxíngchē. Wǒ zhīdào tā jiù zài mén de zuǒbian.","Mi bicicleta. Sé que está justo a la izquierda de la puerta."],
+   ["A","我看见了，旁边坐着一个小猫。","Wǒ kànjiàn le, pángbiān zuò zhe yí ge xiǎo māo.","La vi; al lado hay un gatito sentado."],
+   ["B","真的吗？太好了！","Zhēn de ma? Tài hǎo le!","¿En serio? ¡Qué bien!"],
+   ["A","你丈夫正在准备晚饭。","Nǐ zhàngfu zhèngzài zhǔnbèi wǎnfàn.","Tu marido está preparando la cena."],
+   ["B","那我快点儿走，今天最忙。","Nà wǒ kuài diǎnr zǒu, jīntiān zuì máng.","Entonces me apuro; hoy es el día más ocupado."]
   ]
  ]
 };
@@ -962,8 +1168,280 @@ const PHRASES = {
       ["我想打电话。","Wǒ xiǎng dǎ diànhuà.","Quiero hacer una llamada."],
       ["我想睡觉。","Wǒ xiǎng shuìjiào.","Quiero dormir."]
     ]}
+  ],
+  hsk2: [
+    {cat:"Presentarse y cortesía", items:[
+      ["您好，请问您贵姓？","Nín hǎo, qǐngwèn nín guìxìng?","Buenos días, ¿cuál es su apellido?"],
+      ["我姓王，叫王小明。","Wǒ xìng Wáng, jiào Wáng Xiǎomíng.","Me apellido Wang, me llamo Wang Xiaoming."],
+      ["我来介绍一下，这是我哥哥。","Wǒ lái jièshào yíxià, zhè shì wǒ gēge.","Les presento: este es mi hermano mayor."],
+      ["欢迎你来我家。","Huānyíng nǐ lái wǒ jiā.","Bienvenido a mi casa."],
+      ["谢谢你的帮助。","Xièxie nǐ de bāngzhù.","Gracias por tu ayuda."],
+      ["你能帮助我吗？","Nǐ néng bāngzhù wǒ ma?","¿Me puedes ayudar?"],
+      ["请进，请坐。","Qǐng jìn, qǐng zuò.","Pase, siéntese."],
+      ["请让一下。","Qǐng ràng yíxià.","Con permiso."],
+      ["请问，这是什么意思？","Qǐngwèn, zhè shì shénme yìsi?","Disculpe, ¿qué significa esto?"]
+    ]},
+    {cat:"Trabajo y estudio", items:[
+      ["我在一家公司上班。","Wǒ zài yì jiā gōngsī shàngbān.","Trabajo en una empresa."],
+      ["我每天早上八点上班。","Wǒ měi tiān zǎoshang bā diǎn shàngbān.","Entro a trabajar a las ocho de la mañana."],
+      ["今天我非常忙。","Jīntiān wǒ fēicháng máng.","Hoy estoy muy ocupado."],
+      ["这个星期我们有考试。","Zhège xīngqī wǒmen yǒu kǎoshì.","Esta semana tenemos examen."],
+      ["这个题我不懂。","Zhège tí wǒ bù dǒng.","Este ejercicio no lo entiendo."],
+      ["你可以再说一次吗？","Nǐ kěyǐ zài shuō yí cì ma?","¿Puedes repetirlo otra vez?"],
+      ["老师问了一个问题。","Lǎoshī wènle yí ge wèntí.","La profesora hizo una pregunta."],
+      ["我准备好了。","Wǒ zhǔnbèi hǎo le.","Estoy listo."],
+      ["我已经做完了。","Wǒ yǐjīng zuò wán le.","Ya terminé."]
+    ]},
+    {cat:"Compras y dinero", items:[
+      ["这个多少钱一公斤？","Zhège duōshao qián yì gōngjīn?","¿A cuánto está el kilo?"],
+      ["太贵了，能便宜一点儿吗？","Tài guì le, néng piányi yìdiǎnr ma?","Es muy caro, ¿me lo deja un poco más barato?"],
+      ["这件衣服很好看。","Zhè jiàn yīfu hěn hǎokàn.","Esta prenda es muy linda."],
+      ["我要买两张票。","Wǒ yào mǎi liǎng zhāng piào.","Quiero comprar dos boletos."],
+      ["这个西瓜卖多少钱？","Zhège xīguā mài duōshao qián?","¿En cuánto vende esta sandía?"],
+      ["我想买一个新手机。","Wǒ xiǎng mǎi yí ge xīn shǒujī.","Quiero comprar un celular nuevo."],
+      ["有红的吗？","Yǒu hóng de ma?","¿Hay en rojo?"],
+      ["我不要，谢谢。","Wǒ bú yào, xièxie.","No lo quiero, gracias."],
+      ["这是送给你的。","Zhè shì sòng gěi nǐ de.","Esto es un regalo para ti."]
+    ]},
+    {cat:"Tiempo, clima y planes", items:[
+      ["今天是晴天。","Jīntiān shì qíngtiān.","Hoy está despejado."],
+      ["外面下雪了。","Wàimiàn xià xuě le.","Está nevando afuera."],
+      ["今天有点儿阴。","Jīntiān yǒudiǎnr yīn.","Hoy está algo nublado."],
+      ["已经十点了，我要走了。","Yǐjīng shí diǎn le, wǒ yào zǒu le.","Ya son las diez, me tengo que ir."],
+      ["我坐公共汽车去上班。","Wǒ zuò gōnggòng qìchē qù shàngbān.","Voy al trabajo en autobús."],
+      ["从我家到公司要一个小时。","Cóng wǒ jiā dào gōngsī yào yí ge xiǎoshí.","De mi casa a la empresa es una hora."],
+      ["我们一起去玩吧。","Wǒmen yìqǐ qù wán ba.","Vamos juntos a pasarla bien."],
+      ["明天早上见。","Míngtiān zǎoshang jiàn.","Nos vemos mañana en la mañana."],
+      ["你什么时候有时间？","Nǐ shénme shíhou yǒu shíjiān?","¿Cuándo tienes tiempo?"]
+    ]},
+    {cat:"Salud y cuerpo", items:[
+      ["我身体不太好。","Wǒ shēntǐ bú tài hǎo.","No ando bien de salud."],
+      ["我生病了，要去医院。","Wǒ shēngbìng le, yào qù yīyuàn.","Me enfermé, tengo que ir al hospital."],
+      ["你要多休息。","Nǐ yào duō xiūxi.","Tienes que descansar más."],
+      ["你吃药了吗？","Nǐ chī yào le ma?","¿Ya tomaste el medicamento?"],
+      ["我今天很累。","Wǒ jīntiān hěn lèi.","Hoy estoy muy cansado."],
+      ["我的眼睛很累。","Wǒ de yǎnjing hěn lèi.","Tengo los ojos cansados."],
+      ["你怎么了？","Nǐ zěnme le?","¿Qué te pasa?"],
+      ["早点儿休息吧。","Zǎo diǎnr xiūxi ba.","Descansa temprano."],
+      ["希望你快点儿好。","Xīwàng nǐ kuài diǎnr hǎo.","Espero que te mejores pronto."]
+    ]},
+    {cat:"Ocio, deporte y opinión", items:[
+      ["我喜欢运动，每天跑步。","Wǒ xǐhuan yùndòng, měi tiān pǎobù.","Me gusta el deporte; corro todos los días."],
+      ["我们一起去打篮球吧。","Wǒmen yìqǐ qù dǎ lánqiú ba.","Vamos juntos a jugar baloncesto."],
+      ["你会游泳吗？","Nǐ huì yóuyǒng ma?","¿Sabes nadar?"],
+      ["她唱歌唱得很好。","Tā chànggē chàng de hěn hǎo.","Ella canta muy bien."],
+      ["我不会跳舞。","Wǒ bú huì tiàowǔ.","No sé bailar."],
+      ["我觉得这个电影很好看。","Wǒ juéde zhège diànyǐng hěn hǎokàn.","Creo que esta película es muy buena."],
+      ["你觉得怎么样？","Nǐ juéde zěnmeyàng?","¿Qué te parece?"],
+      ["这个菜真好吃。","Zhège cài zhēn hǎochī.","Este plato está riquísimo."],
+      ["生日快乐！","Shēngrì kuàilè!","¡Feliz cumpleaños!"]
+    ]}
   ]
 };
+
+/* --- Banco de ítems del simulacro (formato tipo HSK 1) ---
+   Todos los ítems son creación ORIGINAL de Meridian Vision SpA, escritos únicamente
+   con vocabulario de la lista HSK 1 (lista de palabras de libre uso). No se reproduce
+   ningún ítem, texto ni imagen de exámenes oficiales ni de material de terceros: las
+   "imágenes" son emoji del sistema, no ilustraciones licenciadas. La estructura del
+   examen (partes y tipos de pregunta) es un formato público, no contenido protegido.
+   Cada intento arma un examen distinto tomando ítems al azar de estos grupos. */
+const EXAM = { hsk1: {
+
+  // Palabra + imagen → partes 1 de Escuchar y de Leer (¿coincide? ✓/✗)
+  words: [
+    ["喝茶","hē chá","beber té","🍵"],
+    ["猫","māo","gato","🐱"],
+    ["狗","gǒu","perro","🐶"],
+    ["苹果","píngguǒ","manzana","🍎"],
+    ["飞机","fēijī","avión","✈️"],
+    ["医生","yīshēng","médico","🩺"],
+    ["下雨","xiàyǔ","llover","🌧️"],
+    ["电脑","diànnǎo","computadora","💻"],
+    ["书","shū","libro","📕"],
+    ["米饭","mǐfàn","arroz cocido","🍚"],
+    ["椅子","yǐzi","silla","🪑"],
+    ["打电话","dǎ diànhuà","llamar por teléfono","📞"],
+    ["出租车","chūzūchē","taxi","🚕"],
+    ["睡觉","shuìjiào","dormir","😴"],
+    ["衣服","yīfu","ropa","👕"],
+    ["水","shuǐ","agua","💧"],
+    ["电视","diànshì","televisión","📺"],
+    ["钱","qián","dinero","💰"],
+    ["学校","xuéxiào","escuela","🏫"],
+    ["医院","yīyuàn","hospital","🏥"],
+    ["老师","lǎoshī","profesora","👩‍🏫"],
+    ["火车站","huǒchēzhàn","estación de tren","🚉"]
+  ],
+
+  // Frase + imagen → parte 2 de Escuchar (3 opciones) y parte 2 de Leer (6 opciones)
+  sents: [
+    ["我喜欢喝茶。","Wǒ xǐhuan hē chá.","Me gusta beber té.","🍵"],
+    ["他在看电视。","Tā zài kàn diànshì.","Él está viendo televisión.","📺"],
+    ["妈妈在做菜。","Māma zài zuò cài.","Mamá está cocinando.","🍳"],
+    ["我们坐飞机去北京。","Wǒmen zuò fēijī qù Běijīng.","Vamos a Pekín en avión.","✈️"],
+    ["今天下雨了。","Jīntiān xiàyǔ le.","Hoy está lloviendo.","🌧️"],
+    ["小狗在家里。","Xiǎo gǒu zài jiā lǐ.","El perrito está en casa.","🐶"],
+    ["医生在医院工作。","Yīshēng zài yīyuàn gōngzuò.","El médico trabaja en el hospital.","🏥"],
+    ["学生在学校读书。","Xuéshēng zài xuéxiào dú shū.","Los estudiantes estudian en la escuela.","🏫"],
+    ["爸爸在打电话。","Bàba zài dǎ diànhuà.","Papá está hablando por teléfono.","📞"],
+    ["我买了三个苹果。","Wǒ mǎile sān ge píngguǒ.","Compré tres manzanas.","🍎"],
+    ["他在写字。","Tā zài xiě zì.","Él está escribiendo caracteres.","✍️"],
+    ["我想睡觉。","Wǒ xiǎng shuìjiào.","Quiero dormir.","😴"],
+    ["她在买衣服。","Tā zài mǎi yīfu.","Ella está comprando ropa.","👕"],
+    ["我们在饭店吃饭。","Wǒmen zài fàndiàn chī fàn.","Comemos en el restaurante.","🍽️"],
+    ["我的猫很漂亮。","Wǒ de māo hěn piàoliang.","Mi gato es muy bonito.","🐱"]
+  ],
+
+  // Mini-diálogo + imagen → parte 3 de Escuchar (6 opciones A–F)
+  dlgs: [
+    {a:["喂，你在哪儿？","Wéi, nǐ zài nǎr?","Aló, ¿dónde estás?"], b:["我在火车站。","Wǒ zài huǒchēzhàn.","Estoy en la estación de tren."], e:"🚉"},
+    {a:["你想喝什么？","Nǐ xiǎng hē shénme?","¿Qué quieres beber?"], b:["我想喝水，谢谢。","Wǒ xiǎng hē shuǐ, xièxie.","Quiero agua, gracias."], e:"💧"},
+    {a:["今天天气怎么样？","Jīntiān tiānqì zěnmeyàng?","¿Qué tal el clima hoy?"], b:["今天很冷。","Jīntiān hěn lěng.","Hoy hace mucho frío."], e:"🥶"},
+    {a:["你有猫吗？","Nǐ yǒu māo ma?","¿Tienes gato?"], b:["有，我的猫很小。","Yǒu, wǒ de māo hěn xiǎo.","Sí, mi gato es muy pequeño."], e:"🐱"},
+    {a:["这本书多少钱？","Zhè běn shū duōshao qián?","¿Cuánto cuesta este libro?"], b:["二十块。","Èrshí kuài.","Veinte yuanes."], e:"💰"},
+    {a:["你女儿几岁了？","Nǐ nǚ'ér jǐ suì le?","¿Cuántos años tiene tu hija?"], b:["她五岁了。","Tā wǔ suì le.","Tiene cinco años."], e:"👧"},
+    {a:["我们怎么去商店？","Wǒmen zěnme qù shāngdiàn?","¿Cómo vamos a la tienda?"], b:["我们坐出租车去。","Wǒmen zuò chūzūchē qù.","Vamos en taxi."], e:"🚕"},
+    {a:["你在做什么？","Nǐ zài zuò shénme?","¿Qué estás haciendo?"], b:["我在看电影。","Wǒ zài kàn diànyǐng.","Estoy viendo una película."], e:"🎬"}
+  ],
+
+  // Frase + pregunta + 3 respuestas escritas → parte 4 de Escuchar
+  qs: [
+    {zh:"他今天下午去医院看医生。", pin:"Tā jīntiān xiàwǔ qù yīyuàn kàn yīshēng.", es:"Esta tarde él va al hospital a ver al médico.",
+     q:"他下午去哪儿？", qpin:"Tā xiàwǔ qù nǎr?", qes:"¿Adónde va esta tarde?", opts:["医院","学校","商店"], ok:"医院"},
+    {zh:"我的女儿七岁了。", pin:"Wǒ de nǚ'ér qī suì le.", es:"Mi hija tiene siete años.",
+     q:"女儿几岁了？", qpin:"Nǚ'ér jǐ suì le?", qes:"¿Cuántos años tiene la hija?", opts:["七岁","九岁","十岁"], ok:"七岁"},
+    {zh:"昨天很冷，今天很热。", pin:"Zuótiān hěn lěng, jīntiān hěn rè.", es:"Ayer hizo mucho frío; hoy hace calor.",
+     q:"今天天气怎么样？", qpin:"Jīntiān tiānqì zěnmeyàng?", qes:"¿Qué tal el clima hoy?", opts:["很热","很冷","下雨"], ok:"很热"},
+    {zh:"妈妈买了五个苹果。", pin:"Māma mǎile wǔ ge píngguǒ.", es:"Mamá compró cinco manzanas.",
+     q:"妈妈买了什么？", qpin:"Māma mǎile shénme?", qes:"¿Qué compró mamá?", opts:["苹果","米饭","衣服"], ok:"苹果"},
+    {zh:"我们明天上午八点去学校。", pin:"Wǒmen míngtiān shàngwǔ bā diǎn qù xuéxiào.", es:"Mañana a las ocho de la mañana vamos a la escuela.",
+     q:"他们什么时候去学校？", qpin:"Tāmen shénme shíhou qù xuéxiào?", qes:"¿Cuándo van a la escuela?", opts:["明天上午","今天下午","明天中午"], ok:"明天上午"},
+    {zh:"他不会说汉语，现在他在学习。", pin:"Tā bú huì shuō Hànyǔ, xiànzài tā zài xuéxí.", es:"Él no sabe hablar chino; ahora está estudiando.",
+     q:"他在做什么？", qpin:"Tā zài zuò shénme?", qes:"¿Qué está haciendo?", opts:["学习汉语","看电视","打电话"], ok:"学习汉语"},
+    {zh:"我的朋友住在北京。", pin:"Wǒ de péngyou zhù zài Běijīng.", es:"Mi amigo vive en Pekín.",
+     q:"朋友住在哪儿？", qpin:"Péngyou zhù zài nǎr?", qes:"¿Dónde vive el amigo?", opts:["北京","学校","医院"], ok:"北京"},
+    {zh:"这个电影很好看，他很喜欢。", pin:"Zhège diànyǐng hěn hǎokàn, tā hěn xǐhuan.", es:"Esta película es muy buena; a él le gusta mucho.",
+     q:"他喜欢什么？", qpin:"Tā xǐhuan shénme?", qes:"¿Qué le gusta?", opts:["电影","米饭","猫"], ok:"电影"}
+  ],
+
+  // Pregunta ↔ respuesta → parte 3 de Leer (6 opciones A–F)
+  pairs: [
+    {q:"你叫什么名字？", qpin:"Nǐ jiào shénme míngzi?", qes:"¿Cómo te llamas?", r:"我叫王小明。", rpin:"Wǒ jiào Wáng Xiǎomíng.", res:"Me llamo Wang Xiaoming."},
+    {q:"你多大了？", qpin:"Nǐ duō dà le?", qes:"¿Cuántos años tienes?", r:"我二十岁。", rpin:"Wǒ èrshí suì.", res:"Tengo veinte años."},
+    {q:"现在几点？", qpin:"Xiànzài jǐ diǎn?", qes:"¿Qué hora es?", r:"现在下午三点。", rpin:"Xiànzài xiàwǔ sān diǎn.", res:"Son las tres de la tarde."},
+    {q:"你喜欢什么水果？", qpin:"Nǐ xǐhuan shénme shuǐguǒ?", qes:"¿Qué fruta te gusta?", r:"我喜欢苹果。", rpin:"Wǒ xǐhuan píngguǒ.", res:"Me gustan las manzanas."},
+    {q:"你怎么去学校？", qpin:"Nǐ zěnme qù xuéxiào?", qes:"¿Cómo vas a la escuela?", r:"我坐出租车去。", rpin:"Wǒ zuò chūzūchē qù.", res:"Voy en taxi."},
+    {q:"你妈妈在哪儿工作？", qpin:"Nǐ māma zài nǎr gōngzuò?", qes:"¿Dónde trabaja tu mamá?", r:"她在医院工作。", rpin:"Tā zài yīyuàn gōngzuò.", res:"Trabaja en un hospital."},
+    {q:"明天天气怎么样？", qpin:"Míngtiān tiānqì zěnmeyàng?", qes:"¿Qué tal el clima mañana?", r:"明天下雨。", rpin:"Míngtiān xiàyǔ.", res:"Mañana llueve."},
+    {q:"你会说汉语吗？", qpin:"Nǐ huì shuō Hànyǔ ma?", qes:"¿Sabes hablar chino?", r:"我会说一点儿。", rpin:"Wǒ huì shuō yìdiǎnr.", res:"Sé hablar un poco."}
+  ],
+
+  // Completar el hueco → parte 4 de Leer (6 opciones A–F)
+  gaps: [
+    {s:"我很___喝茶。", w:"喜欢", pin:"Wǒ hěn xǐhuan hē chá.", es:"Me gusta mucho beber té."},
+    {s:"我___王小明。", w:"叫", pin:"Wǒ jiào Wáng Xiǎomíng.", es:"Me llamo Wang Xiaoming."},
+    {s:"今天太___了，我想喝水。", w:"热", pin:"Jīntiān tài rè le, wǒ xiǎng hē shuǐ.", es:"Hoy hace demasiado calor, quiero beber agua."},
+    {s:"我们在饭店___饭。", w:"吃", pin:"Wǒmen zài fàndiàn chī fàn.", es:"Comemos en el restaurante."},
+    {s:"他不在家，他去___了。", w:"学校", pin:"Tā bú zài jiā, tā qù xuéxiào le.", es:"No está en casa, se fue a la escuela."},
+    {s:"我妈妈是___，她在医院工作。", w:"医生", pin:"Wǒ māma shì yīshēng, tā zài yīyuàn gōngzuò.", es:"Mi mamá es médica; trabaja en un hospital."},
+    {s:"我的猫很___。", w:"漂亮", pin:"Wǒ de māo hěn piàoliang.", es:"Mi gato es muy bonito."},
+    {s:"我不___说汉语。", w:"会", pin:"Wǒ bú huì shuō Hànyǔ.", es:"No sé hablar chino."}
+  ]
+},
+hsk2: {
+  words: [
+    ["鸡蛋","jīdàn","huevo","🥚"],
+    ["牛奶","niúnǎi","leche","🥛"],
+    ["咖啡","kāfēi","café","☕"],
+    ["西瓜","xīguā","sandía","🍉"],
+    ["鱼","yú","pescado","🐟"],
+    ["羊肉","yángròu","carne de cordero","🍖"],
+    ["报纸","bàozhǐ","periódico","📰"],
+    ["手机","shǒujī","teléfono móvil","📱"],
+    ["手表","shǒubiǎo","reloj de pulsera","⌚"],
+    ["自行车","zìxíngchē","bicicleta","🚲"],
+    ["船","chuán","barco","🚢"],
+    ["公共汽车","gōnggòng qìchē","autobús","🚌"],
+    ["机场","jīchǎng","aeropuerto","🛫"],
+    ["票","piào","boleto","🎫"],
+    ["门","mén","puerta","🚪"],
+    ["雪","xuě","nieve","❄️"],
+    ["药","yào","medicamento","💊"],
+    ["眼睛","yǎnjing","ojos","👁️"],
+    ["跑步","pǎobù","correr","🏃"],
+    ["游泳","yóuyǒng","nadar","🏊"],
+    ["唱歌","chànggē","cantar","🎤"],
+    ["跳舞","tiàowǔ","bailar","💃"],
+    ["打篮球","dǎ lánqiú","jugar baloncesto","🏀"],
+    ["生日","shēngrì","cumpleaños","🎂"]
+  ],
+  sents: [
+    ["他正在跑步。","Tā zhèngzài pǎobù.","Él está corriendo.","🏃"],
+    ["姐姐在唱歌。","Jiějie zài chànggē.","Mi hermana mayor está cantando.","🎤"],
+    ["弟弟正在打篮球。","Dìdi zhèngzài dǎ lánqiú.","Mi hermano menor está jugando baloncesto.","🏀"],
+    ["妈妈买了两公斤鸡蛋。","Māma mǎile liǎng gōngjīn jīdàn.","Mamá compró dos kilos de huevos.","🥚"],
+    ["我每天早上喝牛奶。","Wǒ měi tiān zǎoshang hē niúnǎi.","Todas las mañanas tomo leche.","🥛"],
+    ["他在看报纸。","Tā zài kàn bàozhǐ.","Él está leyendo el periódico.","📰"],
+    ["外面下雪了。","Wàimiàn xià xuě le.","Está nevando afuera.","❄️"],
+    ["我的自行车是新的。","Wǒ de zìxíngchē shì xīn de.","Mi bicicleta es nueva.","🚲"],
+    ["我们坐船去旅游。","Wǒmen zuò chuán qù lǚyóu.","Viajamos en barco.","🚢"],
+    ["他生病了，要吃药。","Tā shēngbìng le, yào chī yào.","Se enfermó y tiene que tomar medicamento.","💊"],
+    ["服务员送来了咖啡。","Fúwùyuán sònglái le kāfēi.","El mesero trajo el café.","☕"],
+    ["今天是他的生日。","Jīntiān shì tā de shēngrì.","Hoy es su cumpleaños.","🎂"],
+    ["她在游泳。","Tā zài yóuyǒng.","Ella está nadando.","🏊"],
+    ["他们在跳舞。","Tāmen zài tiàowǔ.","Ellos están bailando.","💃"],
+    ["我的手表很贵。","Wǒ de shǒubiǎo hěn guì.","Mi reloj es muy caro.","⌚"]
+  ],
+  dlgs: [
+    {a:["你要喝咖啡还是牛奶？","Nǐ yào hē kāfēi háishì niúnǎi?","¿Quieres tomar café o leche?"], b:["我要一杯咖啡。","Wǒ yào yì bēi kāfēi.","Quiero un café."], e:"☕"},
+    {a:["外面怎么样？","Wàimiàn zěnmeyàng?","¿Cómo está afuera?"], b:["下雪了，非常冷。","Xià xuě le, fēicháng lěng.","Está nevando y hace mucho frío."], e:"❄️"},
+    {a:["你的手机在哪儿？","Nǐ de shǒujī zài nǎr?","¿Dónde está tu celular?"], b:["在房间的桌子上。","Zài fángjiān de zhuōzi shàng.","Sobre la mesa de la habitación."], e:"📱"},
+    {a:["我们怎么去机场？","Wǒmen zěnme qù jīchǎng?","¿Cómo vamos al aeropuerto?"], b:["坐公共汽车去吧。","Zuò gōnggòng qìchē qù ba.","Vamos en autobús."], e:"🚌"},
+    {a:["你做什么运动？","Nǐ zuò shénme yùndòng?","¿Qué deporte haces?"], b:["我每天早上跑步。","Wǒ měi tiān zǎoshang pǎobù.","Corro todas las mañanas."], e:"🏃"},
+    {a:["今天是几号？","Jīntiān shì jǐ hào?","¿Qué día es hoy?"], b:["十号，是我妻子的生日。","Shí hào, shì wǒ qīzi de shēngrì.","Día diez, es el cumpleaños de mi esposa."], e:"🎂"},
+    {a:["你会游泳吗？","Nǐ huì yóuyǒng ma?","¿Sabes nadar?"], b:["会，我最喜欢游泳。","Huì, wǒ zuì xǐhuan yóuyǒng.","Sí, nadar es lo que más me gusta."], e:"🏊"},
+    {a:["这张票多少钱？","Zhè zhāng piào duōshao qián?","¿Cuánto cuesta esta entrada?"], b:["一百元。","Yìbǎi yuán.","Cien yuanes."], e:"🎫"}
+  ],
+  qs: [
+    {zh:"我的丈夫在一家公司上班，每天很忙。", pin:"Wǒ de zhàngfu zài yì jiā gōngsī shàngbān, měi tiān hěn máng.", es:"Mi marido trabaja en una empresa y está ocupado todos los días.",
+     q:"丈夫在哪儿工作？", qpin:"Zhàngfu zài nǎr gōngzuò?", qes:"¿Dónde trabaja el marido?", opts:["公司","学校","医院"], ok:"公司"},
+    {zh:"昨天下雪了，今天是晴天。", pin:"Zuótiān xià xuě le, jīntiān shì qíngtiān.", es:"Ayer nevó; hoy está despejado.",
+     q:"今天天气怎么样？", qpin:"Jīntiān tiānqì zěnmeyàng?", qes:"¿Qué tal el clima hoy?", opts:["晴天","下雪","阴天"], ok:"晴天"},
+    {zh:"我每天早上六点起床去跑步。", pin:"Wǒ měi tiān zǎoshang liù diǎn qǐchuáng qù pǎobù.", es:"Todos los días me levanto a las seis para ir a correr.",
+     q:"他每天早上做什么？", qpin:"Tā měi tiān zǎoshang zuò shénme?", qes:"¿Qué hace cada mañana?", opts:["跑步","游泳","唱歌"], ok:"跑步"},
+    {zh:"这件衣服两百块，有点儿贵。", pin:"Zhè jiàn yīfu liǎngbǎi kuài, yǒudiǎnr guì.", es:"Esta prenda cuesta doscientos y es algo cara.",
+     q:"这件衣服多少钱？", qpin:"Zhè jiàn yīfu duōshao qián?", qes:"¿Cuánto cuesta la prenda?", opts:["两百块","一百块","两块"], ok:"两百块"},
+    {zh:"妹妹去年开始学游泳，现在游得非常好。", pin:"Mèimei qùnián kāishǐ xué yóuyǒng, xiànzài yóu de fēicháng hǎo.", es:"Mi hermana empezó a nadar el año pasado y ahora nada muy bien.",
+     q:"妹妹什么时候开始学游泳？", qpin:"Mèimei shénme shíhou kāishǐ xué yóuyǒng?", qes:"¿Cuándo empezó a aprender a nadar?", opts:["去年","今年","上个月"], ok:"去年"},
+    {zh:"我的手机找不到了，可能在教室里。", pin:"Wǒ de shǒujī zhǎo bú dào le, kěnéng zài jiàoshì lǐ.", es:"No encuentro mi celular; quizá esté en el aula.",
+     q:"他在找什么？", qpin:"Tā zài zhǎo shénme?", qes:"¿Qué está buscando?", opts:["手机","手表","自行车"], ok:"手机"},
+    {zh:"服务员告诉我，这个鱼是今天新的。", pin:"Fúwùyuán gàosu wǒ, zhège yú shì jīntiān xīn de.", es:"El mesero me dijo que este pescado es fresco de hoy.",
+     q:"谁告诉他的？", qpin:"Shéi gàosu tā de?", qes:"¿Quién se lo dijo?", opts:["服务员","老师","医生"], ok:"服务员"},
+    {zh:"我哥哥比我高，也比我快。", pin:"Wǒ gēge bǐ wǒ gāo, yě bǐ wǒ kuài.", es:"Mi hermano mayor es más alto que yo y también más rápido.",
+     q:"谁高？", qpin:"Shéi gāo?", qes:"¿Quién es más alto?", opts:["哥哥","我","弟弟"], ok:"哥哥"}
+  ],
+  pairs: [
+    {q:"您贵姓？", qpin:"Nín guìxìng?", qes:"¿Cuál es su apellido?", r:"我姓王。", rpin:"Wǒ xìng Wáng.", res:"Me apellido Wang."},
+    {q:"你觉得这件衣服怎么样？", qpin:"Nǐ juéde zhè jiàn yīfu zěnmeyàng?", qes:"¿Qué te parece esta prenda?", r:"我觉得非常好看。", rpin:"Wǒ juéde fēicháng hǎokàn.", res:"Me parece muy linda."},
+    {q:"你什么时候有时间？", qpin:"Nǐ shénme shíhou yǒu shíjiān?", qes:"¿Cuándo tienes tiempo?", r:"明天晚上都可以。", rpin:"Míngtiān wǎnshang dōu kěyǐ.", res:"Mañana por la noche me sirve."},
+    {q:"从这儿到机场远吗？", qpin:"Cóng zhèr dào jīchǎng yuǎn ma?", qes:"¿Queda lejos el aeropuerto desde aquí?", r:"不远，坐车一个小时。", rpin:"Bù yuǎn, zuò chē yí ge xiǎoshí.", res:"No, una hora en auto."},
+    {q:"你为什么不去？", qpin:"Nǐ wèishénme bú qù?", qes:"¿Por qué no vas?", r:"因为我生病了。", rpin:"Yīnwèi wǒ shēngbìng le.", res:"Porque me enfermé."},
+    {q:"这个西瓜怎么卖？", qpin:"Zhège xīguā zěnme mài?", qes:"¿A cómo vende la sandía?", r:"五块钱一公斤。", rpin:"Wǔ kuài qián yì gōngjīn.", res:"Cinco yuanes el kilo."},
+    {q:"你哥哥在做什么？", qpin:"Nǐ gēge zài zuò shénme?", qes:"¿Qué está haciendo tu hermano mayor?", r:"他正在准备考试。", rpin:"Tā zhèngzài zhǔnbèi kǎoshì.", res:"Está preparando el examen."},
+    {q:"我可以进来吗？", qpin:"Wǒ kěyǐ jìnlái ma?", qes:"¿Puedo pasar?", r:"请进，欢迎你。", rpin:"Qǐng jìn, huānyíng nǐ.", res:"Pase, bienvenido."}
+  ],
+  gaps: [
+    {s:"他___准备晚饭。", w:"正在", pin:"Tā zhèngzài zhǔnbèi wǎnfàn.", es:"Él está preparando la cena."},
+    {s:"___我生病了，所以没去上班。", w:"因为", pin:"Yīnwèi wǒ shēngbìng le, suǒyǐ méi qù shàngbān.", es:"Como me enfermé, no fui a trabajar."},
+    {s:"这件衣服太贵了，能___一点儿吗？", w:"便宜", pin:"Zhè jiàn yīfu tài guì le, néng piányi yìdiǎnr ma?", es:"Esta prenda es muy cara, ¿puede dejarla más barata?"},
+    {s:"我的自行车很___，是上个星期买的。", w:"新", pin:"Wǒ de zìxíngchē hěn xīn, shì shàng ge xīngqī mǎi de.", es:"Mi bicicleta es muy nueva, la compré la semana pasada."},
+    {s:"请你___我一下，好吗？", w:"帮助", pin:"Qǐng nǐ bāngzhù wǒ yíxià, hǎo ma?", es:"¿Me ayudas un momento, por favor?"},
+    {s:"外面下___了，路上很白。", w:"雪", pin:"Wàimiàn xià xuě le, lù shàng hěn bái.", es:"Está nevando afuera; la calle está toda blanca."},
+    {s:"我们___去打篮球吧。", w:"一起", pin:"Wǒmen yìqǐ qù dǎ lánqiú ba.", es:"Vamos juntos a jugar baloncesto."},
+    {s:"他跑步跑___很快。", w:"得", pin:"Tā pǎobù pǎo de hěn kuài.", es:"Él corre muy rápido."}
+  ]
+}};
 
 // --- Niveles y unidades ---
 const LEVELS = [
@@ -1113,6 +1591,16 @@ function renderHome(){
     pc.innerHTML = '<div class="u-title">🗣 Frases para conversar</div><div class="u-sample">'+phrN+' frases útiles por categorías · estudia con audio y practica con un test.</div>';
     pc.onclick = ()=> openPhrases();
     cont.appendChild(pc);
+  }
+  if(EXAM[curLevel.id]){
+    const best = xmBest()[curLevel.id+":full"];
+    const xc = document.createElement("div");
+    xc.className = "unit mix";
+    xc.innerHTML = '<div class="u-title">🎓 Simulacro de examen</div><div class="u-sample">40 preguntas con el formato del examen '
+      + curLevel.name + ' (escuchar + leer) · cronometrado, con puntaje y revisión.'
+      + (typeof best==="number" ? ' <b>Mejor: '+best+'/200</b>' : '') + '</div>';
+    xc.onclick = ()=> openExamMenu();
+    cont.appendChild(xc);
   }
   const mix = document.createElement("div");
   mix.className = "unit mix";
@@ -1501,6 +1989,265 @@ function openTest(idxs, label){
     });
   }
   q();
+}
+
+// --- Simulacro de examen (formato tipo HSK 1) ---
+const XM_LET = ["A","B","C","D","E","F"];
+const XM_KINDS = {
+  full:   {name:"Simulacro completo", min:35, max:200, pass:120},
+  listen: {name:"Solo 听力 · Escuchar", min:15, max:100, pass:60},
+  read:   {name:"Solo 阅读 · Leer", min:20, max:100, pass:60}
+};
+const XM_PARTS = {
+  L1:{t:"听力 · Escuchar · Parte 1", i:"Escucha la palabra y decide si la imagen corresponde."},
+  L2:{t:"听力 · Escuchar · Parte 2", i:"Escucha la frase y elige la imagen correcta."},
+  L3:{t:"听力 · Escuchar · Parte 3", i:"Escucha el diálogo y elige la imagen que le corresponde (A–F)."},
+  L4:{t:"听力 · Escuchar · Parte 4", i:"Escucha la frase y la pregunta, y elige la respuesta correcta."},
+  R1:{t:"阅读 · Leer · Parte 1", i:"Lee la palabra y decide si la imagen corresponde."},
+  R2:{t:"阅读 · Leer · Parte 2", i:"Lee la frase y elige la imagen correcta (A–F)."},
+  R3:{t:"阅读 · Leer · Parte 3", i:"Lee la pregunta y elige la respuesta correcta (A–F)."},
+  R4:{t:"阅读 · Leer · Parte 4", i:"Elige la palabra que completa la frase (A–F)."}
+};
+const XM_LEGAL = 'Simulacro de práctica con el <b>formato</b> del examen HSK. Preguntas de creación original de '
+  + 'Meridian Vision SpA; no reproducen exámenes oficiales ni material de terceros. Meridian Vision SpA no está '
+  + 'afiliada ni respaldada por el CLEC (Hanban) ni por Chinese Testing International; «HSK» y «汉语水平考试» son marcas '
+  + 'de sus respectivos titulares y se mencionan solo para describir el nivel de referencia. El resultado de este '
+  + 'simulacro no tiene validez oficial.';
+const XM_BEST_KEY = "hsk_exam_best";
+function xmBest(){ try{ const v = JSON.parse(localStorage.getItem(XM_BEST_KEY)); return (v && typeof v==="object") ? v : {}; }catch(e){ return {}; } }
+function xmSaveBest(key, score){
+  const b = xmBest();
+  if(!(typeof b[key]==="number" && b[key] >= score)){ b[key] = score; try{ localStorage.setItem(XM_BEST_KEY, JSON.stringify(b)); }catch(e){} }
+}
+function xmFmt(s){ const m = Math.floor(s/60), r = s%60; return m+":"+(r<10?"0":"")+r; }
+
+// Arma un examen nuevo tomando ítems al azar del banco: cada intento es distinto.
+function buildExam(kind){
+  const B = EXAM[curLevel.id];
+  const wd = shuffle(B.words.slice());
+  const sd = shuffle(B.sents.slice());
+  const opt = (t,val,big) => ({t:t, val:val, big:!!big});
+
+  // Partes 1: la imagen coincide (✓) o se cambia por la de otra palabra (✗).
+  function tf(src, listen){
+    return src.map(w=>{
+      const match = Math.random() < 0.5;
+      const alt = shuffle(B.words.filter(x=>x[3]!==w[3]))[0];
+      return {sec: listen?"L":"R", part:1, type:"tf",
+        audio: listen ? [[w[0],null]] : null, showZh: !listen, say:[[w[0],null]],
+        zh:w[0], pin:w[1], es:w[2], pic: match ? w[3] : alt[3],
+        opts:[opt("✓ Sí, corresponde","1"), opt("✗ No corresponde","0")],
+        ans: match ? "1" : "0"};
+    });
+  }
+
+  // Escuchar 2: frase → 3 imágenes.
+  const l2 = sd.slice(0,5).map(s=>{
+    const wrong = shuffle(B.sents.filter(x=>x[3]!==s[3])).slice(0,2);
+    return {sec:"L", part:2, type:"pic", audio:[[s[0],null]], say:[[s[0],null]],
+      zh:s[0], pin:s[1], es:s[2],
+      opts: shuffle([s].concat(wrong)).map(x=>opt(x[3], x[3], true)), ans:s[3]};
+  });
+
+  // Escuchar 3: diálogo (voz A femenina / B masculina) → 6 imágenes A–F.
+  const dd = shuffle(B.dlgs.slice()), dUse = dd.slice(0,5);
+  const dBank = shuffle(dUse.concat([dd[5]]).map(d=>opt(d.e, d.e, true)));
+  const l3 = dUse.map(d=>({sec:"L", part:3, type:"pic",
+    audio:[[d.a[0],"f"],[d.b[0],"m"]], say:[[d.a[0],"f"],[d.b[0],"m"]],
+    zh:"A: "+d.a[0]+"　B: "+d.b[0], pin:"A: "+d.a[1]+"　B: "+d.b[1], es:"A: "+d.a[2]+"　B: "+d.b[2],
+    opts:dBank, ans:d.e}));
+
+  // Escuchar 4: frase + pregunta → 3 respuestas escritas.
+  const l4 = shuffle(B.qs.slice()).slice(0,5).map(q=>({sec:"L", part:4, type:"txt",
+    audio:[[q.zh,null],[q.q,null]], say:[[q.zh,null],[q.q,null]],
+    zh:q.zh+"　—　"+q.q, pin:q.pin+"　—　"+q.qpin, es:q.es+"　—　"+q.qes,
+    opts: shuffle(q.opts.slice()).map(o=>opt(o,o)), ans:q.ok}));
+
+  // Leer 2: frase escrita → 6 imágenes A–F.
+  const rSents = sd.slice(5,11);
+  const rBank = shuffle(rSents.map(x=>opt(x[3], x[3], true)));
+  const r2 = rSents.slice(0,5).map(s=>({sec:"R", part:2, type:"pic", showZh:true, say:[[s[0],null]],
+    zh:s[0], pin:s[1], es:s[2], opts:rBank, ans:s[3]}));
+
+  // Leer 3: emparejar pregunta ↔ respuesta (6 respuestas A–F).
+  const pp = shuffle(B.pairs.slice()), pUse = pp.slice(0,5);
+  const pBank = shuffle(pUse.concat([pp[5]]).map(x=>opt(x.r, x.r)));
+  const r3 = pUse.map(x=>({sec:"R", part:3, type:"txt", showZh:true, say:[[x.q,"f"],[x.r,"m"]],
+    zh:x.q, pin:x.qpin, es:x.qes, opts:pBank, ans:x.r, extra:{zh:x.r, pin:x.rpin, es:x.res}}));
+
+  // Leer 4: completar el hueco (6 palabras A–F).
+  const gg = shuffle(B.gaps.slice()), gUse = gg.slice(0,5);
+  const gBank = shuffle(gUse.concat([gg[5]]).map(x=>opt(x.w, x.w)));
+  const r4 = gUse.map(x=>({sec:"R", part:4, type:"txt", showZh:true, gap:true,
+    zh:x.s, pin:x.pin, es:x.es, say:[[x.s.replace("___", x.w),null]], opts:gBank, ans:x.w}));
+
+  const L = tf(wd.slice(0,5), true).concat(l2, l3, l4);
+  const R = tf(wd.slice(5,10), false).concat(r2, r3, r4);
+  const all = kind==="listen" ? L : kind==="read" ? R : L.concat(R);
+  all.forEach((it,k)=>{ it.n = k+1; it.user = null; });
+  return all;
+}
+
+function openExamMenu(){
+  showPanel();
+  const K = xmBest(), id = curLevel.id;
+  $("sub").textContent = curLevel.name + " · Simulacro de examen";
+  const best = k => (typeof K[id+":"+k]==="number") ? K[id+":"+k] : null;
+  const line = (k,tot) => best(k)!=null ? '<div class="sub" style="margin-top:4px">Mejor puntaje: <b>'+best(k)+' / '+tot+'</b></div>' : '';
+  $("panel").innerHTML =
+    '<div class="card"><div class="rd-title">🎓 Simulacro de examen · '+curLevel.name+'</div>'
+    + '<div class="xm-inst">Practica con el mismo <b>formato</b> del examen '+curLevel.name+': <b>20 preguntas de 听力</b> (escuchar) '
+    + 'y <b>20 de 阅读</b> (leer), 5 puntos cada una. Total <b>200 puntos</b>, se aprueba con <b>120</b>. '
+    + 'Las preguntas se sortean del banco, así que <b>cada intento es distinto</b>.</div>'
+    + '<button class="btn-show" id="xmFull">▶ Simulacro completo · 40 preguntas · 35 min</button>' + line("full",200)
+    + '<div class="xm-nav"><button id="xmListen">🎧 Solo escuchar<br><small>20 preg · 15 min</small></button>'
+    + '<button id="xmRead">📖 Solo leer<br><small>20 preg · 20 min</small></button></div>'
+    + line("listen",100) + line("read",100)
+    + '<div class="xm-nav"><button class="ghost" id="xmHome">← Menú</button></div>'
+    + '<div class="xm-legal">'+XM_LEGAL+'</div></div>';
+  $("xmFull").onclick   = ()=> openExam("full");
+  $("xmListen").onclick = ()=> openExam("listen");
+  $("xmRead").onclick   = ()=> openExam("read");
+  $("xmHome").onclick   = showHome;
+}
+
+function openExam(kind){
+  showPanel();
+  const K = XM_KINDS[kind], p = $("panel");
+  const items = buildExam(kind);
+  const total = items.length * 5;
+  let i = 0, left = K.min*60, done = false, token = 0;
+  $("sub").textContent = curLevel.name + " · " + K.name;
+
+  const tick = setInterval(()=>{
+    if(done) return;
+    left--;
+    const el = $("xmTime");
+    if(el){ el.textContent = xmFmt(Math.max(left,0)); el.classList.toggle("low", left <= 60); }
+    if(left <= 0) finish(true);
+  }, 1000);
+  function stopExam(){ done = true; clearInterval(tick); token++; stopAudio(); }
+
+  // Reproduce una lista [[texto, voz], …] en secuencia (clip nativo si existe, si no voz del navegador).
+  function playList(arr){
+    if(!arr || !arr.length) return;
+    token++; const my = token; stopAudio();
+    let k = 0;
+    (function step(){
+      if(my !== token || k >= arr.length) return;
+      const pair = arr[k];
+      playAudio(pair[0], pair[1] || contentVk(), null, ()=>{ if(my===token){ k++; setTimeout(step, 280); } }, voiceRate);
+    })();
+  }
+  function playItem(){ playList(items[i].audio); }
+
+  function render(){
+    const it = items[i], P = XM_PARTS[it.sec + it.part];
+    const letters = it.opts.length > 3 || it.opts[0].big;
+    let h = '<div class="card">'
+      + '<div class="xm-bar"><span class="xm-sec">'+P.t+'</span>'
+      + '<span class="pill">'+(i+1)+' / '+items.length+'</span>'
+      + '<span class="xm-time'+(left<=60?" low":"")+'" id="xmTime">'+xmFmt(Math.max(left,0))+'</span></div>'
+      + '<div class="xm-inst">'+P.i+'</div>';
+    if(it.audio) h += '<div class="rd-actions" style="margin-bottom:14px"><button id="xmPlay">🔊 Escuchar de nuevo</button></div>';
+    if(it.type === "tf") h += '<div class="xm-pic">'+it.pic+'</div>';
+    if(it.showZh) h += '<div class="xm-zh">'+(it.gap ? it.zh.replace("___", '<span class="xm-gap">（ ? ）</span>') : it.zh)+'</div>';
+    h += '<div class="xm-opts'+(it.opts[0].big?" grid":"")+'">';
+    it.opts.forEach((o,k)=>{
+      h += '<button data-v="'+encodeURIComponent(o.val)+'"'+(it.user===o.val?' class="sel"':'')+'>'
+         + (letters ? '<span class="xm-let">'+XM_LET[k]+'</span>' : '')
+         + '<span>'+o.t+'</span></button>';
+    });
+    h += '</div><div class="xm-nav">'
+      + '<button id="xmPrev"'+(i===0?" disabled":"")+'>← Anterior</button>'
+      + '<button id="xmNext"'+(i===items.length-1?" disabled":"")+'>Siguiente →</button></div>'
+      + '<div class="xm-dots">'+items.map((x,k)=>'<span class="xm-dot'+(x.user!=null?" done":"")+(k===i?" cur":"")+'" data-k="'+k+'">'+(k+1)+'</span>').join('')+'</div>'
+      + '<div class="xm-nav"><button class="ghost" id="xmQuit">✕ Salir</button>'
+      + '<button class="ghost" id="xmEnd">✅ Terminar y corregir</button></div></div>';
+    p.innerHTML = h;
+    if($("xmPlay")) $("xmPlay").onclick = playItem;
+    p.querySelectorAll(".xm-opts button").forEach(b=> b.onclick = ()=>{
+      items[i].user = decodeURIComponent(b.dataset.v);
+      p.querySelectorAll(".xm-opts button").forEach(x=> x.classList.toggle("sel", x===b));
+      p.querySelectorAll(".xm-dot")[i].classList.add("done");
+      if(i < items.length-1) setTimeout(()=>{ if(!done){ i++; render(); } }, 320);
+    });
+    $("xmPrev").onclick = ()=>{ if(i>0){ i--; render(); } };
+    $("xmNext").onclick = ()=>{ if(i<items.length-1){ i++; render(); } };
+    p.querySelectorAll(".xm-dot").forEach(d=> d.onclick = ()=>{ i = +d.dataset.k; render(); });
+    $("xmQuit").onclick = ()=>{ if(confirm("¿Salir del simulacro? Se pierden las respuestas.")){ stopExam(); showHome(); } };
+    $("xmEnd").onclick = ()=>{
+      const faltan = items.filter(x=>x.user==null).length;
+      if(faltan && !confirm("Quedan "+faltan+" preguntas sin responder. ¿Corregir igual?")) return;
+      finish(false);
+    };
+    playItem();
+  }
+
+  function label(it, v){
+    if(v == null) return "sin responder";
+    if(it.type === "tf") return v === "1" ? "✓ Sí, corresponde" : "✗ No corresponde";
+    return v;
+  }
+
+  function finish(byTime){
+    stopExam();
+    const pts = s => items.filter(x=>x.sec===s).reduce((a,x)=> a + (x.user===x.ans ? 5 : 0), 0);
+    const nL = items.filter(x=>x.sec==="L").length, nR = items.filter(x=>x.sec==="R").length;
+    const sL = pts("L"), sR = pts("R"), score = sL + sR;
+    const pass = score >= K.pass;
+    xmSaveBest(curLevel.id+":"+kind, score);
+    let rows = "";
+    ["L","R"].forEach(s=>{
+      const parts = [1,2,3,4].filter(n=> items.some(x=>x.sec===s && x.part===n));
+      if(!parts.length) return;
+      rows += '<tr class="sec"><td>'+(s==="L"?"听力 · Escuchar":"阅读 · Leer")+'</td><td>'+(s==="L"?sL:sR)+' / '+((s==="L"?nL:nR)*5)+'</td></tr>';
+      parts.forEach(n=>{
+        const set = items.filter(x=>x.sec===s && x.part===n);
+        const ok = set.filter(x=>x.user===x.ans).length;
+        rows += '<tr><td style="padding-left:14px">Parte '+n+'</td><td>'+ok+' / '+set.length+'</td></tr>';
+      });
+    });
+    p.innerHTML = '<div class="card"><div class="done" style="padding:20px 0 6px">'
+      + '<div class="big">'+(pass?"🏆":"📚")+'</div>'
+      + '<div class="xm-score">'+score+'<small>de '+total+' puntos'+(byTime?" · se acabó el tiempo":"")+'</small></div>'
+      + '<div class="sub" style="margin-top:10px;font-size:15px;color:'+(pass?"var(--ok)":"var(--accent)")+'">'
+      + (pass?"Aprobado (mínimo "+K.pass+")":"No aprobado · necesitas "+K.pass)+'</div></div>'
+      + '<table class="xm-tbl"><tbody>'+rows+'</tbody></table>'
+      + '<div class="xm-nav"><button id="xmRev">📋 Revisar respuestas</button><button id="xmAgain">↻ Repetir</button></div>'
+      + '<div class="xm-nav"><button class="ghost" id="xmMenu2">← Menú del simulacro</button></div>'
+      + '<div class="xm-legal">'+XM_LEGAL+'</div></div>';
+    $("xmRev").onclick = review;
+    $("xmAgain").onclick = ()=> openExam(kind);
+    $("xmMenu2").onclick = openExamMenu;
+  }
+
+  function review(){
+    let h = '<div class="card"><div class="rd-title">📋 Revisión de respuestas</div>';
+    items.forEach(it=>{
+      const ok = it.user === it.ans;
+      const P = XM_PARTS[it.sec + it.part];
+      const zh = it.gap ? it.zh.replace("___", '<b style="color:var(--ok)">'+it.ans+'</b>') : it.zh;
+      h += '<div class="xm-rev '+(ok?"good":"bad")+'">'
+        + '<div class="r-h"><span>'+it.n+'. '+P.t+'</span><span>'+(ok?"✓ correcta":"✗ incorrecta")+'</span></div>'
+        + (it.type==="tf" ? '<div style="font-size:34px;text-align:center;margin-bottom:4px">'+it.pic+'</div>' : '')
+        + '<div class="r-zh">'+zh+'</div><div class="r-pin">'+it.pin+'</div><div class="r-es">'+it.es+'</div>'
+        + (it.extra ? '<div class="r-zh" style="margin-top:8px">'+it.extra.zh+'</div><div class="r-pin">'+it.extra.pin+'</div><div class="r-es">'+it.extra.es+'</div>' : '')
+        + '<div class="r-ans">Tu respuesta: <b>'+label(it, it.user)+'</b><br>Correcta: <b style="color:var(--ok)">'+label(it, it.ans)+'</b></div>'
+        + '<div class="rd-actions"><button class="ghost xm-say" data-t="'+encodeURIComponent(JSON.stringify(it.say))+'">🔊 Escuchar</button></div>'
+        + '</div>';
+    });
+    h += '<div class="xm-nav"><button id="xmAgain2">↻ Repetir simulacro</button><button class="ghost" id="xmMenu3">← Menú</button></div>'
+      + '<div class="xm-legal">'+XM_LEGAL+'</div></div>';
+    p.innerHTML = h;
+    p.querySelectorAll(".xm-say").forEach(b=> b.onclick = ()=>{
+      try{ playList(JSON.parse(decodeURIComponent(b.dataset.t))); }catch(e){}
+    });
+    $("xmAgain2").onclick = ()=> openExam(kind);
+    $("xmMenu3").onclick = openExamMenu;
+  }
+
+  render();
 }
 
 // --- Tema claro / oscuro ---
