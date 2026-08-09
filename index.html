@@ -172,6 +172,7 @@
   .xm-pic{font-size:64px; text-align:center; line-height:1.2; margin:8px 0 16px}
   .xm-zh{font-size:22px; text-align:center; line-height:1.7; margin:6px 0 16px}
   .xm-gap{color:var(--accent); font-weight:700}
+  .xm-judge{background:var(--card2); border:1px solid var(--accent2); border-radius:12px; padding:12px 14px; margin:0 0 16px; font-size:19px; line-height:1.6; text-align:center}
   .xm-opts{display:flex; flex-direction:column; gap:10px}
   .xm-opts.grid{display:grid; grid-template-columns:repeat(3,1fr); gap:10px}
   .xm-opts button{padding:14px; font-size:15px; text-align:left; display:flex; gap:10px; align-items:center}
@@ -1391,7 +1392,16 @@ hsk2: {
     ["今天是他的生日。","Jīntiān shì tā de shēngrì.","Hoy es su cumpleaños.","🎂"],
     ["她在游泳。","Tā zài yóuyǒng.","Ella está nadando.","🏊"],
     ["他们在跳舞。","Tāmen zài tiàowǔ.","Ellos están bailando.","💃"],
-    ["我的手表很贵。","Wǒ de shǒubiǎo hěn guì.","Mi reloj es muy caro.","⌚"]
+    ["我的手表很贵。","Wǒ de shǒubiǎo hěn guì.","Mi reloj es muy caro.","⌚"],
+    ["姐姐在洗衣服。","Jiějie zài xǐ yīfu.","Mi hermana mayor está lavando la ropa.","🧺"],
+    ["他们在教室里上课。","Tāmen zài jiàoshì lǐ shàng kè.","Están en clase en el aula.","🏫"],
+    ["我们中午吃鱼。","Wǒmen zhōngwǔ chī yú.","Al mediodía comemos pescado.","🐟"],
+    ["弟弟在房间里睡觉。","Dìdi zài fángjiān lǐ shuìjiào.","Mi hermano menor duerme en la habitación.","😴"],
+    ["外面已经黑了。","Wàimiàn yǐjīng hēi le.","Afuera ya está oscuro.","🌙"],
+    ["今天下午有考试。","Jīntiān xiàwǔ yǒu kǎoshì.","Esta tarde hay examen.","📝"],
+    ["他每天坐公共汽车上班。","Tā měi tiān zuò gōnggòng qìchē shàngbān.","Va al trabajo en autobús todos los días.","🚌"],
+    ["妈妈在做羊肉。","Māma zài zuò yángròu.","Mamá está cocinando cordero.","🍖"],
+    ["下雨了，路上都是水。","Xià yǔ le, lù shàng dōu shì shuǐ.","Llovió y la calle está llena de agua.","🌧️"]
   ],
   dlgs: [
     {a:["你要喝咖啡还是牛奶？","Nǐ yào hē kāfēi háishì niúnǎi?","¿Quieres tomar café o leche?"], b:["我要一杯咖啡。","Wǒ yào yì bēi kāfēi.","Quiero un café."], e:"☕"},
@@ -1440,6 +1450,91 @@ hsk2: {
     {s:"外面下___了，路上很白。", w:"雪", pin:"Wàimiàn xià xuě le, lù shàng hěn bái.", es:"Está nevando afuera; la calle está toda blanca."},
     {s:"我们___去打篮球吧。", w:"一起", pin:"Wǒmen yìqǐ qù dǎ lánqiú ba.", es:"Vamos juntos a jugar baloncesto."},
     {s:"他跑步跑___很快。", w:"得", pin:"Tā pǎobù pǎo de hěn kuài.", es:"Él corre muy rápido."}
+  ],
+
+  // Diálogo corto (2 líneas) + pregunta → 3 respuestas escritas (听力 parte 3)
+  dlgQs: [
+    {lines:[["A","你去哪儿？","Nǐ qù nǎr?","¿Adónde vas?"],["B","我去机场，我姐姐今天回来。","Wǒ qù jīchǎng, wǒ jiějie jīntiān huílái.","Voy al aeropuerto, mi hermana vuelve hoy."]],
+     q:"他去哪儿？", qpin:"Tā qù nǎr?", qes:"¿Adónde va?", opts:["机场","学校","公司"], ok:"机场"},
+    {lines:[["A","这个手机多少钱？","Zhège shǒujī duōshao qián?","¿Cuánto cuesta este celular?"],["B","一千二百元。","Yìqiān èrbǎi yuán.","Mil doscientos yuanes."]],
+     q:"手机多少钱？", qpin:"Shǒujī duōshao qián?", qes:"¿Cuánto cuesta el celular?", opts:["一千二百元","两百元","一百元"], ok:"一千二百元"},
+    {lines:[["A","你怎么了？","Nǐ zěnme le?","¿Qué te pasa?"],["B","我有点儿累，昨天睡得很晚。","Wǒ yǒudiǎnr lèi, zuótiān shuì de hěn wǎn.","Estoy algo cansado, ayer me dormí muy tarde."]],
+     q:"他为什么累？", qpin:"Tā wèishénme lèi?", qes:"¿Por qué está cansado?", opts:["睡得很晚","生病了","跑步了"], ok:"睡得很晚"},
+    {lines:[["A","你妹妹在做什么？","Nǐ mèimei zài zuò shénme?","¿Qué hace tu hermana menor?"],["B","她在房间里唱歌。","Tā zài fángjiān lǐ chànggē.","Está cantando en su habitación."]],
+     q:"妹妹在做什么？", qpin:"Mèimei zài zuò shénme?", qes:"¿Qué hace la hermana?", opts:["唱歌","跳舞","游泳"], ok:"唱歌"},
+    {lines:[["A","我们几点开始？","Wǒmen jǐ diǎn kāishǐ?","¿A qué hora empezamos?"],["B","八点，别晚了。","Bā diǎn, bié wǎn le.","A las ocho, no llegues tarde."]],
+     q:"他们几点开始？", qpin:"Tāmen jǐ diǎn kāishǐ?", qes:"¿A qué hora empiezan?", opts:["八点","九点","十点"], ok:"八点"},
+    {lines:[["A","你吃药了吗？","Nǐ chī yào le ma?","¿Tomaste el medicamento?"],["B","吃了，医生让我多休息。","Chī le, yīshēng ràng wǒ duō xiūxi.","Sí, el médico me dijo que descanse más."]],
+     q:"医生让他做什么？", qpin:"Yīshēng ràng tā zuò shénme?", qes:"¿Qué le indicó el médico?", opts:["多休息","多运动","多喝咖啡"], ok:"多休息"},
+    {lines:[["A","你的自行车是新的吗？","Nǐ de zìxíngchē shì xīn de ma?","¿Tu bicicleta es nueva?"],["B","是，上个月买的。","Shì, shàng ge yuè mǎi de.","Sí, la compré el mes pasado."]],
+     q:"自行车是什么时候买的？", qpin:"Zìxíngchē shì shénme shíhou mǎi de?", qes:"¿Cuándo compró la bicicleta?", opts:["上个月","去年","今天"], ok:"上个月"},
+    {lines:[["A","外面下雪了吗？","Wàimiàn xià xuě le ma?","¿Está nevando afuera?"],["B","没有，今天是晴天。","Méiyǒu, jīntiān shì qíngtiān.","No, hoy está despejado."]],
+     q:"今天天气怎么样？", qpin:"Jīntiān tiānqì zěnmeyàng?", qes:"¿Qué tal el clima hoy?", opts:["晴天","下雪","下雨"], ok:"晴天"},
+    {lines:[["A","你想喝什么？","Nǐ xiǎng hē shénme?","¿Qué quieres tomar?"],["B","一杯牛奶，谢谢。","Yì bēi niúnǎi, xièxie.","Un vaso de leche, gracias."]],
+     q:"他要喝什么？", qpin:"Tā yào hē shénme?", qes:"¿Qué va a tomar?", opts:["牛奶","咖啡","茶"], ok:"牛奶"},
+    {lines:[["A","老师，这个题我不懂。","Lǎoshī, zhège tí wǒ bù dǒng.","Profesora, este ejercicio no lo entiendo."],["B","没关系，我再说一次。","Méi guānxi, wǒ zài shuō yí cì.","No importa, lo explico otra vez."]],
+     q:"学生有什么问题？", qpin:"Xuéshēng yǒu shénme wèntí?", qes:"¿Qué problema tiene el alumno?", opts:["不懂这个题","找不到教室","生病了"], ok:"不懂这个题"},
+    {lines:[["A","你们公司离这儿远吗？","Nǐmen gōngsī lí zhèr yuǎn ma?","¿Su empresa queda lejos de aquí?"],["B","不远，走路十分钟。","Bù yuǎn, zǒulù shí fēnzhōng.","No, diez minutos a pie."]],
+     q:"公司离这儿多远？", qpin:"Gōngsī lí zhèr duō yuǎn?", qes:"¿A qué distancia está la empresa?", opts:["走路十分钟","坐车一个小时","非常远"], ok:"走路十分钟"},
+    {lines:[["A","今天谁做饭？","Jīntiān shéi zuò fàn?","¿Quién cocina hoy?"],["B","我丈夫，他正在准备。","Wǒ zhàngfu, tā zhèngzài zhǔnbèi.","Mi marido, ya está preparando."]],
+     q:"今天谁做饭？", qpin:"Jīntiān shéi zuò fàn?", qes:"¿Quién cocina hoy?", opts:["丈夫","妻子","妹妹"], ok:"丈夫"},
+    {lines:[["A","这些鸡蛋怎么卖？","Zhèxiē jīdàn zěnme mài?","¿A cómo están los huevos?"],["B","十块钱一公斤。","Shí kuài qián yì gōngjīn.","Diez yuanes el kilo."]],
+     q:"鸡蛋多少钱一公斤？", qpin:"Jīdàn duōshao qián yì gōngjīn?", qes:"¿Cuánto cuesta el kilo de huevos?", opts:["十块","一百块","五块"], ok:"十块"}
+  ],
+
+  // Diálogo largo (4 líneas) + pregunta → 3 respuestas escritas (听力 parte 4)
+  longDlgs: [
+    {lines:[["A","喂，你在哪儿？","Wéi, nǐ zài nǎr?","Aló, ¿dónde estás?"],["B","我在机场，飞机晚了。","Wǒ zài jīchǎng, fēijī wǎn le.","En el aeropuerto, el avión se atrasó."],["A","那你什么时候到家？","Nà nǐ shénme shíhou dào jiā?","¿Y a qué hora llegas a casa?"],["B","可能晚上八点。","Kěnéng wǎnshang bā diǎn.","Quizá a las ocho de la noche."]],
+     q:"他现在在哪儿？", qpin:"Tā xiànzài zài nǎr?", qes:"¿Dónde está ahora?", opts:["机场","火车站","公司"], ok:"机场"},
+    {lines:[["A","你身体好点儿了吗？","Nǐ shēntǐ hǎo diǎnr le ma?","¿Estás mejor de salud?"],["B","好多了，谢谢。","Hǎo duō le, xièxie.","Mucho mejor, gracias."],["A","还吃药吗？","Hái chī yào ma?","¿Sigues tomando el medicamento?"],["B","吃，医生让我吃一个星期。","Chī, yīshēng ràng wǒ chī yí ge xīngqī.","Sí, el médico me lo dejó por una semana."]],
+     q:"医生让他吃多长时间的药？", qpin:"Yīshēng ràng tā chī duō cháng shíjiān de yào?", qes:"¿Por cuánto tiempo debe tomarlo?", opts:["一个星期","一天","一个月"], ok:"一个星期"},
+    {lines:[["A","明天我们去游泳，好吗？","Míngtiān wǒmen qù yóuyǒng, hǎo ma?","¿Mañana vamos a nadar?"],["B","好，几点？","Hǎo, jǐ diǎn?","Bueno, ¿a qué hora?"],["A","早上九点，票二十元。","Zǎoshang jiǔ diǎn, piào èrshí yuán.","A las nueve, la entrada cuesta veinte."],["B","没问题，我请你。","Méi wèntí, wǒ qǐng nǐ.","Sin problema, yo invito."]],
+     q:"他们明天做什么？", qpin:"Tāmen míngtiān zuò shénme?", qes:"¿Qué harán mañana?", opts:["游泳","跑步","打篮球"], ok:"游泳"},
+    {lines:[["A","这件红的多少钱？","Zhè jiàn hóng de duōshao qián?","¿Cuánto cuesta la roja?"],["B","两百块。","Liǎngbǎi kuài.","Doscientos."],["A","太贵了，能便宜一点儿吗？","Tài guì le, néng piányi yìdiǎnr ma?","Es muy cara, ¿la deja más barata?"],["B","一百八十块，不能再少了。","Yìbǎi bāshí kuài, bù néng zài shǎo le.","Ciento ochenta, no puedo bajar más."]],
+     q:"最后这件衣服多少钱？", qpin:"Zuìhòu zhè jiàn yīfu duōshao qián?", qes:"¿En cuánto queda la prenda?", opts:["一百八十块","两百块","一百块"], ok:"一百八十块"},
+    {lines:[["A","你怎么去上班？","Nǐ zěnme qù shàngbān?","¿Cómo vas al trabajo?"],["B","我坐公共汽车。","Wǒ zuò gōnggòng qìchē.","En autobús."],["A","要多长时间？","Yào duō cháng shíjiān?","¿Cuánto tardas?"],["B","一个小时，有点儿慢。","Yí ge xiǎoshí, yǒudiǎnr màn.","Una hora, es algo lento."]],
+     q:"他上班要多长时间？", qpin:"Tā shàngbān yào duō cháng shíjiān?", qes:"¿Cuánto tarda en llegar al trabajo?", opts:["一个小时","十分钟","两个小时"], ok:"一个小时"},
+    {lines:[["A","下个月是妈妈的生日。","Xià ge yuè shì māma de shēngrì.","El mes que viene es el cumpleaños de mamá."],["B","我们送她什么？","Wǒmen sòng tā shénme?","¿Qué le regalamos?"],["A","她喜欢看报纸，也喜欢喝咖啡。","Tā xǐhuan kàn bàozhǐ, yě xǐhuan hē kāfēi.","Le gusta leer el periódico y tomar café."],["B","那我们送咖啡吧。","Nà wǒmen sòng kāfēi ba.","Entonces regalémosle café."]],
+     q:"他们要送什么？", qpin:"Tāmen yào sòng shénme?", qes:"¿Qué van a regalar?", opts:["咖啡","报纸","手表"], ok:"咖啡"},
+    {lines:[["A","你找到手机了吗？","Nǐ zhǎodào shǒujī le ma?","¿Encontraste el celular?"],["B","没有，我找了很长时间。","Méiyǒu, wǒ zhǎole hěn cháng shíjiān.","No, llevo mucho rato buscándolo."],["A","昨天晚上你去哪儿了？","Zuótiān wǎnshang nǐ qù nǎr le?","¿Adónde fuiste anoche?"],["B","我在朋友家玩。","Wǒ zài péngyou jiā wán.","Estuve en casa de un amigo."]],
+     q:"手机可能在哪儿？", qpin:"Shǒujī kěnéng zài nǎr?", qes:"¿Dónde puede estar el celular?", opts:["朋友家","教室","公司"], ok:"朋友家"}
+  ],
+
+  // Frase + afirmación → ¿correcta o incorrecta? (阅读 parte 3, 判断对错)
+  judges: [
+    {zh:"我姐姐去年开始学游泳，现在游得很好。", pin:"Wǒ jiějie qùnián kāishǐ xué yóuyǒng, xiànzài yóu de hěn hǎo.", es:"Mi hermana empezó a nadar el año pasado y ahora nada muy bien.",
+     st:"姐姐会游泳。", stpin:"Jiějie huì yóuyǒng.", stes:"La hermana sabe nadar.", ok:true},
+    {zh:"今天下雪了，我没去上班。", pin:"Jīntiān xià xuě le, wǒ méi qù shàngbān.", es:"Hoy nevó y no fui a trabajar.",
+     st:"他今天去上班了。", stpin:"Tā jīntiān qù shàngbān le.", stes:"Hoy fue a trabajar.", ok:false},
+    {zh:"这件衣服两百块，有点儿贵。", pin:"Zhè jiàn yīfu liǎngbǎi kuài, yǒudiǎnr guì.", es:"Esta prenda cuesta doscientos, es algo cara.",
+     st:"这件衣服很便宜。", stpin:"Zhè jiàn yīfu hěn piányi.", stes:"La prenda es muy barata.", ok:false},
+    {zh:"我丈夫每天早上六点起床跑步。", pin:"Wǒ zhàngfu měi tiān zǎoshang liù diǎn qǐchuáng pǎobù.", es:"Mi marido se levanta a las seis a correr todos los días.",
+     st:"丈夫早上运动。", stpin:"Zhàngfu zǎoshang yùndòng.", stes:"El marido hace ejercicio por la mañana.", ok:true},
+    {zh:"我的手机找不到了，可能在教室里。", pin:"Wǒ de shǒujī zhǎo bú dào le, kěnéng zài jiàoshì lǐ.", es:"No encuentro mi celular, quizá está en el aula.",
+     st:"他在找自行车。", stpin:"Tā zài zhǎo zìxíngchē.", stes:"Está buscando la bicicleta.", ok:false},
+    {zh:"妹妹非常喜欢咖啡，每天喝两杯。", pin:"Mèimei fēicháng xǐhuan kāfēi, měi tiān hē liǎng bēi.", es:"A mi hermana le encanta el café: toma dos tazas al día.",
+     st:"妹妹喜欢喝咖啡。", stpin:"Mèimei xǐhuan hē kāfēi.", stes:"A la hermana le gusta el café.", ok:true},
+    {zh:"从我家到机场坐车要一个小时。", pin:"Cóng wǒ jiā dào jīchǎng zuò chē yào yí ge xiǎoshí.", es:"De mi casa al aeropuerto es una hora en auto.",
+     st:"机场离他家很近。", stpin:"Jīchǎng lí tā jiā hěn jìn.", stes:"El aeropuerto queda muy cerca de su casa.", ok:false},
+    {zh:"哥哥在一家公司上班，工作很忙。", pin:"Gēge zài yì jiā gōngsī shàngbān, gōngzuò hěn máng.", es:"Mi hermano mayor trabaja en una empresa y está muy ocupado.",
+     st:"哥哥有工作。", stpin:"Gēge yǒu gōngzuò.", stes:"El hermano tiene trabajo.", ok:true}
+  ],
+
+  // Emparejar frases: la segunda continúa o responde a la primera (阅读 parte 4)
+  matches: [
+    {q:"我今天很累。", qpin:"Wǒ jīntiān hěn lèi.", qes:"Hoy estoy muy cansado.", r:"那你早点儿休息吧。", rpin:"Nà nǐ zǎo diǎnr xiūxi ba.", res:"Entonces descansa temprano."},
+    {q:"这个西瓜真好吃。", qpin:"Zhège xīguā zhēn hǎochī.", qes:"Esta sandía está riquísima.", r:"是我妻子昨天买的。", rpin:"Shì wǒ qīzi zuótiān mǎi de.", res:"La compró mi esposa ayer."},
+    {q:"你的手表很漂亮。", qpin:"Nǐ de shǒubiǎo hěn piàoliang.", qes:"Tu reloj es muy lindo.", r:"谢谢，是我丈夫送的。", rpin:"Xièxie, shì wǒ zhàngfu sòng de.", res:"Gracias, me lo regaló mi marido."},
+    {q:"明天我们几点见？", qpin:"Míngtiān wǒmen jǐ diǎn jiàn?", qes:"¿A qué hora nos vemos mañana?", r:"早上九点，在学校旁边。", rpin:"Zǎoshang jiǔ diǎn, zài xuéxiào pángbiān.", res:"A las nueve, al lado de la escuela."},
+    {q:"我不懂这个题。", qpin:"Wǒ bù dǒng zhège tí.", qes:"No entiendo este ejercicio.", r:"我告诉你怎么做。", rpin:"Wǒ gàosu nǐ zěnme zuò.", res:"Yo te explico cómo se hace."},
+    {q:"外面下雪了。", qpin:"Wàimiàn xià xuě le.", qes:"Está nevando afuera.", r:"那你穿多一点儿。", rpin:"Nà nǐ chuān duō yìdiǎnr.", res:"Entonces abrígate bien."},
+    {q:"他为什么没来？", qpin:"Tā wèishénme méi lái?", qes:"¿Por qué no vino?", r:"因为他生病了。", rpin:"Yīnwèi tā shēngbìng le.", res:"Porque se enfermó."},
+    {q:"这些鸡蛋多少钱？", qpin:"Zhèxiē jīdàn duōshao qián?", qes:"¿Cuánto cuestan estos huevos?", r:"十块钱一公斤。", rpin:"Shí kuài qián yì gōngjīn.", res:"Diez yuanes el kilo."},
+    {q:"你会跳舞吗？", qpin:"Nǐ huì tiàowǔ ma?", qes:"¿Sabes bailar?", r:"会一点儿，但是跳得不好。", rpin:"Huì yìdiǎnr, dànshì tiào de bù hǎo.", res:"Un poco, pero bailo mal."},
+    {q:"我的自行车找不到了。", qpin:"Wǒ de zìxíngchē zhǎo bú dào le.", qes:"No encuentro mi bicicleta.", r:"我帮助你一起找。", rpin:"Wǒ bāngzhù nǐ yìqǐ zhǎo.", res:"Te ayudo a buscarla."},
+    {q:"你想喝咖啡还是牛奶？", qpin:"Nǐ xiǎng hē kāfēi háishì niúnǎi?", qes:"¿Quieres café o leche?", r:"咖啡，谢谢。", rpin:"Kāfēi, xièxie.", res:"Café, gracias."},
+    {q:"我们坐船去吧。", qpin:"Wǒmen zuò chuán qù ba.", qes:"Vayamos en barco.", r:"好，船票比飞机票便宜。", rpin:"Hǎo, chuánpiào bǐ fēijī piào piányi.", res:"Bueno, el pasaje en barco es más barato que el de avión."},
+    {q:"今天的课开始了吗？", qpin:"Jīntiān de kè kāishǐ le ma?", qes:"¿Ya empezó la clase de hoy?", r:"已经开始十分钟了。", rpin:"Yǐjīng kāishǐ shí fēnzhōng le.", res:"Empezó hace diez minutos."}
   ]
 }};
 
@@ -1994,20 +2089,33 @@ function openTest(idxs, label){
 // --- Simulacro de examen (formato tipo HSK 1) ---
 const XM_LET = ["A","B","C","D","E","F"];
 const XM_KINDS = {
-  full:   {name:"Simulacro completo", min:35, max:200, pass:120},
-  listen: {name:"Solo 听力 · Escuchar", min:15, max:100, pass:60},
-  read:   {name:"Solo 阅读 · Leer", min:20, max:100, pass:60}
+  full:   {name:"Simulacro completo", max:200, pass:120},
+  listen: {name:"Solo 听力 · Escuchar", max:100, pass:60},
+  read:   {name:"Solo 阅读 · Leer", max:100, pass:60}
 };
-const XM_PARTS = {
-  L1:{t:"听力 · Escuchar · Parte 1", i:"Escucha la palabra y decide si la imagen corresponde."},
-  L2:{t:"听力 · Escuchar · Parte 2", i:"Escucha la frase y elige la imagen correcta."},
-  L3:{t:"听力 · Escuchar · Parte 3", i:"Escucha el diálogo y elige la imagen que le corresponde (A–F)."},
-  L4:{t:"听力 · Escuchar · Parte 4", i:"Escucha la frase y la pregunta, y elige la respuesta correcta."},
-  R1:{t:"阅读 · Leer · Parte 1", i:"Lee la palabra y decide si la imagen corresponde."},
-  R2:{t:"阅读 · Leer · Parte 2", i:"Lee la frase y elige la imagen correcta (A–F)."},
-  R3:{t:"阅读 · Leer · Parte 3", i:"Lee la pregunta y elige la respuesta correcta (A–F)."},
-  R4:{t:"阅读 · Leer · Parte 4", i:"Elige la palabra que completa la frase (A–F)."}
+const XM_PARTS_BY_LEVEL = {
+  hsk1: {
+    L1:{t:"听力 · Escuchar · Parte 1", i:"Escucha la palabra y decide si la imagen corresponde."},
+    L2:{t:"听力 · Escuchar · Parte 2", i:"Escucha la frase y elige la imagen correcta."},
+    L3:{t:"听力 · Escuchar · Parte 3", i:"Escucha el diálogo y elige la imagen que le corresponde (A–F)."},
+    L4:{t:"听力 · Escuchar · Parte 4", i:"Escucha la frase y la pregunta, y elige la respuesta correcta."},
+    R1:{t:"阅读 · Leer · Parte 1", i:"Lee la palabra y decide si la imagen corresponde."},
+    R2:{t:"阅读 · Leer · Parte 2", i:"Lee la frase y elige la imagen correcta (A–F)."},
+    R3:{t:"阅读 · Leer · Parte 3", i:"Lee la pregunta y elige la respuesta correcta (A–F)."},
+    R4:{t:"阅读 · Leer · Parte 4", i:"Elige la palabra que completa la frase (A–F)."}
+  },
+  hsk2: {
+    L1:{t:"听力 · Escuchar · Parte 1", i:"Escucha la palabra y decide si la imagen corresponde."},
+    L2:{t:"听力 · Escuchar · Parte 2", i:"Escucha la frase y elige la imagen correcta (A–F)."},
+    L3:{t:"听力 · Escuchar · Parte 3", i:"Escucha el diálogo y la pregunta, y elige la respuesta correcta."},
+    L4:{t:"听力 · Escuchar · Parte 4", i:"Escucha el diálogo largo y la pregunta, y elige la respuesta correcta."},
+    R1:{t:"阅读 · Leer · Parte 1", i:"Lee la frase y elige la imagen que le corresponde (A–F)."},
+    R2:{t:"阅读 · Leer · Parte 2", i:"Elige la palabra que completa la frase (A–F)."},
+    R3:{t:"阅读 · Leer · Parte 3", i:"Lee la frase y decide si la afirmación (★) es correcta."},
+    R4:{t:"阅读 · Leer · Parte 4", i:"Lee la frase y elige la que la continúa o le responde (A–F)."}
+  }
 };
+function xmPart(it){ return (XM_PARTS_BY_LEVEL[curLevel.id] || XM_PARTS_BY_LEVEL.hsk1)[it.sec + it.part]; }
 const XM_LEGAL = 'Simulacro de práctica con el <b>formato</b> del examen HSK. Preguntas de creación original de '
   + 'Meridian Vision SpA; no reproducen exámenes oficiales ni material de terceros. Meridian Vision SpA no está '
   + 'afiliada ni respaldada por el CLEC (Hanban) ni por Chinese Testing International; «HSK» y «汉语水平考试» son marcas '
@@ -2021,69 +2129,133 @@ function xmSaveBest(key, score){
 }
 function xmFmt(s){ const m = Math.floor(s/60), r = s%60; return m+":"+(r<10?"0":"")+r; }
 
+// Plan de cada examen por nivel: partes, tipo de ítem, banco de origen y cuántas preguntas.
+// HSK 1 = 20 听力 + 20 阅读 (40). HSK 2 = 35 听力 + 25 阅读 (60), igual que el examen oficial.
+const EXAM_PLAN = {
+  hsk1: {
+    mins: {full:35, listen:15, read:20},
+    L: [ {p:1,k:"tf",src:"words",n:5}, {p:2,k:"pic3",src:"sents",n:5},
+         {p:3,k:"picBank",src:"dlgs",n:5}, {p:4,k:"txt3",src:"qs",n:5} ],
+    R: [ {p:1,k:"tf",src:"words",n:5}, {p:2,k:"picBank",src:"sents",n:5},
+         {p:3,k:"bank",src:"pairs",n:5}, {p:4,k:"gap",src:"gaps",n:5} ]
+  },
+  hsk2: {
+    mins: {full:50, listen:25, read:22},
+    L: [ {p:1,k:"tf",src:"words",n:10}, {p:2,k:"picBank",src:"sents",n:10},
+         {p:3,k:"txt3",src:"dlgQs",n:10}, {p:4,k:"txt3",src:"longDlgs",n:5} ],
+    R: [ {p:1,k:"picBank",src:"sents",n:5}, {p:2,k:"gap",src:"gaps",n:5},
+         {p:3,k:"judge",src:"judges",n:5}, {p:4,k:"bank",src:"matches",n:10} ]
+  }
+};
+function planCount(id, sec){ return (EXAM_PLAN[id][sec] || []).reduce((a,x)=> a + x.n, 0); }
+
 // Arma un examen nuevo tomando ítems al azar del banco: cada intento es distinto.
 function buildExam(kind){
-  const B = EXAM[curLevel.id];
-  const wd = shuffle(B.words.slice());
-  const sd = shuffle(B.sents.slice());
+  const id = curLevel.id, B = EXAM[id], PLAN = EXAM_PLAN[id];
   const opt = (t,val,big) => ({t:t, val:val, big:!!big});
+  // Reparte cada banco sin repetir dentro del mismo examen (si el banco se acaba, se rebaraja).
+  const decks = {};
+  function take(src, n){
+    if(!decks[src]) decks[src] = shuffle((B[src] || []).slice());
+    if(decks[src].length < n) decks[src] = decks[src].concat(shuffle((B[src] || []).slice()));
+    return decks[src].splice(0, n);
+  }
+  const LET6 = 6; // cada bloque de 5 preguntas se responde con 6 opciones (A–F), como en el examen
 
-  // Partes 1: la imagen coincide (✓) o se cambia por la de otra palabra (✗).
-  function tf(src, listen){
-    return src.map(w=>{
-      const match = Math.random() < 0.5;
-      const alt = shuffle(B.words.filter(x=>x[3]!==w[3]))[0];
-      return {sec: listen?"L":"R", part:1, type:"tf",
-        audio: listen ? [[w[0],null]] : null, showZh: !listen, say:[[w[0],null]],
-        zh:w[0], pin:w[1], es:w[2], pic: match ? w[3] : alt[3],
-        opts:[opt("✓ Sí, corresponde","1"), opt("✗ No corresponde","0")],
-        ans: match ? "1" : "0"};
-    });
+  function build(part, sec){
+    const listen = sec === "L", out = [];
+    const base = {sec:sec, part:part.p};
+
+    if(part.k === "tf"){
+      take(part.src, part.n).forEach(w=>{
+        const match = Math.random() < 0.5;
+        const alt = shuffle(B.words.filter(x=>x[3] !== w[3]))[0];
+        out.push(Object.assign({}, base, {type:"tf",
+          audio: listen ? [[w[0],null]] : null, showZh: !listen, say:[[w[0],null]],
+          zh:w[0], pin:w[1], es:w[2], pic: match ? w[3] : alt[3],
+          opts:[opt("✓ Sí, corresponde","1"), opt("✗ No corresponde","0")],
+          ans: match ? "1" : "0"}));
+      });
+
+    } else if(part.k === "pic3"){
+      take(part.src, part.n).forEach(x=>{
+        const wrong = shuffle(B[part.src].filter(y=>y[3] !== x[3])).slice(0,2);
+        out.push(Object.assign({}, base, {type:"pic",
+          audio: listen ? [[x[0],null]] : null, showZh: !listen, say:[[x[0],null]],
+          zh:x[0], pin:x[1], es:x[2],
+          opts: shuffle([x].concat(wrong)).map(y=>opt(y[3], y[3], true)), ans:x[3]}));
+      });
+
+    } else if(part.k === "picBank"){
+      for(let g = 0; g < Math.ceil(part.n / 5); g++){
+        const grp = take(part.src, LET6);
+        const dlg = !Array.isArray(grp[0]);            // los diálogos vienen como objeto {a,b,e}
+        const bank = shuffle(grp.map(x=> opt(dlg ? x.e : x[3], dlg ? x.e : x[3], true)));
+        grp.slice(0, Math.min(5, part.n - g*5)).forEach(x=>{
+          if(dlg){
+            out.push(Object.assign({}, base, {type:"pic",
+              audio:[[x.a[0],"f"],[x.b[0],"m"]], say:[[x.a[0],"f"],[x.b[0],"m"]],
+              zh:"A: "+x.a[0]+"　B: "+x.b[0], pin:"A: "+x.a[1]+"　B: "+x.b[1], es:"A: "+x.a[2]+"　B: "+x.b[2],
+              opts:bank, ans:x.e}));
+          } else {
+            out.push(Object.assign({}, base, {type:"pic",
+              audio: listen ? [[x[0],null]] : null, showZh: !listen, say:[[x[0],null]],
+              zh:x[0], pin:x[1], es:x[2], opts:bank, ans:x[3]}));
+          }
+        });
+      }
+
+    } else if(part.k === "txt3"){
+      take(part.src, part.n).forEach(x=>{
+        const lines = x.lines || null;
+        const audio = lines ? lines.map(L=>[L[1], L[0]==="B" ? "m" : "f"]).concat([[x.q,"f"]])
+                            : [[x.zh,null],[x.q,null]];
+        const zh  = lines ? lines.map(L=>L[0]+": "+L[1]).join("　") : x.zh;
+        const pin = lines ? lines.map(L=>L[0]+": "+L[2]).join("　") : x.pin;
+        const es  = lines ? lines.map(L=>L[0]+": "+L[3]).join("　") : x.es;
+        out.push(Object.assign({}, base, {type:"txt",
+          audio: audio, say: audio,
+          zh: zh+"　—　"+x.q, pin: pin+"　—　"+x.qpin, es: es+"　—　"+x.qes,
+          opts: shuffle(x.opts.slice()).map(o=>opt(o,o)), ans:x.ok}));
+      });
+
+    } else if(part.k === "bank"){
+      for(let g = 0; g < Math.ceil(part.n / 5); g++){
+        const grp = take(part.src, LET6);
+        const bank = shuffle(grp.map(x=> opt(x.r, x.r)));
+        grp.slice(0, Math.min(5, part.n - g*5)).forEach(x=>{
+          out.push(Object.assign({}, base, {type:"txt", showZh:true, say:[[x.q,"f"],[x.r,"m"]],
+            zh:x.q, pin:x.qpin, es:x.qes, opts:bank, ans:x.r,
+            extra:{zh:x.r, pin:x.rpin, es:x.res}}));
+        });
+      }
+
+    } else if(part.k === "gap"){
+      for(let g = 0; g < Math.ceil(part.n / 5); g++){
+        const grp = take(part.src, LET6);
+        const bank = shuffle(grp.map(x=> opt(x.w, x.w)));
+        grp.slice(0, Math.min(5, part.n - g*5)).forEach(x=>{
+          out.push(Object.assign({}, base, {type:"txt", showZh:true, gap:true,
+            zh:x.s, pin:x.pin, es:x.es, say:[[x.s.replace("___", x.w), null]],
+            opts:bank, ans:x.w}));
+        });
+      }
+
+    } else if(part.k === "judge"){
+      take(part.src, part.n).forEach(x=>{
+        out.push(Object.assign({}, base, {type:"judge", showZh:true,
+          zh:x.zh, pin:x.pin, es:x.es, say:[[x.zh,null],[x.st,null]],
+          judge:{st:x.st, pin:x.stpin, es:x.stes},
+          opts:[opt("✓ Correcto","1"), opt("✗ Incorrecto","0")], ans: x.ok ? "1" : "0"}));
+      });
+    }
+    return out;
   }
 
-  // Escuchar 2: frase → 3 imágenes.
-  const l2 = sd.slice(0,5).map(s=>{
-    const wrong = shuffle(B.sents.filter(x=>x[3]!==s[3])).slice(0,2);
-    return {sec:"L", part:2, type:"pic", audio:[[s[0],null]], say:[[s[0],null]],
-      zh:s[0], pin:s[1], es:s[2],
-      opts: shuffle([s].concat(wrong)).map(x=>opt(x[3], x[3], true)), ans:s[3]};
-  });
-
-  // Escuchar 3: diálogo (voz A femenina / B masculina) → 6 imágenes A–F.
-  const dd = shuffle(B.dlgs.slice()), dUse = dd.slice(0,5);
-  const dBank = shuffle(dUse.concat([dd[5]]).map(d=>opt(d.e, d.e, true)));
-  const l3 = dUse.map(d=>({sec:"L", part:3, type:"pic",
-    audio:[[d.a[0],"f"],[d.b[0],"m"]], say:[[d.a[0],"f"],[d.b[0],"m"]],
-    zh:"A: "+d.a[0]+"　B: "+d.b[0], pin:"A: "+d.a[1]+"　B: "+d.b[1], es:"A: "+d.a[2]+"　B: "+d.b[2],
-    opts:dBank, ans:d.e}));
-
-  // Escuchar 4: frase + pregunta → 3 respuestas escritas.
-  const l4 = shuffle(B.qs.slice()).slice(0,5).map(q=>({sec:"L", part:4, type:"txt",
-    audio:[[q.zh,null],[q.q,null]], say:[[q.zh,null],[q.q,null]],
-    zh:q.zh+"　—　"+q.q, pin:q.pin+"　—　"+q.qpin, es:q.es+"　—　"+q.qes,
-    opts: shuffle(q.opts.slice()).map(o=>opt(o,o)), ans:q.ok}));
-
-  // Leer 2: frase escrita → 6 imágenes A–F.
-  const rSents = sd.slice(5,11);
-  const rBank = shuffle(rSents.map(x=>opt(x[3], x[3], true)));
-  const r2 = rSents.slice(0,5).map(s=>({sec:"R", part:2, type:"pic", showZh:true, say:[[s[0],null]],
-    zh:s[0], pin:s[1], es:s[2], opts:rBank, ans:s[3]}));
-
-  // Leer 3: emparejar pregunta ↔ respuesta (6 respuestas A–F).
-  const pp = shuffle(B.pairs.slice()), pUse = pp.slice(0,5);
-  const pBank = shuffle(pUse.concat([pp[5]]).map(x=>opt(x.r, x.r)));
-  const r3 = pUse.map(x=>({sec:"R", part:3, type:"txt", showZh:true, say:[[x.q,"f"],[x.r,"m"]],
-    zh:x.q, pin:x.qpin, es:x.qes, opts:pBank, ans:x.r, extra:{zh:x.r, pin:x.rpin, es:x.res}}));
-
-  // Leer 4: completar el hueco (6 palabras A–F).
-  const gg = shuffle(B.gaps.slice()), gUse = gg.slice(0,5);
-  const gBank = shuffle(gUse.concat([gg[5]]).map(x=>opt(x.w, x.w)));
-  const r4 = gUse.map(x=>({sec:"R", part:4, type:"txt", showZh:true, gap:true,
-    zh:x.s, pin:x.pin, es:x.es, say:[[x.s.replace("___", x.w),null]], opts:gBank, ans:x.w}));
-
-  const L = tf(wd.slice(0,5), true).concat(l2, l3, l4);
-  const R = tf(wd.slice(5,10), false).concat(r2, r3, r4);
-  const all = kind==="listen" ? L : kind==="read" ? R : L.concat(R);
+  let L = [], R = [];
+  PLAN.L.forEach(part=>{ L = L.concat(build(part, "L")); });
+  PLAN.R.forEach(part=>{ R = R.concat(build(part, "R")); });
+  const all = kind === "listen" ? L : kind === "read" ? R : L.concat(R);
   all.forEach((it,k)=>{ it.n = k+1; it.user = null; });
   return all;
 }
@@ -2091,17 +2263,18 @@ function buildExam(kind){
 function openExamMenu(){
   showPanel();
   const K = xmBest(), id = curLevel.id;
+  const nL = planCount(id, "L"), nR = planCount(id, "R"), M = EXAM_PLAN[id].mins;
   $("sub").textContent = curLevel.name + " · Simulacro de examen";
   const best = k => (typeof K[id+":"+k]==="number") ? K[id+":"+k] : null;
   const line = (k,tot) => best(k)!=null ? '<div class="sub" style="margin-top:4px">Mejor puntaje: <b>'+best(k)+' / '+tot+'</b></div>' : '';
   $("panel").innerHTML =
     '<div class="card"><div class="rd-title">🎓 Simulacro de examen · '+curLevel.name+'</div>'
-    + '<div class="xm-inst">Practica con el mismo <b>formato</b> del examen '+curLevel.name+': <b>20 preguntas de 听力</b> (escuchar) '
-    + 'y <b>20 de 阅读</b> (leer), 5 puntos cada una. Total <b>200 puntos</b>, se aprueba con <b>120</b>. '
+    + '<div class="xm-inst">Practica con la misma <b>estructura</b> del examen '+curLevel.name+': <b>'+nL+' preguntas de 听力</b> (escuchar) '
+    + 'y <b>'+nR+' de 阅读</b> (leer). Cada sección vale <b>100 puntos</b>: total <b>200</b>, se aprueba con <b>120</b>. '
     + 'Las preguntas se sortean del banco, así que <b>cada intento es distinto</b>.</div>'
-    + '<button class="btn-show" id="xmFull">▶ Simulacro completo · 40 preguntas · 35 min</button>' + line("full",200)
-    + '<div class="xm-nav"><button id="xmListen">🎧 Solo escuchar<br><small>20 preg · 15 min</small></button>'
-    + '<button id="xmRead">📖 Solo leer<br><small>20 preg · 20 min</small></button></div>'
+    + '<button class="btn-show" id="xmFull">▶ Simulacro completo · '+(nL+nR)+' preguntas · '+M.full+' min</button>' + line("full",200)
+    + '<div class="xm-nav"><button id="xmListen">🎧 Solo escuchar<br><small>'+nL+' preg · '+M.listen+' min</small></button>'
+    + '<button id="xmRead">📖 Solo leer<br><small>'+nR+' preg · '+M.read+' min</small></button></div>'
     + line("listen",100) + line("read",100)
     + '<div class="xm-nav"><button class="ghost" id="xmHome">← Menú</button></div>'
     + '<div class="xm-legal">'+XM_LEGAL+'</div></div>';
@@ -2115,8 +2288,8 @@ function openExam(kind){
   showPanel();
   const K = XM_KINDS[kind], p = $("panel");
   const items = buildExam(kind);
-  const total = items.length * 5;
-  let i = 0, left = K.min*60, done = false, token = 0;
+  const total = K.max;
+  let i = 0, left = EXAM_PLAN[curLevel.id].mins[kind]*60, done = false, token = 0;
   $("sub").textContent = curLevel.name + " · " + K.name;
 
   const tick = setInterval(()=>{
@@ -2142,7 +2315,7 @@ function openExam(kind){
   function playItem(){ playList(items[i].audio); }
 
   function render(){
-    const it = items[i], P = XM_PARTS[it.sec + it.part];
+    const it = items[i], P = xmPart(it);
     const letters = it.opts.length > 3 || it.opts[0].big;
     let h = '<div class="card">'
       + '<div class="xm-bar"><span class="xm-sec">'+P.t+'</span>'
@@ -2152,6 +2325,7 @@ function openExam(kind){
     if(it.audio) h += '<div class="rd-actions" style="margin-bottom:14px"><button id="xmPlay">🔊 Escuchar de nuevo</button></div>';
     if(it.type === "tf") h += '<div class="xm-pic">'+it.pic+'</div>';
     if(it.showZh) h += '<div class="xm-zh">'+(it.gap ? it.zh.replace("___", '<span class="xm-gap">（ ? ）</span>') : it.zh)+'</div>';
+    if(it.judge) h += '<div class="xm-judge">★ '+it.judge.st+'</div>';
     h += '<div class="xm-opts'+(it.opts[0].big?" grid":"")+'">';
     it.opts.forEach((o,k)=>{
       h += '<button data-v="'+encodeURIComponent(o.val)+'"'+(it.user===o.val?' class="sel"':'')+'>'
@@ -2187,21 +2361,26 @@ function openExam(kind){
   function label(it, v){
     if(v == null) return "sin responder";
     if(it.type === "tf") return v === "1" ? "✓ Sí, corresponde" : "✗ No corresponde";
+    if(it.type === "judge") return v === "1" ? "✓ Correcto" : "✗ Incorrecto";
     return v;
   }
 
   function finish(byTime){
     stopExam();
-    const pts = s => items.filter(x=>x.sec===s).reduce((a,x)=> a + (x.user===x.ans ? 5 : 0), 0);
-    const nL = items.filter(x=>x.sec==="L").length, nR = items.filter(x=>x.sec==="R").length;
-    const sL = pts("L"), sR = pts("R"), score = sL + sR;
+    // Cada sección vale 100 puntos, repartidos entre sus preguntas (como en el examen real).
+    const okOf = s => items.filter(x=>x.sec===s && x.user===x.ans).length;
+    const nOf  = s => items.filter(x=>x.sec===s).length;
+    const nL = nOf("L"), nR = nOf("R");
+    const sL = nL ? Math.round(okOf("L")/nL*100) : 0;
+    const sR = nR ? Math.round(okOf("R")/nR*100) : 0;
+    const score = sL + sR;
     const pass = score >= K.pass;
     xmSaveBest(curLevel.id+":"+kind, score);
     let rows = "";
     ["L","R"].forEach(s=>{
       const parts = [1,2,3,4].filter(n=> items.some(x=>x.sec===s && x.part===n));
       if(!parts.length) return;
-      rows += '<tr class="sec"><td>'+(s==="L"?"听力 · Escuchar":"阅读 · Leer")+'</td><td>'+(s==="L"?sL:sR)+' / '+((s==="L"?nL:nR)*5)+'</td></tr>';
+      rows += '<tr class="sec"><td>'+(s==="L"?"听力 · Escuchar":"阅读 · Leer")+'</td><td>'+(s==="L"?sL:sR)+' / 100</td></tr>';
       parts.forEach(n=>{
         const set = items.filter(x=>x.sec===s && x.part===n);
         const ok = set.filter(x=>x.user===x.ans).length;
@@ -2226,12 +2405,13 @@ function openExam(kind){
     let h = '<div class="card"><div class="rd-title">📋 Revisión de respuestas</div>';
     items.forEach(it=>{
       const ok = it.user === it.ans;
-      const P = XM_PARTS[it.sec + it.part];
+      const P = xmPart(it);
       const zh = it.gap ? it.zh.replace("___", '<b style="color:var(--ok)">'+it.ans+'</b>') : it.zh;
       h += '<div class="xm-rev '+(ok?"good":"bad")+'">'
         + '<div class="r-h"><span>'+it.n+'. '+P.t+'</span><span>'+(ok?"✓ correcta":"✗ incorrecta")+'</span></div>'
         + (it.type==="tf" ? '<div style="font-size:34px;text-align:center;margin-bottom:4px">'+it.pic+'</div>' : '')
         + '<div class="r-zh">'+zh+'</div><div class="r-pin">'+it.pin+'</div><div class="r-es">'+it.es+'</div>'
+        + (it.judge ? '<div class="xm-judge" style="margin:8px 0 0">★ '+it.judge.st+'<div class="r-pin">'+it.judge.pin+'</div><div class="r-es">'+it.judge.es+'</div></div>' : '')
         + (it.extra ? '<div class="r-zh" style="margin-top:8px">'+it.extra.zh+'</div><div class="r-pin">'+it.extra.pin+'</div><div class="r-es">'+it.extra.es+'</div>' : '')
         + '<div class="r-ans">Tu respuesta: <b>'+label(it, it.user)+'</b><br>Correcta: <b style="color:var(--ok)">'+label(it, it.ans)+'</b></div>'
         + '<div class="rd-actions"><button class="ghost xm-say" data-t="'+encodeURIComponent(JSON.stringify(it.say))+'">🔊 Escuchar</button></div>'
