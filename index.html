@@ -1582,15 +1582,28 @@ try{
 function contentVk(){ return voiceGender === "male" ? "m" : "f"; }
 let zhVoice = null;
 function zhVoices(){ return speechSynthesis.getVoices().filter(v=>/^zh/i.test(v.lang)); }
-function pickVoice(){
-  const zh = zhVoices();
-  const femRe = /female|婷|Ting|Mei|Sinji|Xiao|Yao|Zhiyu|Hui|Tracy|Li[- ]?mu|女/i;
-  const maleRe = /male|Yun|Kang|Han|Liang|Danny|Zhi[- ]?wei|男/i;
-  let v = null;
-  if(voiceGender === "male") v = zh.find(x=>maleRe.test(x.name)) || zh.find(x=>!femRe.test(x.name));
-  else v = zh.find(x=>femRe.test(x.name));
-  zhVoice = v || zh.find(x=>/zh[-_]CN/i.test(x.lang)) || zh[0] || null;
+// Voces "de personaje" que trae macOS (Grandma, Rocko, Eddy…): suenan a caricatura y
+// arruinan la pronunciación. Nunca se eligen si hay una voz normal disponible.
+const ZH_NOVELTY = /Eddy|Flo|Grandma|Grandpa|Reed|Rocko|Sandy|Shelley|Bubbles|Bells|Boing|Jester|Organ|Superstar|Trinoids|Whisper|Wobble|Zarvox|Bahh|Albert|Cellos|Good ?News|Bad ?News/i;
+const ZH_FEM  = /Tingting|Ting-?Ting|婷|Meijia|Mei-?Jia|美佳|Sinji|善怡|Xiao|Yao|Zhiyu|Huihui|Tracy|Li-?mu|female|女/i;
+const ZH_MALE = /Yunyang|Yunxi|Yunjian|Yun|Kangkang|Kang|Zhiwei|Zhi-?wei|Liang|Danny|Han(?!yu)|男/i;
+// Puntaje: descarta las de personaje, prefiere mandarín continental y la voz del género pedido.
+function zhVoiceScore(v, wantMale){
+  let s = 0;
+  if(ZH_NOVELTY.test(v.name)) s -= 100;
+  if(/premium|enhanced|natural|neural/i.test(v.name)) s += 20;
+  if(/zh[-_]CN/i.test(v.lang)) s += 10;
+  const isF = ZH_FEM.test(v.name), isM = ZH_MALE.test(v.name) && !/female/i.test(v.name);
+  if(wantMale) s += isM ? 30 : (isF ? -10 : 0);
+  else        s += isF ? 30 : (isM ? -10 : 0);
+  return s;
 }
+function bestZhVoice(wantMale, exclude){
+  const zh = zhVoices().filter(v=> v !== exclude);
+  if(!zh.length) return null;
+  return zh.slice().sort((a,b)=> zhVoiceScore(b,wantMale) - zhVoiceScore(a,wantMale))[0];
+}
+function pickVoice(){ zhVoice = bestZhVoice(voiceGender === "male", null); }
 if("speechSynthesis" in window){ pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
 function voicePitch(){ return voiceGender === "male" ? 0.7 : 1.2; }
 // El TTS del navegador "se come" 爱 (ài) pegándola a la sílaba siguiente;
@@ -1611,14 +1624,29 @@ function stopAudio(){
 // Voz del navegador con callbacks (fallback). vk: "f" | "m" | null
 function wsSpeak(text, rate, onstart, onend, vk){
   if(!("speechSynthesis" in window)){ onend && onend(); return; }
-  const u = new SpeechSynthesisUtterance(ttsText(text));
-  u.lang = "zh-CN";
-  if(zhVoice) u.voice = zhVoice;
-  u.rate = rate || voiceRate;
-  u.pitch = vk === "m" ? 0.8 : (vk === "f" ? 1.12 : voicePitch());
-  if(onstart) u.onstart = onstart;
-  if(onend) u.onend = onend;
-  speechSynthesis.speak(u);
+  if(!zhVoice) pickVoice();                        // las voces pueden cargar después del arranque
+  let started = false, ended = false, reintento = false;
+  function utter(){
+    const u = new SpeechSynthesisUtterance(ttsText(text));
+    u.lang = (zhVoice && zhVoice.lang) || "zh-CN";
+    if(zhVoice) u.voice = zhVoice;
+    u.rate = rate || voiceRate;
+    u.pitch = vk === "m" ? 0.8 : (vk === "f" ? 1.12 : voicePitch());
+    u.onstart = ()=>{ started = true; onstart && onstart(); };
+    u.onend = ()=>{ if(!ended){ ended = true; onend && onend(); } };
+    u.onerror = ()=>{ if(!ended){ ended = true; onend && onend(); } };
+    try{ speechSynthesis.resume(); }catch(e){}     // Safari/Chrome a veces quedan en pausa
+    speechSynthesis.speak(u);
+    // Tras un cancel(), el navegador puede tragarse la frase siguiente: si en 500 ms
+    // no arrancó ni quedó en cola, se vuelve a pedir una sola vez.
+    setTimeout(()=>{
+      if(started || ended || reintento) return;
+      if(speechSynthesis.speaking || speechSynthesis.pending) return;
+      reintento = true; utter();
+    }, 500);
+  }
+  // Pequeña pausa después de cancel() para no perder la frase (bug conocido del TTS del navegador).
+  setTimeout(utter, 90);
 }
 // Reproduce un texto: MP3 pre-generado si existe; si no, cae a la voz del navegador.
 function playAudio(text, vk, onstart, onend, rate){
@@ -1865,15 +1893,12 @@ function speakSeq(list, rate){
 
 // --- Lectura por unidad (historia o diálogo) ---
 function pickDialogueVoices(){
-  const zh = zhVoices();
-  const femRe = /female|婷|Ting|Mei|Sinji|Xiao|Yao|Zhiyu|Hui|Sandy|Shelley|Grandma|Flo|女/i;
-  const maleRe = /male|Yun|Kang|Han|Liang|Grandpa|Eddy|Reed|Rocko|男/i;
-  const fem = zh.find(v=>femRe.test(v.name)) || zh[0] || zhVoice;
-  // B: preferir una voz masculina; si no, cualquier voz DISTINTA de A; último recurso, misma con otro tono
-  let male = zh.find(v=> maleRe.test(v.name) && v!==fem)
-          || zh.find(v=> v!==fem)
-          || fem;
-  return { A:{ voice: fem, pitch:1.12 }, B:{ voice: male, pitch:0.8 } };
+  const fem = bestZhVoice(false, null) || zhVoice;
+  // B: solo una voz masculina REAL y no de personaje; si no existe, la misma voz con el tono más grave
+  // (antes caía en Grandpa/Rocko/Eddy, que suenan a caricatura).
+  const cand = bestZhVoice(true, fem);
+  const male = (cand && !ZH_NOVELTY.test(cand.name) && ZH_MALE.test(cand.name)) ? cand : fem;
+  return { A:{ voice: fem, pitch:1.12 }, B:{ voice: male, pitch: male === fem ? 0.72 : 0.92 } };
 }
 // --- Frases para conversar: estudiar (con audio) o ejercitar (test) ---
 function phraseFlat(id){ return (PHRASES[id] || []).flatMap(g=>g.items); }
