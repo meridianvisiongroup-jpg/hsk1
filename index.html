@@ -156,6 +156,14 @@
   .ph-num{flex:0 0 26px; height:26px; line-height:26px; text-align:center; border-radius:50%; font-size:13px; font-weight:700; color:var(--muted); background:var(--card); border:1px solid var(--line)}
   .ph-cat{margin:16px 0 8px; font-size:14px; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:.04em}
   .ph-cat:first-child{margin-top:0}
+  /* Gramática */
+  .gr-item{border:1px solid var(--line); border-radius:14px; padding:12px 14px; margin-bottom:10px; background:var(--card)}
+  .gr-t{font-size:16px; font-weight:700; margin-bottom:6px}
+  .gr-n{font-size:14px; line-height:1.6; color:var(--muted); margin-bottom:10px}
+  .gr-n b{color:var(--fg)}
+  .gr-why{font-size:14px; line-height:1.55; color:var(--muted); border-left:3px solid var(--accent2); padding:6px 0 6px 10px; margin-top:12px}
+  .gr-ask{font-size:19px; line-height:1.5; text-align:center; margin:10px 0 16px}
+  .gr-pill{display:inline-block; font-size:12px; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:.04em; margin-bottom:4px}
   /* Test */
   .ts-q{font-size:40px; text-align:center; margin:10px 0 2px}
   .ts-pin{text-align:center; color:var(--accent2); font-size:18px; margin-bottom:18px}
@@ -1539,10 +1547,363 @@ hsk2: {
 }};
 
 // --- Niveles y unidades ---
+// ===== HSK 3 · vocabulario y gramática de la clase del 8-ago-2026 =====
+const WORDS3 = [
+ ["终于","zhōngyú","por fin / finalmente","adverbio"],["礼物","lǐwù","regalo","sustantivo"],
+ ["遇到","yùdào","encontrarse con (por casualidad)","verbo"],["见到","jiàndào","ver / encontrarse con","verbo"],
+ ["校长","xiàozhǎng","director/a (de un colegio)","sustantivo"],["起来","qǐlái","levantarse / empezar a","verbo"],
+ ["一般","yìbān","generalmente / regular","adverbio/adj."],["愿意","yuànyì","estar dispuesto / gustaría","auxiliar"],
+ ["应该","yīnggāi","deber / debería","auxiliar"],["打算","dǎsuàn","planear / tener pensado","verbo"],
+ ["散步","sànbù","pasear","verbo"],["生活","shēnghuó","vida / vivir","sust./verbo"],
+ ["有意思","yǒu yìsi","interesante / entretenido","frase"],["决定","juédìng","decidir","verbo"],
+ ["聊天","liáotiān","conversar / charlar","verbo"],
+ ["经常","jīngcháng","con frecuencia","adverbio"],["常常","chángcháng","a menudo","adverbio"],
+ ["复习","fùxí","repasar","verbo"],["坏","huài","malo / roto","adjetivo"],
+ ["画","huà","dibujar / cuadro","verbo/sust."],["年纪","niánjì","edad (de una persona)","sustantivo"],
+ ["上年纪","shàng niánjì","tener edad avanzada","frase"],["饿","è","tener hambre","adjetivo"],
+ ["死","sǐ","morir / muerto (grado)","verbo"],["一边","yìbiān","por un lado (一边…一边)","adverbio"],
+ ["一下","yíxià","un momento / un poco","clasificador"],["一会儿","yíhuìr","un ratito","sustantivo"],
+ ["久","jiǔ","largo tiempo","adjetivo"],["更","gèng","aún más","adverbio"],
+ ["比较","bǐjiào","bastante / comparativamente","adverbio"],
+ ["见","jiàn","ver / percibir (resultativo)","verbo"],["回来","huílái","volver (hacia acá)","verbo"],
+ ["回去","huíqù","volver (hacia allá)","verbo"],["出来","chūlái","salir (hacia acá)","verbo"],
+ ["过去","guòqù","pasar hacia allá / el pasado","verbo/sust."],["拿","ná","tomar / coger","verbo"],
+ ["搬","bān","mover / mudarse","verbo"],["把","bǎ","partícula (objeto adelantado)","partícula"],
+ ["过","guo","partícula de experiencia","partícula"],["以前","yǐqián","antes / en el pasado","sustantivo"],
+ ["这样","zhèyàng","así / de esta forma","pronombre"],["收拾","shōushi","ordenar / recoger","verbo"],
+ ["行李箱","xínglixiāng","maleta","sustantivo"],["爬山","páshān","subir un cerro","verbo"],
+ ["有点儿","yǒudiǎnr","un poco (algo molesto)","adverbio"],
+ ["班长","bānzhǎng","delegado/a de curso","sustantivo"],["组长","zǔzhǎng","jefe/a de grupo","sustantivo"],
+ ["家长","jiāzhǎng","apoderado/a","sustantivo"],["兄长","xiōngzhǎng","hermano mayor (culto)","sustantivo"],
+ ["嫁","jià","casarse (la mujer)","verbo"],["娶","qǔ","casarse (el hombre)","verbo"],
+ ["结婚","jiéhūn","casarse","verbo"],["戴","dài","ponerse (lentes, corbata)","verbo"],
+ ["眼镜","yǎnjìng","lentes","sustantivo"],["领带","lǐngdài","corbata","sustantivo"],
+ ["西装","xīzhuāng","terno / traje","sustantivo"],["裤子","kùzi","pantalones","sustantivo"],
+ ["灰色","huīsè","gris","sustantivo"],["蓝色","lánsè","azul","sustantivo"],
+ ["咖啡色","kāfēisè","café (color)","sustantivo"]
+];
+const EXAMPLES3 = {
+ "终于":["我终于写完作业了。","Wǒ zhōngyú xiěwán zuòyè le.","Por fin terminé la tarea."],
+ "礼物":["我送他一个礼物。","Wǒ sòng tā yí ge lǐwù.","Le regalé un regalo."],
+ "遇到":["我在路上遇到了老师。","Wǒ zài lù shang yùdào le lǎoshī.","Me encontré con la profesora en el camino."],
+ "见到":["我终于见到校长了。","Wǒ zhōngyú jiàndào xiàozhǎng le.","Por fin me encontré con el director."],
+ "校长":["校长是一位上年纪的先生。","Xiàozhǎng shì yí wèi shàng niánjì de xiānsheng.","El director es un señor mayor."],
+ "起来":["太晚了，快起来吧！","Tài wǎn le, kuài qǐlái ba!","¡Es tarde, levántate!"],
+ "一般":["我一般星期六在家看书。","Wǒ yìbān xīngqīliù zài jiā kànshū.","Generalmente los sábados leo en casa."],
+ "愿意":["你愿意跟我一起去爬山吗？","Nǐ yuànyì gēn wǒ yìqǐ qù páshān ma?","¿Te gustaría ir a subir el cerro conmigo?"],
+ "应该":["你最近很累，应该早点儿睡觉。","Nǐ zuìjìn hěn lèi, yīnggāi zǎo diǎnr shuìjiào.","Últimamente estás cansado, deberías dormir temprano."],
+ "打算":["我打算下个月去旅行。","Wǒ dǎsuàn xià ge yuè qù lǚxíng.","Tengo pensado viajar el próximo mes."],
+ "散步":["下课以后我们去散散步吧。","Xiàkè yǐhòu wǒmen qù sànsan bù ba.","Después de la clase vamos a pasear."],
+ "生活":["多出去走走，生活会更有意思。","Duō chūqu zǒuzou, shēnghuó huì gèng yǒu yìsi.","Sal más y la vida será más interesante."],
+ "有意思":["这本书很有意思。","Zhè běn shū hěn yǒu yìsi.","Este libro es muy interesante."],
+ "决定":["我决定去中国旅行。","Wǒ juédìng qù Zhōngguó lǚxíng.","Decidí viajar a China."],
+ "聊天":["我们一边喝咖啡，一边聊天。","Wǒmen yìbiān hē kāfēi, yìbiān liáotiān.","Tomábamos café mientras conversábamos."],
+ "经常":["他经常去图书馆。","Tā jīngcháng qù túshūguǎn.","Él va con frecuencia a la biblioteca."],
+ "常常":["我常常想起以前的事。","Wǒ chángcháng xiǎngqǐ yǐqián de shì.","A menudo recuerdo cosas de antes."],
+ "复习":["你应该多复习。","Nǐ yīnggāi duō fùxí.","Deberías repasar más."],
+ "坏":["我的手机坏了。","Wǒ de shǒujī huài le.","Mi celular se echó a perder."],
+ "画":["这张画是我画的。","Zhè zhāng huà shì wǒ huà de.","Este cuadro lo pinté yo."],
+ "年纪":["校长多大年纪？","Xiàozhǎng duō dà niánjì?","¿Qué edad tiene el director?"],
+ "上年纪":["那位先生上年纪了。","Nà wèi xiānsheng shàng niánjì le.","Ese señor ya tiene sus años."],
+ "饿":["我一天没吃饭，饿死了。","Wǒ yì tiān méi chīfàn, è sǐ le.","No comí en todo el día, estoy muerta de hambre."],
+ "死":["我累死了，想休息一下。","Wǒ lèi sǐ le, xiǎng xiūxi yíxià.","Estoy muerta de cansancio, quiero descansar un rato."],
+ "一边":["他一边听音乐，一边写作业。","Tā yìbiān tīng yīnyuè, yìbiān xiě zuòyè.","Escucha música mientras hace la tarea."],
+ "一下":["我们休息一下吧。","Wǒmen xiūxi yíxià ba.","Descansemos un rato."],
+ "一会儿":["请等一会儿。","Qǐng děng yíhuìr.","Espera un momento, por favor."],
+ "久":["我们聊了很久。","Wǒmen liáo le hěn jiǔ.","Conversamos mucho rato."],
+ "更":["这样你的生活会更有意思。","Zhèyàng nǐ de shēnghuó huì gèng yǒu yìsi.","Así tu vida será aún más interesante."],
+ "比较":["这本书比较有意思。","Zhè běn shū bǐjiào yǒu yìsi.","Este libro es bastante interesante."],
+ "见":["我看见他了，他就在门口。","Wǒ kànjiàn tā le, tā jiù zài ménkǒu.","Lo vi, está justo en la puerta."],
+ "回来":["妈妈买回来了很多水果。","Māma mǎi huílái le hěn duō shuǐguǒ.","Mamá volvió con mucha fruta."],
+ "回去":["太晚了，你快回去吧。","Tài wǎn le, nǐ kuài huíqù ba.","Es muy tarde, vuelve a casa."],
+ "出来":["他从书包里拿出来一支笔。","Tā cóng shūbāo lǐ ná chūlái yì zhī bǐ.","Sacó un lápiz de la mochila."],
+ "过去":["请把这本书送过去。","Qǐng bǎ zhè běn shū sòng guòqù.","Por favor lleva este libro para allá."],
+ "拿":["把桌子上的东西拿起来。","Bǎ zhuōzi shang de dōngxi ná qǐlái.","Levanta las cosas que están sobre la mesa."],
+ "搬":["帮我把沙发搬过来。","Bāng wǒ bǎ shāfā bān guòlái.","Ayúdame a mover el sofá para acá."],
+ "把":["我把作业写完了。","Wǒ bǎ zuòyè xiěwán le.","Terminé de escribir la tarea."],
+ "过":["我去过北京两次。","Wǒ qù guo Běijīng liǎng cì.","He estado en Pekín dos veces."],
+ "以前":["以前我住在一个很小的房子里。","Yǐqián wǒ zhù zài yí ge hěn xiǎo de fángzi lǐ.","Antes vivía en una casa muy pequeña."],
+ "这样":["这样做比较好。","Zhèyàng zuò bǐjiào hǎo.","Hacerlo así es mejor."],
+ "收拾":["我应该收拾行李箱。","Wǒ yīnggāi shōushi xínglixiāng.","Debería hacer la maleta."],
+ "行李箱":["我的行李箱很大。","Wǒ de xínglixiāng hěn dà.","Mi maleta es muy grande."],
+ "爬山":["星期天我们去爬山吧。","Xīngqītiān wǒmen qù páshān ba.","El domingo vamos a subir el cerro."],
+ "有点儿":["今天我有点儿累。","Jīntiān wǒ yǒudiǎnr lèi.","Hoy estoy un poco cansada."],
+ "班长":["他是我们班的班长。","Tā shì wǒmen bān de bānzhǎng.","Él es el delegado de nuestro curso."],
+ "组长":["每个组都有一个组长。","Měi ge zǔ dōu yǒu yí ge zǔzhǎng.","Cada grupo tiene un jefe de grupo."],
+ "家长":["明天家长要来学校。","Míngtiān jiāzhǎng yào lái xuéxiào.","Mañana vienen los apoderados al colegio."],
+ "兄长":["这是我的兄长。","Zhè shì wǒ de xiōngzhǎng.","Este es mi hermano mayor."],
+ "嫁":["你愿意嫁给我吗？","Nǐ yuànyì jià gěi wǒ ma?","¿Quieres casarte conmigo?"],
+ "娶":["你愿意娶我吗？","Nǐ yuànyì qǔ wǒ ma?","¿Quieres casarte conmigo?"],
+ "结婚":["他们上个月结婚了。","Tāmen shàng ge yuè jiéhūn le.","Se casaron el mes pasado."],
+ "戴":["他戴着眼镜和一条领带。","Tā dài zhe yǎnjìng hé yì tiáo lǐngdài.","Lleva lentes y una corbata."],
+ "眼镜":["我的眼镜坏了。","Wǒ de yǎnjìng huài le.","Se me rompieron los lentes."],
+ "领带":["他的领带是灰色的。","Tā de lǐngdài shì huīsè de.","Su corbata es gris."],
+ "西装":["他穿着一件蓝色的西装。","Tā chuān zhe yí jiàn lánsè de xīzhuāng.","Lleva puesto un terno azul."],
+ "裤子":["她穿着咖啡色的裤子。","Tā chuān zhe kāfēisè de kùzi.","Lleva pantalones color café."],
+ "灰色":["那件衣服是灰色的。","Nà jiàn yīfu shì huīsè de.","Esa ropa es gris."],
+ "蓝色":["我喜欢蓝色。","Wǒ xǐhuan lánsè.","Me gusta el azul."],
+ "咖啡色":["他买了一双咖啡色的鞋。","Tā mǎi le yì shuāng kāfēisè de xié.","Compró unos zapatos color café."]
+};
+// --- Gramática: puntos de la clase, con ejemplos y ejercicios ---
+const GRAMMAR = { hsk3: [
+ { t:"是…的 — destacar cuándo, dónde o cómo",
+   n:"La acción <b>ya ocurrió</b> y no se discute. Lo que quiero destacar es el <b>cuándo, el dónde, el cómo o con quién</b>. El 是 se puede omitir; el <b>的 nunca</b>, y va al final.",
+   ex:[["我是在书包里找到的。","Wǒ shì zài shūbāo lǐ zhǎodào de.","Lo encontré en la mochila (ahí, no en otra parte)."],
+       ["你是怎么回来的？","Nǐ shì zěnme huílái de?","¿Cómo volviste?"],
+       ["我是昨天上午遇到老师的。","Wǒ shì zuótiān shàngwǔ yùdào lǎoshī de.","Me encontré con la profesora ayer en la mañana."],
+       ["他是坐地铁回来的。","Tā shì zuò dìtiě huílái de.","Volvió en metro."]],
+   q:[{a:"我是在书包里找到____。",o:["的","了","过"],k:0,w:"En 是…的 el 的 es obligatorio y cierra la oración."},
+      {a:"Quiero preguntar por el medio de transporte: ¿cuál es correcta?",o:["你是怎么来的？","你怎么来了？","你来过怎么？"],k:0,w:"是…的 destaca el cómo de una acción ya ocurrida."},
+      {a:"¿Cuál está mal?",o:["我昨天是回来的了。","我是昨天回来的。","我昨天回来了。"],k:0,w:"的 y 了 no conviven en esta estructura, y el tiempo va antes del verbo."},
+      {a:"我们____走路回家____。",o:["是 … 的","了 … 的","是 … 了"],k:0,w:"Destaco el modo: volvimos caminando."},
+      {a:"Solo informo que la acción terminó, sin destacar nada: 我已经吃完____。",o:["了","的","是"],k:0,w:"Sin foco en cuándo/dónde/cómo, va 了."}]},
+ { t:"Complemento resultativo — 完 / 到 / 见 / 懂 / 好",
+   n:"Verbo + resultado. 完 terminar · 到 lograr o alcanzar · 见 percibir · 懂 entender · 好 quedar listo. En negativo se usa <b>没</b> y <b>se cae el 了</b>.",
+   ex:[["我终于写完作业了。","Wǒ zhōngyú xiěwán zuòyè le.","Por fin terminé de escribir la tarea."],
+       ["我在书包里找到了我的手机。","Wǒ zài shūbāo lǐ zhǎodào le wǒ de shǒujī.","Encontré mi celular en la mochila."],
+       ["他说得太快，我没听懂。","Tā shuō de tài kuài, wǒ méi tīngdǒng.","Habla muy rápido, no le entendí."],
+       ["饭还没做好，请等一会儿。","Fàn hái méi zuòhǎo, qǐng děng yíhuìr.","La comida no está lista, espera un momento."]],
+   q:[{a:"老师说的话，你听____了吗？",o:["懂","完","到"],k:0,w:"懂 marca el resultado 'entender'."},
+      {a:"我看____他了，他就在门口。",o:["见","完","好"],k:0,w:"看见 = alcanzar a ver."},
+      {a:"Negativo de 我写完了：",o:["我没写完。","我不写完。","我没写完了。"],k:0,w:"Con 没 se cae el 了."},
+      {a:"这本书我已经看____了。",o:["完","懂","到"],k:0,w:"看完 = terminar de leerlo."},
+      {a:"我们准备____了，可以走了。",o:["好","见","完"],k:0,w:"准备好 = quedar listo."}]},
+ { t:"Complemento direccional compuesto — 回来 / 出来 / 过去 / 起来",
+   n:"来 = hacia el hablante · 去 = alejándose. Se pegan a un verbo: 买回来, 拿出来, 送过去, 拿起来. Con 把 el objeto va adelante: 把 + objeto + verbo + direccional.",
+   ex:[["妈妈买回来了很多水果。","Māma mǎi huílái le hěn duō shuǐguǒ.","Mamá volvió con mucha fruta."],
+       ["帮我把沙发搬过来。","Bāng wǒ bǎ shāfā bān guòlái.","Ayúdame a mover el sofá para acá."],
+       ["他从书包里拿出来一支笔。","Tā cóng shūbāo lǐ ná chūlái yì zhī bǐ.","Sacó un lápiz de la mochila."],
+       ["请把这本书送过去给老师。","Qǐng bǎ zhè běn shū sòng guòqù gěi lǎoshī.","Llévale este libro a la profesora."]],
+   q:[{a:"Mamá vuelve a casa con la fruta: 妈妈买____了很多水果。",o:["回来","回去","过去"],k:0,w:"Viene hacia donde estamos: 回来."},
+      {a:"太晚了，你快回____吧。(que se vaya a su casa)",o:["去","来","出"],k:0,w:"Se aleja de mí: 回去."},
+      {a:"Saca los libros de la mochila:",o:["把书从书包里拿出来。","把书从书包里拿回去。","书拿出来把书包。"],k:0,w:"Sacar acercando = 拿出来; con 把 el objeto va antes del verbo."},
+      {a:"请站____！(ponerse de pie)",o:["起来","出来","过去"],k:0,w:"起来 = movimiento hacia arriba."}]},
+ { t:"起来 — tres usos",
+   n:"a) verbo pleno: <b>levantarse</b> · b) direccional: <b>hacia arriba</b> · c) incoativo: <b>empezar a</b>.",
+   ex:[["太晚了，你怎么还不起来？","Tài wǎn le, nǐ zěnme hái bù qǐlái?","Es tarde, ¿cómo no te levantas todavía?"],
+       ["把桌子上的杯子拿起来。","Bǎ zhuōzi shang de bēizi ná qǐlái.","Levanta el vaso de la mesa."],
+       ["大家都唱起来了。","Dàjiā dōu chàng qǐlái le.","Todos se pusieron a cantar."],
+       ["他一看见我就跑起来了。","Tā yí kànjiàn wǒ jiù pǎo qǐlái le.","Apenas me vio, se echó a correr."]],
+   q:[{a:"大家都唱起来了。→ ¿qué uso es?",o:["empezar a","levantarse","hacia arriba"],k:0,w:"Marca el inicio de la acción."},
+      {a:"他把地上的书拿起来了。→ ¿qué uso es?",o:["hacia arriba","levantarse","empezar a"],k:0,w:"Direccional: el libro sube."},
+      {a:"你怎么还不起来？已经八点了。→ ¿qué uso es?",o:["levantarse","empezar a","hacia arriba"],k:0,w:"Verbo pleno: salir de la cama."}]},
+ { t:"一边…一边… — dos acciones a la vez",
+   n:"Mismo sujeto, dos acciones <b>simultáneas y compatibles</b>. No sirve para acciones que se excluyen (dormir y leer) ni opuestas (salir y volver).",
+   ex:[["我们一边喝咖啡，一边聊天。","Wǒmen yìbiān hē kāfēi, yìbiān liáotiān.","Tomábamos café mientras conversábamos."],
+       ["他一边听音乐，一边写作业。","Tā yìbiān tīng yīnyuè, yìbiān xiě zuòyè.","Escucha música mientras hace la tarea."],
+       ["我一边吃饭，一边看电视。","Wǒ yìbiān chīfàn, yìbiān kàn diànshì.","Como mientras veo televisión."]],
+   q:[{a:"¿Cuál NO se puede decir?",o:["我一边睡觉，一边看书。","他一边开车，一边听广播。","她一边走路，一边打电话。"],k:0,w:"Dormir y leer se excluyen."},
+      {a:"Une: 他听音乐。他写作业。",o:["他一边听音乐，一边写作业。","他一边听音乐一边。","他听音乐一边写作业一边。"],k:0,w:"一边 va antes de cada verbo."},
+      {a:"¿Cuál NO se puede decir?",o:["我一边出门，一边回家。","我们一边坐着，一边看风景。","我一边吃饭，一边看电视。"],k:0,w:"Salir y volver son movimientos opuestos."}]},
+ { t:"过 — experiencia pasada · 以前 / 过去",
+   n:"过 (guo) = <b>alguna vez lo he hecho</b>, experiencia en la vida. Negativo: <b>没…过</b>, el 过 se mantiene. Distinto de 了, que marca un hecho concreto ya terminado. 以前 = antes, en el pasado.",
+   ex:[["我去过北京两次。","Wǒ qù guo Běijīng liǎng cì.","He estado en Pekín dos veces."],
+       ["我昨天去北京了。","Wǒ zuótiān qù Běijīng le.","Ayer fui a Pekín."],
+       ["我没见过校长。","Wǒ méi jiàn guo xiàozhǎng.","Nunca he visto al director."],
+       ["以前我住在一个很小的房子里。","Yǐqián wǒ zhù zài yí ge hěn xiǎo de fángzi lǐ.","Antes vivía en una casa muy chica."]],
+   q:[{a:"He estado en Pekín dos veces: 我去____北京两次。",o:["过","了","的"],k:0,w:"Experiencia acumulada en la vida → 过."},
+      {a:"Ayer fui a Pekín: 我昨天去____北京。",o:["了","过","的"],k:0,w:"Hecho concreto con fecha → 了."},
+      {a:"Negativo de 你去过中国吗？",o:["我没去过中国。","我不去过中国。","我没去中国了。"],k:0,w:"没…过, y el 过 se conserva."},
+      {a:"¿Cuál está mal?",o:["我去过北京昨天。","我昨天去北京了。","我去过北京。"],k:0,w:"El tiempo va antes del verbo, y con 昨天 corresponde 了."}]},
+ { t:"应该 / 愿意 / 打算 / 想",
+   n:"应该 = <b>deber</b>, recomendación · 愿意 = <b>estar dispuesto</b>, 'me gustaría' · 打算 = <b>planear</b>, ya decidido · 想 = ganas ahora. Todos se niegan con 不, no con 没. No se apilan dos auxiliares.",
+   ex:[["你最近常常很累，应该早点儿睡觉。","Nǐ zuìjìn chángcháng hěn lèi, yīnggāi zǎo diǎnr shuìjiào.","Últimamente andas cansada, deberías dormir temprano."],
+       ["你愿意跟我一起去爬山吗？","Nǐ yuànyì gēn wǒ yìqǐ qù páshān ma?","¿Te gustaría ir a subir el cerro conmigo?"],
+       ["我打算下个月去旅行。","Wǒ dǎsuàn xià ge yuè qù lǚxíng.","Tengo pensado viajar el próximo mes."],
+       ["你生病了，应该休息休息。","Nǐ shēngbìng le, yīnggāi xiūxi xiūxi.","Estás enferma, deberías descansar."]],
+   q:[{a:"你最近很累，____早点儿睡觉。",o:["应该","愿意","打算"],k:0,w:"Es una recomendación → 应该."},
+      {a:"Ya lo tengo decidido: 我____下个月去旅行。",o:["打算","应该","想"],k:0,w:"打算 = plan tomado."},
+      {a:"Negativo de 我愿意帮你：",o:["我不愿意帮你。","我没愿意帮你。","我愿意不帮你。"],k:0,w:"Se niega la voluntad con 不, no con 没."},
+      {a:"¿Cuál está mal?",o:["我愿意应该去。","我应该去。","我愿意去。"],k:0,w:"No se ponen dos auxiliares seguidos."},
+      {a:"我决定去旅行了，我____收拾行李箱。",o:["应该","愿意","过"],k:0,w:"Lo que corresponde hacer → 应该."}]},
+ { t:"一般 / 经常 / 常常 / 都 / 多 + verbo",
+   n:"一般 = por lo general (y también 'regular, aceptable') · 经常 y 常常 = con frecuencia; 经常 suena algo más formal · 都 no marca solo personas: enfatiza que <b>todos los días o todas las veces</b> pasa lo mismo · 多 + verbo = hacer más esa acción.",
+   ex:[["我一般星期六下午在家看书。","Wǒ yìbān xīngqīliù xiàwǔ zài jiā kànshū.","Por lo general los sábados en la tarde leo en casa."],
+       ["每天晚上八点，我都在看电视。","Měi tiān wǎnshang bā diǎn, wǒ dōu zài kàn diànshì.","Todas las noches a las ocho estoy viendo televisión."],
+       ["你应该多说、多听、多复习。","Nǐ yīnggāi duō shuō, duō tīng, duō fùxí.","Deberías hablar más, escuchar más y repasar más."],
+       ["——你的汉语怎么样？ ——一般。","——Nǐ de Hànyǔ zěnmeyàng? ——Yìbān.","—¿Cómo va tu chino? —Así nomás."]],
+   q:[{a:"每天晚上八点，我____在看电视。",o:["都","一般","过"],k:0,w:"都 enfatiza que se repite sin falta."},
+      {a:"Deberías hablar más: 你应该____说。",o:["多","很","更"],k:0,w:"多 + verbo = hacer más la acción."},
+      {a:"¿Cuál está mal?",o:["你应该多说话多。","你应该多说话。","你应该多复习。"],k:0,w:"El 多 va una sola vez, delante del verbo."},
+      {a:"——你的汉语怎么样？ ——____。(así nomás)",o:["一般","经常","都"],k:0,w:"一般 también significa 'regular, aceptable'."}]},
+ { t:"Grados de 有意思",
+   n:"De menos a más: 一点儿也没有意思 &lt; 没有意思 &lt; 有一点儿意思 &lt; 比较有意思 &lt; 更有意思 &lt; 非常有意思. Ojo: <b>一点儿也没有…</b> siempre lleva 也.",
+   ex:[["这个电影一点儿也没有意思。","Zhège diànyǐng yìdiǎnr yě méiyǒu yìsi.","Esta película no tiene nada de interesante."],
+       ["这本书比较有意思。","Zhè běn shū bǐjiào yǒu yìsi.","Este libro es bastante interesante."],
+       ["以前我的生活一点儿也没有意思，现在很有意思。","Yǐqián wǒ de shēnghuó yìdiǎnr yě méiyǒu yìsi, xiànzài hěn yǒu yìsi.","Antes mi vida no tenía nada de interesante; ahora es muy interesante."],
+       ["你多出去走走，生活会更有意思。","Nǐ duō chūqu zǒuzou, shēnghuó huì gèng yǒu yìsi.","Sal más a caminar y la vida será aún más interesante."]],
+   q:[{a:"No tiene NADA de interesante:",o:["一点儿也没有意思","有一点儿意思","比较有意思"],k:0,w:"一点儿也没有… es la negación total."},
+      {a:"Es un poco interesante:",o:["有一点儿意思","有意思一点儿","一点儿意思也没有"],k:0,w:"有一点儿 va antes del sustantivo."},
+      {a:"Aún más interesante:",o:["更有意思","比较有意思","非常有意思"],k:0,w:"更 = aún más, en comparación con antes."},
+      {a:"Ordena de MENOR a mayor: 比较有意思 / 没有意思 / 非常有意思",
+       o:["没有意思 → 比较有意思 → 非常有意思","比较有意思 → 没有意思 → 非常有意思","非常有意思 → 比较有意思 → 没有意思"],k:0,w:"没有意思 es el piso; 非常 el tope."}]},
+ { t:"累坏了 / 饿死了 — complemento de grado",
+   n:"坏了 y 死了 después de un adjetivo <b>no son literales</b>: son grado extremo, como 'muerto de…' en español. Distinto de 坏 como verbo (algo se rompió) o 死 como verbo (morir).",
+   ex:[["我今天走了很多路，累坏了。","Wǒ jīntiān zǒu le hěn duō lù, lèi huài le.","Hoy caminé mucho, estoy rota de cansancio."],
+       ["我一天没吃饭，饿死了。","Wǒ yì tiān méi chīfàn, è sǐ le.","No comí en todo el día, estoy muerta de hambre."],
+       ["我的手机坏了，不能用了。","Wǒ de shǒujī huài le, bù néng yòng le.","Mi celular se echó a perder, ya no sirve."],
+       ["这张画我画坏了。","Zhè zhāng huà wǒ huà huài le.","Este dibujo me quedó arruinado."]],
+   q:[{a:"Estoy muerta de hambre: 我饿____。",o:["死了","坏了","完了"],k:0,w:"饿死了 es la forma fija."},
+      {a:"¿Cuál está mal?",o:["我的手机死了。","我的手机坏了。","我累坏了。"],k:0,w:"死 no se usa para objetos."},
+      {a:"我的眼镜____，看不清楚。",o:["坏了","死了","过了"],k:0,w:"Un objeto que se rompe: 坏了."},
+      {a:"En 我累坏了, 坏了 es…",o:["complemento de grado","el verbo principal","una partícula de pasado"],k:0,w:"Intensifica 累, no dice que algo se rompió."}]},
+ { t:"嫁 / 娶 / 结婚",
+   n:"En chino el verbo <b>cambia según quién se casa</b>: 嫁 (jià) la mujer se casa con el hombre · 娶 (qǔ) el hombre toma esposa · 结婚 (jiéhūn) es neutro y <b>no lleva objeto directo</b>: se dice 跟他结婚.",
+   ex:[["你愿意嫁给我吗？","Nǐ yuànyì jià gěi wǒ ma?","¿Quieres casarte conmigo? (lo dice el hombre)"],
+       ["你愿意娶我吗？","Nǐ yuànyì qǔ wǒ ma?","¿Quieres casarte conmigo? (lo dice la mujer)"],
+       ["我的女儿嫁人了。","Wǒ de nǚ'ér jià rén le.","Mi hija se casó."],
+       ["他们上个月结婚了。","Tāmen shàng ge yuè jiéhūn le.","Se casaron el mes pasado."]],
+   q:[{a:"Lo dice el hombre a la mujer: 你愿意____给我吗？",o:["嫁","娶","结婚"],k:0,w:"嫁 es la mujer la que se casa."},
+      {a:"Lo dice la mujer al hombre: 你愿意____我吗？",o:["娶","嫁","结婚"],k:0,w:"娶 = el hombre toma esposa."},
+      {a:"¿Cuál está mal?",o:["他嫁了一个太太。","他娶了一个太太。","他们结婚了。"],k:0,w:"嫁 no se usa para el hombre."},
+      {a:"Casarse con él:",o:["跟他结婚","结婚他","嫁结婚他"],k:0,w:"结婚 no lleva objeto directo."}]},
+ { t:"长 — zhǎng o cháng",
+   n:"<b>zhǎng</b> = crecer, o el que está a cargo: 校长 director, 班长 delegado de curso, 组长 jefe de grupo, 家长 apoderado, 兄长 hermano mayor, 长大 crecer. <b>cháng</b> = largo.",
+   ex:[["校长是一位上年纪的先生。","Xiàozhǎng shì yí wèi shàng niánjì de xiānsheng.","El director es un señor mayor."],
+       ["他是我们班的班长。","Tā shì wǒmen bān de bānzhǎng.","Él es el delegado del curso."],
+       ["这条路很长。","Zhè tiáo lù hěn cháng.","Este camino es muy largo."],
+       ["他长什么样？","Tā zhǎng shénme yàng?","¿Cómo es él?"]],
+   q:[{a:"校长 se lee…",o:["xiàozhǎng","xiàocháng","xiǎozhǎng"],k:0,w:"zhǎng = el que está a cargo."},
+      {a:"这条路很长 se lee…",o:["cháng","zhǎng","zhāng"],k:0,w:"cháng = largo."},
+      {a:"¿Cómo es él (de aspecto)?",o:["他长什么样？","他很长吗？","他是长的吗？"],k:0,w:"长什么样 (zhǎng) pregunta por la apariencia."},
+      {a:"Apoderado:",o:["家长","班长","组长"],k:0,w:"家长 = jefe de familia, apoderado."}]},
+ { t:"Describir a una persona — 穿 / 戴 y los colores",
+   n:"<b>穿</b> = ropa que se viste (西装, 裤子, 衣服) · <b>戴</b> = lo que se pone encima (眼镜, 领带, 帽子, 表). Para preguntar por el aspecto: <b>他长什么样？</b> Para la edad de alguien mayor: <b>上年纪了</b>.",
+   ex:[["他穿着一件蓝色的西装，戴着一条灰色的领带。","Tā chuān zhe yí jiàn lánsè de xīzhuāng, dài zhe yì tiáo huīsè de lǐngdài.","Lleva un terno azul y una corbata gris."],
+       ["她穿着咖啡色的裤子。","Tā chuān zhe kāfēisè de kùzi.","Lleva pantalones color café."],
+       ["那个戴眼镜的人是校长。","Nàge dài yǎnjìng de rén shì xiàozhǎng.","Esa persona de lentes es el director."],
+       ["那位先生上年纪了，个子很高。","Nà wèi xiānsheng shàng niánjì le, gèzi hěn gāo.","Ese señor ya tiene sus años y es muy alto."]],
+   q:[{a:"他____眼镜。",o:["戴","穿","拿"],k:0,w:"Los lentes se 戴."},
+      {a:"她____一条咖啡色的裤子。",o:["穿","戴","画"],k:0,w:"La ropa se 穿."},
+      {a:"他____一条灰色的领带。",o:["戴","穿","收拾"],k:0,w:"La corbata se 戴, no se 穿."},
+      {a:"gris:",o:["灰色","蓝色","咖啡色"],k:0,w:"灰色 huīsè = gris."},
+      {a:"Ese señor ya tiene sus años:",o:["那位先生上年纪了。","那位先生很长。","那位先生大年纪。"],k:0,w:"上年纪了 es la forma correcta."}]}
+]};
+const PHRASES3 = [
+ {cat:"Reencuentros y regalos", items:[
+   ["你终于回来了！","Nǐ zhōngyú huílái le!","¡Por fin volviste!"],
+   ["你是怎么回来的？","Nǐ shì zěnme huílái de?","¿Cómo volviste?"],
+   ["你给我买回来什么了吗？","Nǐ gěi wǒ mǎi huílái shénme le ma?","¿Me trajiste algo?"],
+   ["我送他一个礼物。","Wǒ sòng tā yí ge lǐwù.","Le regalé un regalo."],
+   ["我终于见到校长了。","Wǒ zhōngyú jiàndào xiàozhǎng le.","Por fin me encontré con el director."],
+   ["你是在哪儿遇到老师的？","Nǐ shì zài nǎr yùdào lǎoshī de?","¿Dónde te encontraste con la profesora?"],
+   ["我是昨天上午在路上遇到的。","Wǒ shì zuótiān shàngwǔ zài lù shang yùdào de.","Me la encontré ayer en la mañana, en el camino."]]},
+ {cat:"Rutina y frecuencia", items:[
+   ["我一般星期六下午在家看书。","Wǒ yìbān xīngqīliù xiàwǔ zài jiā kànshū.","Por lo general los sábados en la tarde leo en casa."],
+   ["每天晚上八点，我都在看电视。","Měi tiān wǎnshang bā diǎn, wǒ dōu zài kàn diànshì.","Todas las noches a las ocho estoy viendo televisión."],
+   ["他经常去图书馆。","Tā jīngcháng qù túshūguǎn.","Va con frecuencia a la biblioteca."],
+   ["我早上八点上班。","Wǒ zǎoshang bā diǎn shàngbān.","Entro a trabajar a las ocho de la mañana."],
+   ["一回家我就看电视。","Yì huí jiā wǒ jiù kàn diànshì.","Apenas llego a la casa veo televisión."]]},
+ {cat:"Consejos y planes", items:[
+   ["你应该早点儿睡觉。","Nǐ yīnggāi zǎo diǎnr shuìjiào.","Deberías dormir temprano."],
+   ["你应该多出去散散步。","Nǐ yīnggāi duō chūqu sànsan bù.","Deberías salir más a pasear."],
+   ["这样你的生活会更有意思。","Zhèyàng nǐ de shēnghuó huì gèng yǒu yìsi.","Así tu vida será más interesante."],
+   ["下课以后我们应该去散步。","Xiàkè yǐhòu wǒmen yīnggāi qù sànbù.","Después de la clase deberíamos ir a pasear."],
+   ["我决定去旅行了，我应该收拾行李箱。","Wǒ juédìng qù lǚxíng le, wǒ yīnggāi shōushi xínglixiāng.","Decidí viajar, debería hacer la maleta."],
+   ["你愿意跟我一起去爬山吗？","Nǐ yuànyì gēn wǒ yìqǐ qù páshān ma?","¿Te gustaría ir a subir el cerro conmigo?"],
+   ["你打算什么时候去？","Nǐ dǎsuàn shénme shíhou qù?","¿Cuándo tienes pensado ir?"]]},
+ {cat:"Opiniones y estado", items:[
+   ["这本书比较有意思。","Zhè běn shū bǐjiào yǒu yìsi.","Este libro es bastante interesante."],
+   ["这个电影一点儿也没有意思。","Zhège diànyǐng yìdiǎnr yě méiyǒu yìsi.","Esta película no tiene nada de interesante."],
+   ["我累坏了，想休息一下。","Wǒ lèi huài le, xiǎng xiūxi yíxià.","Estoy rota de cansancio, quiero descansar un rato."],
+   ["我饿死了。","Wǒ è sǐ le.","Estoy muerta de hambre."],
+   ["我今天有点儿累。","Jīntiān wǒ yǒudiǎnr lèi.","Hoy estoy un poco cansada."],
+   ["我们聊了很久。","Wǒmen liáo le hěn jiǔ.","Conversamos mucho rato."]]},
+ {cat:"Describir a alguien", items:[
+   ["他长什么样？","Tā zhǎng shénme yàng?","¿Cómo es él?"],
+   ["校长多大年纪？","Xiàozhǎng duō dà niánjì?","¿Qué edad tiene el director?"],
+   ["那位先生上年纪了。","Nà wèi xiānsheng shàng niánjì le.","Ese señor ya tiene sus años."],
+   ["他戴着眼镜。","Tā dài zhe yǎnjìng.","Lleva lentes."],
+   ["他穿着一件蓝色的西装。","Tā chuān zhe yí jiàn lánsè de xīzhuāng.","Lleva puesto un terno azul."],
+   ["他的领带是灰色的。","Tā de lǐngdài shì huīsè de.","Su corbata es gris."],
+   ["那个戴眼镜的人是校长。","Nàge dài yǎnjìng de rén shì xiàozhǎng.","Esa persona de lentes es el director."]]},
+ {cat:"En clase", items:[
+   ["有问题的时候，你应该问老师。","Yǒu wèntí de shíhou, nǐ yīnggāi wèn lǎoshī.","Cuando tengas dudas, deberías preguntarle a la profesora."],
+   ["老师说的话，你听懂了吗？","Lǎoshī shuō de huà, nǐ tīngdǒng le ma?","¿Entendiste lo que dijo la profesora?"],
+   ["他说得太快，我没听懂。","Tā shuō de tài kuài, wǒ méi tīngdǒng.","Habla muy rápido, no le entendí."],
+   ["请借我一支笔，我没带。","Qǐng jiè wǒ yì zhī bǐ, wǒ méi dài.","Préstame un lápiz, no traje."],
+   ["我终于写完作业了。","Wǒ zhōngyú xiěwán zuòyè le.","Por fin terminé la tarea."],
+   ["你应该多说、多听、多复习。","Nǐ yīnggāi duō shuō, duō tīng, duō fùxí.","Deberías hablar más, escuchar más y repasar más."]]}
+];
+const READINGS3 = [
+ [["上个星期六，我一个人在家。","Shàng ge xīngqīliù, wǒ yí ge rén zài jiā.","El sábado pasado estaba sola en la casa."],
+  ["下午我决定出去走走。","Xiàwǔ wǒ juédìng chūqu zǒuzou.","En la tarde decidí salir a caminar."],
+  ["在路上，我遇到了我的老同学。","Zài lù shang, wǒ yùdào le wǒ de lǎo tóngxué.","En el camino me encontré con una antigua compañera."],
+  ["我们终于见到了，都很高兴。","Wǒmen zhōngyú jiàndào le, dōu hěn gāoxìng.","Por fin nos veíamos, y las dos estábamos contentas."],
+  ["我们一边喝咖啡，一边聊天。","Wǒmen yìbiān hē kāfēi, yìbiān liáotiān.","Tomamos café mientras conversábamos."],
+  ["我们聊了很久，聊了很多以前的事。","Wǒmen liáo le hěn jiǔ, liáo le hěn duō yǐqián de shì.","Conversamos mucho rato, de muchas cosas de antes."],
+  ["她说：你应该多出去散散步。","Tā shuō: nǐ yīnggāi duō chūqu sànsan bù.","Ella me dijo: deberías salir más a pasear."],
+  ["这样生活会更有意思。","Zhèyàng shēnghuó huì gèng yǒu yìsi.","Así la vida es más interesante."],
+  ["回家的时候我累坏了，可是很快乐。","Huí jiā de shíhou wǒ lèi huài le, kěshì hěn kuàilè.","Al volver a casa estaba rota de cansancio, pero muy contenta."]],
+ [["今天我终于见到校长了。","Jīntiān wǒ zhōngyú jiàndào xiàozhǎng le.","Hoy por fin me encontré con el director."],
+  ["他是一位上年纪的先生，个子很高。","Tā shì yí wèi shàng niánjì de xiānsheng, gèzi hěn gāo.","Es un señor mayor, muy alto."],
+  ["他戴着眼镜，穿着一件蓝色的西装。","Tā dài zhe yǎnjìng, chuān zhe yí jiàn lánsè de xīzhuāng.","Lleva lentes y un terno azul."],
+  ["他的领带是灰色的，裤子是咖啡色的。","Tā de lǐngdài shì huīsè de, kùzi shì kāfēisè de.","Su corbata es gris y sus pantalones color café."],
+  ["我是在办公室门口遇到他的。","Wǒ shì zài bàngōngshì ménkǒu yùdào tā de.","Me lo encontré en la puerta de la oficina."],
+  ["他问我：你学汉语学了多久了？","Tā wèn wǒ: nǐ xué Hànyǔ xué le duō jiǔ le?","Me preguntó: ¿cuánto tiempo llevas estudiando chino?"],
+  ["我说：两年了，可是还有很多不懂。","Wǒ shuō: liǎng nián le, kěshì hái yǒu hěn duō bù dǒng.","Le dije: dos años, pero todavía hay mucho que no entiendo."],
+  ["他说：你应该多说、多听、多复习。","Tā shuō: nǐ yīnggāi duō shuō, duō tīng, duō fùxí.","Me dijo: deberías hablar más, escuchar más y repasar más."],
+  ["我觉得他说得很对。","Wǒ juéde tā shuō de hěn duì.","Creo que tiene toda la razón."]],
+ [["我决定下个月去中国旅行。","Wǒ juédìng xià ge yuè qù Zhōngguó lǚxíng.","Decidí viajar a China el próximo mes."],
+  ["我去过北京两次，可是没去过南方。","Wǒ qù guo Běijīng liǎng cì, kěshì méi qù guo nánfāng.","He estado dos veces en Pekín, pero nunca en el sur."],
+  ["以前我住在一个很小的房子里。","Yǐqián wǒ zhù zài yí ge hěn xiǎo de fángzi lǐ.","Antes vivía en una casa muy chica."],
+  ["那时候我的生活一点儿也没有意思。","Nà shíhou wǒ de shēnghuó yìdiǎnr yě méiyǒu yìsi.","En esa época mi vida no tenía nada de interesante."],
+  ["现在我经常出去，生活比较有意思了。","Xiànzài wǒ jīngcháng chūqu, shēnghuó bǐjiào yǒu yìsi le.","Ahora salgo seguido y la vida es bastante más interesante."],
+  ["我应该收拾行李箱，准备衣服。","Wǒ yīnggāi shōushi xínglixiāng, zhǔnbèi yīfu.","Debería hacer la maleta y preparar la ropa."],
+  ["我还应该买一个礼物送给我的朋友。","Wǒ hái yīnggāi mǎi yí ge lǐwù sòng gěi wǒ de péngyou.","También debería comprar un regalo para mi amiga."],
+  ["我一想到这个旅行就高兴起来了。","Wǒ yì xiǎngdào zhège lǚxíng jiù gāoxìng qǐlái le.","Apenas pienso en el viaje me pongo contenta."]],
+ [["昨天晚上我画了一张画。","Zuótiān wǎnshang wǒ huà le yì zhāng huà.","Anoche pinté un cuadro."],
+  ["那是一张花的画。","Nà shì yì zhāng huā de huà.","Era un cuadro de una flor."],
+  ["可是我画坏了。","Kěshì wǒ huà huài le.","Pero me quedó arruinado."],
+  ["我一边听音乐，一边画，没有认真。","Wǒ yìbiān tīng yīnyuè, yìbiān huà, méiyǒu rènzhēn.","Pintaba mientras escuchaba música, sin poner atención."],
+  ["我的兄长看见了，就笑起来了。","Wǒ de xiōngzhǎng kànjiàn le, jiù xiào qǐlái le.","Mi hermano mayor lo vio y se echó a reír."],
+  ["他说：你应该多练习。","Tā shuō: nǐ yīnggāi duō liànxí.","Me dijo: deberías practicar más."],
+  ["我把画拿起来，又画了一张。","Wǒ bǎ huà ná qǐlái, yòu huà le yì zhāng.","Levanté el cuadro y pinté otro."],
+  ["这一张比较好，我很高兴。","Zhè yì zhāng bǐjiào hǎo, wǒ hěn gāoxìng.","Este quedó bastante mejor y me puse contenta."]]
+];
+const DIALOGUES3 = [
+ [["A","你终于回来了！你是怎么回来的？","Nǐ zhōngyú huílái le! Nǐ shì zěnme huílái de?","¡Por fin volviste! ¿Cómo volviste?"],
+  ["B","我是坐地铁回来的。","Wǒ shì zuò dìtiě huílái de.","Volví en metro."],
+  ["A","你给我买回来什么了吗？","Nǐ gěi wǒ mǎi huílái shénme le ma?","¿Me trajiste algo?"],
+  ["B","对不起，我没买。","Duìbuqǐ, wǒ méi mǎi.","Perdón, no compré nada."],
+  ["A","你在路上遇到谁了？","Nǐ zài lù shang yùdào shéi le?","¿A quién te encontraste en el camino?"],
+  ["B","我遇到了我的老同学，我们一边喝咖啡，一边聊天。","Wǒ yùdào le wǒ de lǎo tóngxué, wǒmen yìbiān hē kāfēi, yìbiān liáotiān.","Me encontré con una antigua compañera; tomamos café y conversamos."],
+  ["A","你们聊了很久吗？","Nǐmen liáo le hěn jiǔ ma?","¿Conversaron mucho rato?"],
+  ["B","聊了很久，我现在累坏了，想休息一下。","Liáo le hěn jiǔ, wǒ xiànzài lèi huài le, xiǎng xiūxi yíxià.","Mucho rato. Estoy rota de cansancio, quiero descansar un poco."]],
+ [["A","你认识我们的校长吗？","Nǐ rènshi wǒmen de xiàozhǎng ma?","¿Conoces a nuestro director?"],
+  ["B","认识。我是上个月认识他的。","Rènshi. Wǒ shì shàng ge yuè rènshi tā de.","Sí. Lo conocí el mes pasado."],
+  ["A","他长什么样？","Tā zhǎng shénme yàng?","¿Cómo es él?"],
+  ["B","他上年纪了，个子很高，戴眼镜。","Tā shàng niánjì le, gèzi hěn gāo, dài yǎnjìng.","Ya tiene sus años, es alto y usa lentes."],
+  ["A","他今天穿什么？","Tā jīntiān chuān shénme?","¿Qué anda vestido hoy?"],
+  ["B","他穿着一件蓝色的西装，戴着一条灰色的领带。","Tā chuān zhe yí jiàn lánsè de xīzhuāng, dài zhe yì tiáo huīsè de lǐngdài.","Un terno azul y una corbata gris."],
+  ["A","他多大年纪？","Tā duō dà niánjì?","¿Qué edad tiene?"],
+  ["B","我不知道，可是他看起来很客气。","Wǒ bù zhīdào, kěshì tā kàn qǐlái hěn kèqi.","No sé, pero se ve muy amable."]],
+ [["A","下课以后你打算做什么？","Xiàkè yǐhòu nǐ dǎsuàn zuò shénme?","¿Qué piensas hacer después de la clase?"],
+  ["B","我还没决定。你有什么想法？","Wǒ hái méi juédìng. Nǐ yǒu shénme xiǎngfǎ?","Todavía no decido. ¿Tú qué idea tienes?"],
+  ["A","我觉得我们应该去散散步。","Wǒ juéde wǒmen yīnggāi qù sànsan bù.","Creo que deberíamos ir a pasear."],
+  ["B","好啊，可是我今天有点儿累。","Hǎo a, kěshì wǒ jīntiān yǒudiǎnr lèi.","Bueno, pero hoy estoy un poco cansada."],
+  ["A","散步以后你会觉得更好。","Sànbù yǐhòu nǐ huì juéde gèng hǎo.","Después de caminar te vas a sentir mejor."],
+  ["B","你说得对。这样生活也比较有意思。","Nǐ shuō de duì. Zhèyàng shēnghuó yě bǐjiào yǒu yìsi.","Tienes razón. Así la vida también es más entretenida."],
+  ["A","你愿意星期天跟我一起去爬山吗？","Nǐ yuànyì xīngqītiān gēn wǒ yìqǐ qù páshān ma?","¿Te gustaría ir a subir el cerro conmigo el domingo?"],
+  ["B","愿意！我去过一次，非常有意思。","Yuànyì! Wǒ qù guo yí cì, fēicháng yǒu yìsi.","¡Claro! Fui una vez, es muy entretenido."]],
+ [["A","你怎么了？","Nǐ zěnme le?","¿Qué te pasa?"],
+  ["B","我的手机坏了，眼镜也坏了。","Wǒ de shǒujī huài le, yǎnjìng yě huài le.","Se me echó a perder el celular, y los lentes también."],
+  ["A","真的吗？你是在哪儿弄坏的？","Zhēn de ma? Nǐ shì zài nǎr nòng huài de?","¿En serio? ¿Dónde los rompiste?"],
+  ["B","我是在爬山的时候弄坏的。","Wǒ shì zài páshān de shíhou nòng huài de.","Los rompí cuando estaba subiendo el cerro."],
+  ["A","你今天吃饭了吗？","Nǐ jīntiān chīfàn le ma?","¿Comiste hoy?"],
+  ["B","没有，我饿死了。","Méiyǒu, wǒ è sǐ le.","No, estoy muerta de hambre."],
+  ["A","那我们先去吃饭吧，你应该休息一下。","Nà wǒmen xiān qù chīfàn ba, nǐ yīnggāi xiūxi yíxià.","Entonces vamos a comer primero, deberías descansar un poco."],
+  ["B","好，谢谢你。","Hǎo, xièxie nǐ.","Bueno, gracias."]]
+];
+
+PHRASES.hsk3 = PHRASES3;
+READINGS.hsk3 = READINGS3;
+DIALOGUES.hsk3 = DIALOGUES3;
+
 const LEVELS = [
   {id:"hsk1", name:"HSK 1", words:WORDS, examples:EXAMPLES, ready:true},
   {id:"hsk2", name:"HSK 2", words:WORDS2, examples:EXAMPLES2, ready:true},
-  {id:"hsk3", name:"HSK 3", ready:false},
+  {id:"hsk3", name:"HSK 3", words:WORDS3, examples:EXAMPLES3, ready:true},
   {id:"hsk4", name:"HSK 4", ready:false},
   {id:"hsk5", name:"HSK 5", ready:false},
   {id:"hsk6", name:"HSK 6", ready:false}
@@ -1707,6 +2068,14 @@ function renderHome(){
     return;
   }
   const all = words.map((_,i)=>i);
+  const grN = grammarOf(curLevel.id).length;
+  if(grN){
+    const gc = document.createElement("div");
+    gc.className = "unit mix";
+    gc.innerHTML = '<div class="u-title">📐 Gramática</div><div class="u-sample">'+grN+' puntos de gramática con ejemplos y '+grammarQCount(curLevel.id)+' ejercicios · estudia y practica.</div>';
+    gc.onclick = ()=> openGrammar();
+    cont.appendChild(gc);
+  }
   const phrN = phraseFlat(curLevel.id).length;
   if(phrN){
     const pc = document.createElement("div");
@@ -1975,6 +2344,95 @@ function openPhrases(){
         if(chosen === cur[0]) score++;
         speak(cur[0]);
         setTimeout(()=>{ qi++; q(); }, 1000);
+      });
+    }
+    q();
+  }
+
+  menu();
+}
+// --- Gramática: estudiar los puntos de la clase o practicarlos ---
+function grammarOf(id){ return GRAMMAR[id] || []; }
+function grammarQCount(id){ return grammarOf(id).reduce((n,g)=>n+g.q.length, 0); }
+function openGrammar(){
+  showPanel();
+  $("sub").textContent = curLevel.name+" · Gramática";
+  const pts = grammarOf(curLevel.id);
+  const p = $("panel");
+  let pinOn = true, esOn = true;
+
+  function menu(){
+    p.innerHTML = '<div class="card"><div class="rd-title">📐 Gramática · '+curLevel.name+'</div>'+
+      '<div class="u-sample" style="margin-bottom:14px">'+pts.length+' puntos con ejemplos y '+grammarQCount(curLevel.id)+' ejercicios. Estudia la explicación y después practica.</div>'+
+      '<div class="rd-mode"><button class="set-btn active" id="grStudy">📖 Estudiar</button><button class="set-btn" id="grQuiz">📝 Ejercicio</button></div>'+
+      '<div class="rd-actions"><button class="ghost" id="grBack">← Menú</button></div></div>';
+    $("grStudy").onclick = ()=> study();
+    $("grQuiz").onclick = ()=> quiz(null);
+    $("grBack").onclick = showHome;
+  }
+
+  function study(){
+    let html = '<div class="card"><div class="rd-title">📐 Gramática · '+curLevel.name+'</div>'+
+      '<div class="rd-toggles"><button class="set-btn'+(pinOn?" active":"")+'" data-t="pin">拼 Pinyin</button><button class="set-btn'+(esOn?" active":"")+'" data-t="es">ES Español</button></div>';
+    pts.forEach((g,gi)=>{
+      html += '<div class="gr-item"><div class="gr-t">'+(gi+1)+'. '+g.t+'</div><div class="gr-n">'+g.n+'</div>'+
+        '<div class="rd-body'+(pinOn?"":" hide-pin")+(esOn?"":" hide-es")+'">';
+      g.ex.forEach((L,li)=>{
+        html += '<div class="rd-s" data-g="'+gi+'" data-l="'+li+'" title="Toca para escuchar"><span class="rd-zh">'+L[0]+'</span><span class="rd-pin">'+L[1]+'</span><span class="rd-es">'+L[2]+'</span></div>';
+      });
+      html += '</div><div class="u-actions" style="margin-top:10px"><button class="u-btn" data-q="'+gi+'">📝 Practicar este punto ('+g.q.length+')</button></div></div>';
+    });
+    html += '<div class="rd-actions"><button class="ghost" id="grMenu">← Volver</button></div></div>';
+    p.innerHTML = html;
+    p.querySelectorAll('.gr-item .rd-s').forEach(el=> el.onclick = ()=> speak(pts[+el.dataset.g].ex[+el.dataset.l][0]));
+    p.querySelectorAll('[data-q]').forEach(b=> b.onclick = ()=> quiz(+b.dataset.q));
+    p.querySelectorAll('.rd-toggles [data-t]').forEach(b=> b.onclick = ()=>{
+      if(b.dataset.t==="pin") pinOn=!pinOn; else esOn=!esOn;
+      study();
+    });
+    $("grMenu").onclick = menu;
+  }
+
+  function quiz(only){
+    const src = (only==null ? pts : [pts[only]]);
+    let bank = src.flatMap(g=> g.q.map(q=>({q, t:g.t})));
+    bank = shuffle(bank.slice());
+    if(only==null) bank = bank.slice(0, Math.min(12, bank.length));
+    let qi = 0, score = 0;
+
+    function q(){
+      if(qi >= bank.length){
+        const pass = bank.length ? score/bank.length >= 0.8 : false;
+        p.innerHTML = '<div class="card"><div class="done"><div class="big">'+(pass?'🏆':'📚')+'</div><div>'+(pass?'¡Muy bien!':'Sigue practicando')+'</div>'+
+          '<div class="sub" style="margin-top:8px">Puntaje: '+score+' / '+bank.length+'</div>'+
+          '<br><button class="btn-show" id="grAgain">↻ Repetir ejercicio</button><br><button class="ghost" style="margin-top:10px" id="grMenu2">← Volver</button></div></div>';
+        $("grAgain").onclick = ()=> quiz(only);
+        $("grMenu2").onclick = menu;
+        return;
+      }
+      const cur = bank[qi];
+      const opts = shuffle(cur.q.o.map((t,i)=>({t, ok:i===cur.q.k})));
+      let html = '<div class="card"><div class="ts-title">📐 Gramática <span class="pill" style="float:right">'+(qi+1)+' / '+bank.length+'</span></div>';
+      html += '<div class="gr-pill">'+cur.t+'</div>';
+      html += '<div class="gr-ask">'+cur.q.a+'</div>';
+      html += '<div class="ts-opts">'+opts.map((o,i)=>'<button data-i="'+i+'">'+o.t+'</button>').join('')+'</div>';
+      html += '<div id="grWhy"></div>';
+      html += '<div class="rd-actions"><button class="ghost" id="grMenu3">← Volver</button></div></div>';
+      p.innerHTML = html;
+      $("grMenu3").onclick = menu;
+      p.querySelectorAll(".ts-opts button").forEach(b=> b.onclick = ()=>{
+        const chosen = opts[+b.dataset.i];
+        p.querySelectorAll(".ts-opts button").forEach((x,i)=>{
+          x.disabled = true;
+          if(opts[i].ok) x.classList.add("good");
+          else if(x === b) x.classList.add("bad");
+        });
+        if(chosen.ok) score++;
+        const good = opts.find(o=>o.ok).t;
+        if(/[一-鿿]/.test(good)) speak(good.replace(/____/g,""));
+        $("grWhy").innerHTML = '<div class="gr-why">'+(chosen.ok?"✅ ":"❌ Respuesta: <b>"+good+"</b> · ")+cur.q.w+'</div>'+
+          '<div class="rd-actions" style="margin-top:12px"><button class="btn-show" id="grNext">Siguiente →</button></div>';
+        $("grNext").onclick = ()=>{ qi++; q(); };
       });
     }
     q();

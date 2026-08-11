@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HSK · Comparar audio (ElevenLabs vs navegador)</title>
+<style>
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#f4f5f7;color:#1a1d24;margin:0;padding:24px 16px 60px;display:flex;flex-direction:column;align-items:center}
+  h1{font-size:19px;margin:0 0 4px}
+  .sub{color:#5b6472;font-size:13px;margin-bottom:22px;text-align:center;max-width:560px}
+  .card{background:#fff;border:1px solid #dde1e8;border-radius:16px;max-width:560px;width:100%;padding:18px 20px;margin-bottom:16px;box-shadow:0 8px 24px rgba(30,40,60,.06)}
+  .zh{font-size:24px;margin:0 0 2px}
+  .pin{color:#b8860b;font-size:14px}
+  .es{color:#5b6472;font-size:14px;margin-bottom:12px}
+  .row{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid #eef0f3;flex-wrap:wrap}
+  .row:first-of-type{border-top:none}
+  .tag{font-size:12px;font-weight:600;min-width:130px}
+  .tag.el{color:#C41E3A}
+  .tag.ws{color:#5b6472}
+  audio{height:34px;vertical-align:middle}
+  button{font:inherit;cursor:pointer;border:1px solid #dde1e8;background:#eef0f3;border-radius:10px;padding:9px 14px;font-size:14px}
+  button:hover{border-color:#c2c9d4}
+  h2{font-size:14px;color:#C41E3A;text-transform:uppercase;letter-spacing:.5px;margin:24px 0 8px;width:100%;max-width:560px}
+</style>
+</head>
+<body>
+  <h1>汉语 · Comparar audio</h1>
+  <div class="sub">Escucha cada frase en <b>ElevenLabs</b> (rojo, audio pre-generado) vs. <b>voz del navegador</b> (gris, la actual). Fíjate en la naturalidad y sobre todo en los <b>tonos</b>. La voz del navegador usa la misma app (con la micro-pausa en 爱).</div>
+
+  <h2>Palabras sueltas</h2>
+  <div class="card">
+    <p class="zh">爱</p><div class="pin">ài</div><div class="es">amar</div>
+    <div class="row"><span class="tag el">ElevenLabs · Alice</span><audio controls preload="none" src="pal_ai_alice.mp3"></audio></div>
+    <div class="row"><span class="tag ws">Navegador</span><button onclick="ws('爱')">▶ Escuchar</button></div>
+  </div>
+  <div class="card">
+    <p class="zh">谢谢</p><div class="pin">xièxie</div><div class="es">gracias</div>
+    <div class="row"><span class="tag el">ElevenLabs · Alice</span><audio controls preload="none" src="pal_xiexie_alice.mp3"></audio></div>
+    <div class="row"><span class="tag ws">Navegador</span><button onclick="ws('谢谢')">▶ Escuchar</button></div>
+  </div>
+
+  <h2>Frase — comparar 4 voces</h2>
+  <div class="card">
+    <p class="zh">我爸爸在北京工作，他很爱喝茶。</p>
+    <div class="pin">Wǒ bàba zài Běijīng gōngzuò, tā hěn ài hē chá.</div>
+    <div class="es">Mi papá trabaja en Pekín y le encanta el té.</div>
+    <div class="row"><span class="tag el">ElevenLabs · Alice ♀</span><audio controls preload="none" src="frase_alice.mp3"></audio></div>
+    <div class="row"><span class="tag el">ElevenLabs · Sarah ♀</span><audio controls preload="none" src="frase_sarah.mp3"></audio></div>
+    <div class="row"><span class="tag el">ElevenLabs · George ♂</span><audio controls preload="none" src="frase_george.mp3"></audio></div>
+    <div class="row"><span class="tag el">ElevenLabs · Bill ♂</span><audio controls preload="none" src="frase_bill.mp3"></audio></div>
+    <div class="row"><span class="tag ws">Navegador (actual)</span><button onclick="ws('我爸爸在北京工作，他很爱喝茶。')">▶ Escuchar</button></div>
+  </div>
+
+  <h2>Diálogo — dos voces (♀ / ♂)</h2>
+  <div class="card">
+    <p class="zh">A: 爸爸，你爱喝茶吗？</p>
+    <div class="pin">Bàba, nǐ ài hē chá ma?</div>
+    <div class="es">Papá, ¿te gusta el té?</div>
+    <div class="row"><span class="tag el">ElevenLabs · Alice ♀</span><audio controls preload="none" src="dlgA_alice.mp3"></audio></div>
+    <div class="row"><span class="tag ws">Navegador</span><button onclick="ws('爸爸，你爱喝茶吗？')">▶ Escuchar</button></div>
+  </div>
+  <div class="card">
+    <p class="zh">B: 爱，我爱喝茶，也爱吃菜。</p>
+    <div class="pin">Ài, wǒ ài hē chá, yě ài chī cài.</div>
+    <div class="es">Sí, me gusta el té y también comer verduras.</div>
+    <div class="row"><span class="tag el">ElevenLabs · George ♂</span><audio controls preload="none" src="dlgB_george.mp3"></audio></div>
+    <div class="row"><span class="tag ws">Navegador</span><button onclick="ws('爱，我爱喝茶，也爱吃菜。')">▶ Escuchar</button></div>
+  </div>
+
+<script>
+let zhVoice=null;
+function pick(){ const vs=speechSynthesis.getVoices(); zhVoice=vs.find(v=>/zh[-_]CN/i.test(v.lang))||vs.find(v=>/^zh/i.test(v.lang))||null; }
+if("speechSynthesis" in window){ pick(); speechSynthesis.onvoiceschanged=pick; }
+function ttsText(t){ return t.replace(/爱(?=[一-鿿])/g,"爱，"); }
+function ws(text){
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(ttsText(text));
+  u.lang="zh-CN"; if(zhVoice)u.voice=zhVoice; u.rate=1;
+  speechSynthesis.speak(u);
+}
+</script>
+</body>
+</html>
