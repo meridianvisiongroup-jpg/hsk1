@@ -1,10 +1,10 @@
 // Service worker: la app funciona offline, pero el HTML se actualiza al reconectar.
 // - Documento/navegación: network-first (siempre trae la última versión si hay red; cae a caché si no).
 // - Resto de recursos propios: stale-while-revalidate.
-// NOTA: los datos de trazos vienen del CDN de hanzi-writer (origen externo) y NO se cachean aquí;
-// para offline real de los trazos hay que auto-hospedar hanzi-writer-data (pendiente).
-const CACHE = "hsk-v2";
-const CORE = ["./", "./index.html", "./manifest.webmanifest", "./icon.svg"];
+// Los trazos ya NO vienen del CDN: viven en ./data/ y entran a la cache por uso
+// (stale-while-revalidate), igual que el audio de ./audio/.
+const CACHE = "hsk-v3";
+const CORE = ["./", "./index.html", "./manifest.webmanifest", "./icon.svg", "./icon-192.png", "./icon-512.png", "./hanzi-writer.min.js"];
 
 self.addEventListener("install", e=>{
   e.waitUntil(caches.open(CACHE).then(c=>c.addAll(CORE)).then(()=>self.skipWaiting()));

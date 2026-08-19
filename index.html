@@ -3,12 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HSK 1 · Trazos · Pinyin · Español</title>
+<title>HSK 1–3 · Chino · Trazos, Pinyin y Audio</title>
 <meta name="theme-color" content="#0f1115">
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="HSK">
-<link rel="apple-touch-icon" href="icon.svg">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <script src="hanzi-writer.min.js"></script>
 <style>
   :root, :root[data-theme="dark"]{
@@ -3126,13 +3127,15 @@ $("fileImport").onchange = (e)=>{
   r.readAsText(f);
 };
 
-// --- PWA: registro de service worker DESACTIVADO por ahora ---
-// Motivo: el SW cacheaba el HTML y servía versiones viejas tras cada update.
-// Se reactivará cuando la app esté estable y los trazos se auto-hospeden (offline real).
-// Mientras tanto liberamos cualquier SW ya instalado para que siempre se vea la última versión.
+// --- PWA: service worker ACTIVO ---
+// Se reactivó el 19-ago-2026: los trazos ya están auto-hospedados en ./data/, así que el
+// offline es real. El SW es network-first para el HTML, por eso una versión nueva se
+// propaga sola en vez de quedar pegada en la caché (que fue el motivo de desactivarlo).
+// Sin service worker Chrome en Android no ofrece "Instalar aplicación".
 if("serviceWorker" in navigator){
-  navigator.serviceWorker.getRegistrations().then(rs=> rs.forEach(r=> r.unregister())).catch(()=>{});
-  if(window.caches) caches.keys().then(ks=> ks.forEach(k=> caches.delete(k))).catch(()=>{});
+  window.addEventListener("load", ()=>{
+    navigator.serviceWorker.register("./sw.js").catch(()=>{});
+  });
 }
 
 showHome();
