@@ -6,7 +6,7 @@ lecturas, gramática explicada en español y simulacro de examen.
 
 Hecha en [Meridian Vision](https://meridianvision.cl). Es gratis y lo va a seguir siendo.
 
-**Ábrela ahora:** https://meridianvisiongroup-jpg.github.io/hsk1/
+**Ábrela ahora:** https://meridianvision.github.io/hsk1/
 
 ---
 
@@ -80,5 +80,5 @@ MIT para el código, con las excepciones de arriba. Sin garantía de ningún tip
 ---
 
 <sub>Meridian Vision SpA · Santiago de Chile · parte del
-[Taller Abierto](https://github.com/meridianvisiongroup-jpg): las herramientas que
+[Taller Abierto](https://github.com/meridianvision): las herramientas que
 construimos para trabajar y publicamos gratis.</sub>
